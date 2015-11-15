@@ -1,16 +1,22 @@
 package core;
 
+import javax.vecmath.Point3d;
+import javax.vecmath.Vector3d;
+
 public class Rayo {
-	Punto p0;
-	Punto p1;
+	Point3d p0;
+	Point3d p1;
 	
-	public Rayo (Punto p0, Punto p1) {
-		
+	public Rayo (Point3d p0, Point3d p1) {
+		this.p0 = p0;
+		this.p1 = p1;
 	}
 	
-	public Punto ecuacionParametrica (double lambda) {
-		Punto d = p1.resta(p0); 
-		p0.suma(d.multiplicacionEscalar(lambda));
-		return p0.suma(d.multiplicacionEscalar(lambda));
+	public Point3d ecuacionParametrica(double lambda) {
+		Vector3d d = new Vector3d();
+		d.sub(p1, p0);
+		Point3d p = new Point3d();
+		p.add(d);
+		return p;
 	}
 }
