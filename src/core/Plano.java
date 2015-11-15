@@ -17,4 +17,9 @@ public class Plano extends Objeto{
 	public Vector3d getNormal() {
 		return n;
 	}
+
+	public Point3d interseccion(Rayo r) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
