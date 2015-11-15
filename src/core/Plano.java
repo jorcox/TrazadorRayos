@@ -1,5 +1,20 @@
 package core;
 
-public class Plano extends Objeto{
+import javax.vecmath.Point3d;
+import javax.vecmath.Vector3d;
 
+public class Plano extends Objeto{
+	
+	private Point3d p;
+	private Point3d p0;
+	private Vector3d n;
+	
+	public Plano (Point3d p, Vector3d n){
+		this.p = p;
+		this.n = n;
+	}
+	
+	public Vector3d getNormal() {
+		return n;
+	}
 }
