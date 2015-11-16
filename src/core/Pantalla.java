@@ -42,7 +42,6 @@ public class Pantalla {
 				coordMundo[i][j] = multiplicar(mCW, new double[]{punto.x,punto.y,punto.z,1});
 			}
 		}
-		System.out.println("jamon");
 	}
 	
 	public static Point3d multiplicar(Matrix4d A, double[] x) {
