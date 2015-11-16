@@ -41,7 +41,7 @@ public class Esfera extends Objeto {
 		double a = r1.dot(r.getD());
 		Point3d p0 = r.getP0();
 		Vector3d ca = new Vector3d();
-		ca.sub(centro, p0);
+		ca.sub(p0, centro);
 		double b = r1.dot(ca);
 		Vector3d ca2 = ca;
 		double c = ca.dot(ca2);
