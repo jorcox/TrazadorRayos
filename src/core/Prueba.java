@@ -10,7 +10,7 @@ public class Prueba {
 		Point3d g = new Point3d(1,1,1);
 		Vector3d v = new Vector3d(-1,-3,2);
 		Camara c = new Camara(g,v);
-		p.CalcularCoordenadasCamaraYMundo(c);
+		p.calcularCoordenadasCamaraYMundo(c);
 		System.out.println("melon");
 	}
 }
