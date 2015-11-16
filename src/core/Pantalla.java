@@ -13,8 +13,8 @@ public class Pantalla {
 	private int nR;
 	private double varU;
 	private double varV;
-	private Point3d[][] coordCamara;
-	private Point3d[][] coordMundo;
+	Point3d[][] coordCamara;
+	Point3d[][] coordMundo;
 
 	public Pantalla(int l, int t, double f, int nC, int nR) {
 		this.l = l;
@@ -51,4 +51,32 @@ public class Pantalla {
                 y[i] += A.getElement(i, j) * x[j];
         return new Point3d(y[0], y[1], y[2]);
     }
+
+	public int getL() {
+		return l;
+	}
+
+	public int getT() {
+		return t;
+	}
+
+	public double getF() {
+		return f;
+	}
+
+	public int getnC() {
+		return nC;
+	}
+
+	public int getnR() {
+		return nR;
+	}
+
+	public Point3d[][] getCoordCamara() {
+		return coordCamara;
+	}
+
+	public Point3d[][] getCoordMundo() {
+		return coordMundo;
+	}
 }
