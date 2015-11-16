@@ -28,7 +28,7 @@ public class Pantalla {
 		varV = (t-(-t))/(nR-1);
 	}
 	
-	public void CalcularCoordenadasCamaraYMundo(Camara cam){
+	public void calcularCoordenadasCamaraYMundo(Camara cam){
 		Matrix4d mCW = new Matrix4d(cam.getU().x,cam.getU().y,cam.getU().z,0,
 									cam.getV().x,cam.getV().y,cam.getV().z,0,
 									cam.getW().x,cam.getW().y,cam.getW().z,0,
