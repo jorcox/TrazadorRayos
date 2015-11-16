@@ -8,7 +8,8 @@ public class Esfera extends Objeto {
 	double radio;
 	Point3d centro;
 	
-	public Esfera(double radio, Point3d centro) {
+	public Esfera(double radio, Point3d centro, Color color) {
+		super(color);
 		this.radio = radio;
 		this.centro = centro;
 	}
@@ -52,20 +53,20 @@ public class Esfera extends Objeto {
 			return null;
 		} else if (d==0) {
 			double lambda = (-2*b + Math.sqrt(4*Math.pow(b, 2) - 4*a*c)) / (double) (2*a);
-			return r.ecuacionParametrica(lambda);
+			return r.getPunto(lambda);
 		} else {
 			double lambda1 = (-2*b + Math.sqrt(4*Math.pow(b, 2) - 4*a*c)) / (double) (2*a);
 			double lambda2 = (-2*b - Math.sqrt(4*Math.pow(b, 2) - 4*a*c)) / (double) (2*a);
 			if (lambda1<0 && lambda2<0) {
 				return null;
 			} else if (lambda1>0 && lambda2<0) {
-				return r.ecuacionParametrica(lambda1);
+				return r.getPunto(lambda1);
 			} else if (lambda1>lambda2 && lambda2>0) {
-				return r.ecuacionParametrica(lambda2);
+				return r.getPunto(lambda2);
 			} else if (lambda1<0 && lambda2>0) {
-				return r.ecuacionParametrica(lambda2);
+				return r.getPunto(lambda2);
 			} else {
-				return r.ecuacionParametrica(lambda1);
+				return r.getPunto(lambda1);
 			}
 		}
  	}
