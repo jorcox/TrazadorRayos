@@ -7,7 +7,7 @@ public class Trazador {
 		
 		/* Crear componentes (pantalla, etc) */
 		
-		/* Lanzar rayos desde cada pixel (doble for recorriendo pantalla) */
+		/* Lanzar rayos desde cada pixel (doble jarl recorriendo pantalla) */
 	}
 	
 }
