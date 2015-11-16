@@ -18,8 +18,8 @@ public class Triangulo extends Objeto{
 		/*
 		 * Calculo de la normal n
 		 */
-		Point3d aux2 = p2;
-		Point3d aux3 = p3;
+		Point3d aux2 = this.p2;
+		Point3d aux3 = this.p3;
 		aux2.sub(p1);
 		aux3.sub(p1);
 		Vector3d vec12 = new Vector3d(aux2);

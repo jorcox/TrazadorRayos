@@ -22,18 +22,7 @@ public class Plano extends Objeto{
 		Vector3d d = r.getD();
 		Point3d p = this.p;
 		double inf = d.dot(this.n);
-		if (inf == 0) {
-			/*
-			 * El rayo no intersecta, se devuelve null
-			 */
-			return null;
-		} else if (inf > 0) {
-			/*
-			 * El plano esta de espaldas al ojo, suponiendo que solo
-			 * se ver por una cara, entonces este no se ve
-			 */
-			return null;
-		} else {
+		if (inf < 0){
 			/*
 			 * La normal del plano y el rayo van en sentidos inveros, entonces 
 			 * intersectan
@@ -42,6 +31,14 @@ public class Plano extends Objeto{
 			Vector3d vec = new Vector3d(p);
 			double sup = vec.dot(n);
 			return r.getPunto(sup/inf);
-		}
+		} else {
+			/*
+			 * El rayo no intersecta, se devuelve null ( inf == 0)
+			 * o 
+			 * El plano esta de espaldas al ojo, suponiendo que solo
+			 * se ver por una cara, entonces este no se ve (inf > 0)
+			 */
+			return null;
+		}		
 	}
 }
