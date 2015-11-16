@@ -3,7 +3,7 @@ package core;
 import javax.vecmath.Point3d;
 import javax.vecmath.Vector3d;
 
-public class prueba {
+public class Prueba {
 
 	public static void main(String[] args) {
 		Pantalla p = new Pantalla(200, 200, 20, 1920,1080);
