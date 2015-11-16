@@ -45,7 +45,7 @@ public class Esfera extends Objeto {
 		double b = r1.dot(ca);
 		Vector3d ca2 = ca;
 		double c = ca.dot(ca2);
-		c--;
+		c = c - Math.pow(radio, 2);
 		
 		/* Calcula el discriminante para decidir numero de soluciones */
 		double d = Math.pow(b, 2) - a*c;
