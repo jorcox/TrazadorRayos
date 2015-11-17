@@ -43,8 +43,7 @@ public class Esfera extends Objeto {
 		Vector3d ca = new Vector3d();
 		ca.sub(p0, centro);
 		double b = r1.dot(ca);
-		Vector3d ca2 = ca;
-		double c = ca.dot(ca2);
+		double c = ca.dot(ca);
 		c = c - Math.pow(radio, 2);
 		
 		/* Calcula el discriminante para decidir numero de soluciones */

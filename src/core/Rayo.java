@@ -27,10 +27,11 @@ public class Rayo {
 		return d;
 	}
 
-	public Point3d getPunto(double lambda) {
+	public Point3d getPunto(double lambda) {		
 		Vector3d d = new Vector3d();
 		d.sub(p1, p0);
-		Point3d p = new Point3d();
+		d.scale(lambda, d);
+		Point3d p = new Point3d(p0);
 		p.add(d);
 		return p;
 	}
