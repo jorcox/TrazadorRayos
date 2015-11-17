@@ -69,5 +69,11 @@ public class Esfera extends Objeto {
 			}
 		}
  	}
+	
+	public Vector3d getN(Point3d punto) {
+		Vector3d n = new Vector3d();
+		n.sub(punto, centro);
+		return n;
+	}
 
 }
