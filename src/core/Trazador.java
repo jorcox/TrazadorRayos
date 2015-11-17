@@ -45,12 +45,13 @@ public class Trazador {
 		Camara camara = new Camara(g,v);
 		pantalla.calcularCoordenadasCamaraYMundo(camara);
 		Luz luz = new Luz(new Point3d(0,0,0), 1);
+		double iAmbiental = 0.1;
 		
 		Rayo rayoPrimario1 = new Rayo(camara.getE(),pantalla.coordMundo[960][540]);
 		Rayo rayoPrimario2 = new Rayo(camara.getE(),pantalla.coordMundo[870][650]);
 		Rayo rayoPrimario3 = new Rayo(camara.getE(),pantalla.coordMundo[1070][650]);
 		objetos[0] = new Triangulo(rayoPrimario1.getPunto(1.1), rayoPrimario3.getPunto(1.1), 
-				rayoPrimario2.getPunto(1.1), new Color(255,0,0));
+				rayoPrimario2.getPunto(1.1), new Color(255,0,0), 0.5);
 		//objetos[0] = new Esfera(200,rayoPrimario1.getPunto(1.1), new Color(255,0,50));
 		
 		
@@ -58,7 +59,6 @@ public class Trazador {
 		
 		
 		int cu = 0;
-		int ca = 0;
 		for (int i = 0; i < pantalla.getnC(); i++) {
 			for (int j = 0; j < pantalla.getnR(); j++) {
 				// Creamos el rayo primario del pixel i,j
@@ -80,7 +80,6 @@ public class Trazador {
 					}
 				}
 				if(objetoCol != null){
-					ca++;
 					Rayo rayoSombra = new Rayo(puntoColision, luz.getPunto());
 					Point3d puntoColisionSombra = null;
 					boolean esSombra = false;
@@ -93,9 +92,8 @@ public class Trazador {
 					if(esSombra){
 						pixels[i][j] = new Color(0,255,0);
 					} else {
-						Color col = objetoCol.getColor();
-						col.setBrillo(luz.getBrillo());
-						pixels[i][j] = col;
+						Color cl = objetoCol.getColor().aplicarIntensidad(objetoCol.getKd()*iAmbiental);
+						pixels[i][j] = cl;
 					}
 				} else {
 					pixels[i][j] = new Color(0,0,255);
@@ -103,7 +101,6 @@ public class Trazador {
 			}
 		} 
 		System.out.println(cu);
-		System.out.println(ca);
 		BufferedImage img = new BufferedImage(1920,1080,BufferedImage.TYPE_INT_RGB);
 		for (int i = 0; i < pantalla.getnC(); i++) {
 			for (int j = 0; j < pantalla.getnR(); j++) {

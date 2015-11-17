@@ -50,5 +50,13 @@ public class Color {
 		b = (int) (b*brillo);
 		
 	}
+
+	public Color aplicarIntensidad(double i) {
+		int newR = (int) (this.r*i);
+		int newG = (int) (this.g*i);
+		int newB = (int) (this.b*i);
+		return new Color(newR, newG, newB);
+		
+	}
 	
 }
