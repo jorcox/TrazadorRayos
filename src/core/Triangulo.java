@@ -27,6 +27,7 @@ public class Triangulo extends Objeto{
 		Vector3d vec13 = new Vector3d(aux3);
 		n = new Vector3d(vec12);
 		n.cross(vec12, vec13);
+		super.setN(n);
 	}
 	
 	@Override
@@ -88,6 +89,10 @@ public class Triangulo extends Objeto{
 			 */
 			return null;
 		}
+	}
+	
+	public Vector3d getN(){
+		return this.n;
 	}
 
 }
