@@ -12,25 +12,27 @@ public class Triangulo extends Objeto{
 
 	public Triangulo(Point3d p1, Point3d p2, Point3d p3, Color color) {
 		super(color);
-		this.p1 = p1;
-		this.p2 = p2;
-		this.p3 = p3;
+		this.p1 = new Point3d(p1);
+		this.p2 = new Point3d(p2);
+		this.p3 = new Point3d(p3);
 		/*
 		 * Calculo de la normal n
 		 */
-		Point3d aux2 = this.p2;
-		Point3d aux3 = this.p3;
+		Point3d aux2 = new Point3d(this.p2);
+		Point3d aux3 = new Point3d(this.p3);
+		
 		aux2.sub(p1);
 		aux3.sub(p1);
 		Vector3d vec12 = new Vector3d(aux2);
 		Vector3d vec13 = new Vector3d(aux3);
+		n = new Vector3d(vec12);
 		n.cross(vec12, vec13);
 	}
 	
 	@Override
 	public Point3d interseccion(Rayo r) {
-		Vector3d d = r.getD();
-		Point3d p = this.p1;
+		Vector3d d = new Vector3d(r.getD());
+		Point3d p = new Point3d(this.p1);
 		double inf = d.dot(this.n);
 		if (inf < 0){
 			/*
@@ -40,7 +42,43 @@ public class Triangulo extends Objeto{
 			p.sub(r.getP0());
 			Vector3d vec = new Vector3d(p);
 			double sup = vec.dot(n);
-			return r.getPunto(sup/inf);
+			p = new Point3d(r.getPunto(sup/inf));
+			Point3d p1 = new Point3d(this.p1);
+			Point3d p2 = new Point3d(this.p2);
+			Point3d p3 = new Point3d(this.p3);
+			p2.sub(p1);
+			p.sub(p1);
+			Vector3d a = new Vector3d(p2);
+			Vector3d b = new Vector3d(p);
+			Vector3d mPN = new Vector3d(a);
+			mPN.cross(a, b);
+			double s1 = mPN.dot(n);
+			p1 = new Point3d(this.p1);
+			p2 = new Point3d(this.p2);
+			p3 = new Point3d(this.p3);
+			p = new Point3d(r.getPunto(sup/inf));
+			p3.sub(p2);
+			p.sub(p2);
+			a = new Vector3d(p3);
+			b = new Vector3d(p);
+			mPN = new Vector3d(a);
+			mPN.cross(a, b);
+			double s2 = mPN.dot(n);
+			p1 = new Point3d(this.p1);
+			p2 = new Point3d(this.p2);
+			p3 = new Point3d(this.p3);
+			p = new Point3d(r.getPunto(sup/inf));
+			p1.sub(p3);
+			p.sub(p3);
+			a = new Vector3d(p1);
+			b = new Vector3d(p);
+			mPN = new Vector3d(a);
+			mPN.cross(a, b);
+			double s3 = mPN.dot(n);
+			if ((s1>0&&s2>0&&s3>0)||(s1<0&&s2<0&&s3<0))
+				return p = new Point3d(r.getPunto(sup/inf));
+			else
+				return null;
 		} else {
 			/*
 			 * El rayo no intersecta, se devuelve null ( inf == 0)

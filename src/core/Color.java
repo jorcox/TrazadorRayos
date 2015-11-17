@@ -44,4 +44,11 @@ public class Color {
 		return b;
 	}
 	
+	public void setBrillo(double brillo){
+		r = (int) (r*brillo);
+		g = (int) (g*brillo);
+		b = (int) (b*brillo);
+		
+	}
+	
 }
