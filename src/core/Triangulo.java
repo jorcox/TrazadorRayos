@@ -51,7 +51,7 @@ public class Triangulo extends Objeto{
 			p.sub(p1);
 			Vector3d a = new Vector3d(p2);
 			Vector3d b = new Vector3d(p);
-			Vector3d mPN = new Vector3d(a);
+			Vector3d mPN = new Vector3d();
 			mPN.cross(a, b);
 			double s1 = mPN.dot(n);
 			p1 = new Point3d(this.p1);
@@ -62,7 +62,7 @@ public class Triangulo extends Objeto{
 			p.sub(p2);
 			a = new Vector3d(p3);
 			b = new Vector3d(p);
-			mPN = new Vector3d(a);
+			mPN = new Vector3d();
 			mPN.cross(a, b);
 			double s2 = mPN.dot(n);
 			p1 = new Point3d(this.p1);
@@ -73,7 +73,7 @@ public class Triangulo extends Objeto{
 			p.sub(p3);
 			a = new Vector3d(p1);
 			b = new Vector3d(p);
-			mPN = new Vector3d(a);
+			mPN = new Vector3d();
 			mPN.cross(a, b);
 			double s3 = mPN.dot(n);
 			if ((s1>0&&s2>0&&s3>0)||(s1<0&&s2<0&&s3<0))
