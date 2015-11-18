@@ -90,7 +90,7 @@ public class Trazador {
 		 */
 		int anchura = 1920;
 		int altura = 1080;
-		pantalla = new Pantalla(6, 3.375, 2, anchura, altura);
+		pantalla = new Pantalla(60, 33.75, 200, anchura, altura);
 		pixels = new Color[anchura][altura];
 		ojo = new Point3d(7,4,3);
 		g = new Vector3d(-1,-1,0);
@@ -109,11 +109,11 @@ public class Trazador {
 		//objetos.add(new Triangulo(rayoPrimario4.getPunto(1.1), rayoPrimario3.getPunto(1.1), 
 		//		rayoPrimario2.getPunto(1.1), new Color(255,0,0),0.9));
 		//Point3d ss = rayoPrimario1.getPunto(1.1); 
-		objetos.add(new Esfera(0.51,rayoPrimario1.getPunto(1.3), new Color(255,0,0),0.9));
-		objetos.add(new Esfera(1,rayoPrimario4.getPunto(1.1), new Color(255,0,180),0.9));
+		objetos.add(new Esfera(5,rayoPrimario1.getPunto(1.1), new Color(255,0,0),0.9));
+		objetos.add(new Esfera(10,rayoPrimario4.getPunto(1.1), new Color(255,0,0),0.9));
 		//objetos.add(new Plano(rayoPrimario1.getPunto(1.1), new Vector3d(-1.5,10,1), new Color(255,0,0),0.5));
-		luz = new Luz(rayoPrimario2.getPunto(1), 1);
-		double iAmbiental = 0.3;
+		luz = new Luz(rayoPrimario2.getPunto(1.1), 1);
+		double iAmbiental = 0.13;
 		
 		/*
 		 * FIN DE PRUEBAS
@@ -130,7 +130,7 @@ public class Trazador {
 				/*
 				 *  Creamos el rayo primario del pixel i,j
 				 */
-				if(i==159 && j==106){
+				if(i==670 && j==520){
 					System.out.println("hola");
 					Point3d pppp = pantalla.coordCamara[i][j];
 					pppp.toString();
@@ -173,34 +173,39 @@ public class Trazador {
 					 * Se comprueba si en el camino a la luz hay algun otro objeto
 					 */
 					for (int k = 0; k < objetos.size(); k++) {
-						puntoColisionSombra = objetos.get(k).interseccion(rayoSombra);
-						/*
-						 * Si colisiona con un objeto, este pixel esta en la sombra
-						 */
-						if(puntoColisionSombra != null){
-							esSombra = true;
-						}
+						if(!objetoCol.equals(objetos.get(k))){
+							puntoColisionSombra = objetos.get(k).interseccion(rayoSombra);
+							/*
+							 * Si colisiona con un objeto, este pixel esta en la sombra
+							 */
+							if(puntoColisionSombra != null){
+								esSombra = true;
+							}
+						}						
 					}
 					
 					/*
 					 * Aplicaciones de color segun si es sombra o no
 					 */
 					if(esSombra){
-//						pixels[i][j] = objetoCol.getColor().aplicarIntensidad(objetoCol.getKd()*iAmbiental);
-						Vector3d n = new Vector3d(objetoCol.getN(puntoColisionFinal));
-						Point3d aux = new Point3d(luz.getPunto());
-						aux.sub(puntoColisionFinal);
-						Vector3d l = new Vector3d(aux);
-						double iDifusa = objetoCol.getKd()*luz.getBrillo()*(1-n.angle(l));
-						Color cl = objetoCol.getColor().aplicarIntensidad(objetoCol.getKd()*iAmbiental+objetoCol.getKd()*iDifusa);
-						pixels[i][j] = cl;
+						double ins = objetoCol.getKd()*iAmbiental;
+						pixels[i][j] = objetoCol.getColor().aplicarIntensidad(objetoCol.getKd()*iAmbiental);
+//						Vector3d n = new Vector3d(objetoCol.getN(puntoColisionFinal));
+//						Point3d aux = new Point3d(luz.getPunto());
+//						aux.sub(puntoColisionFinal);
+//						Vector3d l = new Vector3d(aux);
+//						double iDifusa = objetoCol.getKd()*luz.getBrillo()*(1-n.angle(l));
+//						Color cl = objetoCol.getColor().aplicarIntensidad(objetoCol.getKd()*iAmbiental+objetoCol.getKd()*iDifusa);
+//						pixels[i][j] = cl;
 					} else {
 						Vector3d n = new Vector3d(objetoCol.getN(puntoColisionFinal));
 						Point3d aux = new Point3d(luz.getPunto());
 						aux.sub(puntoColisionFinal);
 						Vector3d l = new Vector3d(aux);
 						double iDifusa = objetoCol.getKd()*luz.getBrillo()*(1-n.angle(l));
-						Color cl = objetoCol.getColor().aplicarIntensidad(objetoCol.getKd()*iAmbiental+objetoCol.getKd()*iDifusa);
+						double ins = objetoCol.getKd()*iAmbiental;
+						double ins2 = objetoCol.getKd()*iDifusa;
+						Color cl = objetoCol.getColor().aplicarIntensidad((objetoCol.getKd()*iAmbiental)+(objetoCol.getKd()*iDifusa));
 						pixels[i][j] = cl;
 					}
 				} 
