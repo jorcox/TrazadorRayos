@@ -88,8 +88,10 @@ public class Trazador {
 		/* 
 		 * Inicializacion de algunos elementos
 		 */
-		pantalla = new Pantalla(600, 400, 2000, 1920,1080);
-		pixels = new Color[1920][1080];
+		int anchura = 1920;
+		int altura = 1080;
+		pantalla = new Pantalla(6, 3.375, 2, anchura, altura);
+		pixels = new Color[anchura][altura];
 		ojo = new Point3d(7,4,3);
 		g = new Vector3d(-1,-1,0);
 		camara = new Camara(ojo,g);
@@ -100,13 +102,14 @@ public class Trazador {
 		 * PRUEBAS
 		 */
 		
-		Rayo rayoPrimario1 = new Rayo(camara.getE(),pantalla.coordMundo[100][100]);
-		Rayo rayoPrimario2 = new Rayo(camara.getE(),pantalla.coordMundo[0][200]);
-		Rayo rayoPrimario3 = new Rayo(camara.getE(),pantalla.coordMundo[200][0]);
-		//objetos.add(new Triangulo(rayoPrimario1.getPunto(1.1), rayoPrimario3.getPunto(1.1), 
-		//		rayoPrimario2.getPunto(1.1), new Color(255,0,0),0.5));
+		Rayo rayoPrimario1 = new Rayo(camara.getE(),pantalla.coordMundo[960][450]);
+		Rayo rayoPrimario4 = new Rayo(camara.getE(),pantalla.coordMundo[960][540]);
+		Rayo rayoPrimario2 = new Rayo(camara.getE(),pantalla.coordMundo[860][440]);
+		Rayo rayoPrimario3 = new Rayo(camara.getE(),pantalla.coordMundo[1060][440]);
+		objetos.add(new Triangulo(rayoPrimario4.getPunto(1.1), rayoPrimario3.getPunto(1.1), 
+				rayoPrimario2.getPunto(1.1), new Color(255,0,0),0.5));
 		//Point3d ss = rayoPrimario1.getPunto(1.1); 
-		objetos.add(new Esfera(50,rayoPrimario1.getPunto(1.1), new Color(255,0,0),0.5));
+		objetos.add(new Esfera(0.51,rayoPrimario1.getPunto(1.1), new Color(255,0,0),0.5));
 		//objetos.add(new Plano(rayoPrimario1.getPunto(1.1), new Vector3d(-1.5,10,1), new Color(255,0,0),0.5));
 		double iAmbiental = 0.1;
 		
@@ -181,13 +184,20 @@ public class Trazador {
 					 * Aplicaciones de color segun si es sombra o no
 					 */
 					if(esSombra){
-						pixels[i][j] = new Color(0,0,0);
+						//pixels[i][j] = objetoCol.getColor().aplicarIntensidad(objetoCol.getKd()*iAmbiental);
+						Vector3d n = new Vector3d(objetoCol.getN(puntoColisionFinal));
+						Point3d aux = new Point3d(luz.getPunto());
+						aux.sub(puntoColisionFinal);
+						Vector3d l = new Vector3d(aux);
+						double iDifusa = objetoCol.getKd()*luz.getBrillo()*(1-n.angle(l));
+						Color cl = objetoCol.getColor().aplicarIntensidad(objetoCol.getKd()*iAmbiental+objetoCol.getKd()*iDifusa);
+						pixels[i][j] = cl;
 					} else {
 						Vector3d n = new Vector3d(objetoCol.getN(puntoColisionFinal));
 						Point3d aux = new Point3d(luz.getPunto());
 						aux.sub(puntoColisionFinal);
 						Vector3d l = new Vector3d(aux);
-						double iDifusa = objetoCol.getKd()*luz.getBrillo()*n.angle(l);
+						double iDifusa = objetoCol.getKd()*luz.getBrillo()*(1-n.angle(l));
 						Color cl = objetoCol.getColor().aplicarIntensidad(objetoCol.getKd()*iAmbiental+objetoCol.getKd()*iDifusa);
 						pixels[i][j] = cl;
 					}
@@ -201,7 +211,7 @@ public class Trazador {
 			}
 		} 
 		System.out.println(cu);
-		BufferedImage img = new BufferedImage(1920,1080,BufferedImage.TYPE_INT_RGB);
+		BufferedImage img = new BufferedImage(anchura,altura,BufferedImage.TYPE_INT_RGB);
 		for (int i = 0; i < pantalla.getnC(); i++) {
 			for (int j = 0; j < pantalla.getnR(); j++) {
 				int col = (pixels[i][j].getRed() << 16) | (pixels[i][j].getGreen() << 8) | 
