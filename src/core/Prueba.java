@@ -13,8 +13,8 @@ public class Prueba {
 //		p.calcularCoordenadasCamaraYMundo(c);
 //		System.out.println("melon");
 		
-		Esfera esf = new Esfera(1, new Point3d(0,0,0), new Color(255,0,0), 1);
-		Rayo r = new Rayo(new Point3d(5,0,0), new Point3d(-2,0,0));
+		Esfera esf = new Esfera(2, new Point3d(0,0,0), new Color(255,0,0), 1);
+		Rayo r = new Rayo(new Point3d(1,1,-5), new Point3d(-1,-1,5));
 		Point3d inter = esf.interseccion(r);
 		System.out.println(inter);
 	}

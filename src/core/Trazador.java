@@ -95,8 +95,8 @@ public class Trazador {
 		Rayo rayoPrimario3 = new Rayo(camara.getE(),pantalla.coordMundo[1070][650]);
 		//objetos.add(new Triangulo(rayoPrimario1.getPunto(1.1), rayoPrimario3.getPunto(1.1), 
 		//		rayoPrimario2.getPunto(1.1), new Color(255,0,0),0.5));
-		//objetos.add(new Esfera(200,rayoPrimario1.getPunto(1.1), new Color(255,0,50)));
-		objetos.add(new Plano(rayoPrimario1.getPunto(1.1), new Vector3d(-1.5,10,1), new Color(255,0,0),0.5));
+		objetos.add(new Esfera(200,rayoPrimario1.getPunto(1.1), new Color(255,0,50), 1));
+		//objetos.add(new Plano(rayoPrimario1.getPunto(1.1), new Vector3d(-1.5,10,1), new Color(255,0,0),0.5));
 		double iAmbiental = 0.1;
 		
 			
