@@ -1,7 +1,9 @@
 package core;
 
 import javax.vecmath.Point3d;
+import javax.vecmath.Point4d;
 import javax.vecmath.Vector3d;
+import javax.vecmath.Vector4d;
 
 public class Esfera extends Objeto {
 	
@@ -35,10 +37,11 @@ public class Esfera extends Objeto {
 	 * devuelve null. Si existe 1 interseccion, devuelve dicho punto. Si hay 2
 	 * intersecciones, devuelve el punto mas cercano (el que se ve).
 	 */
-	public Point3d interseccion(Rayo r) {
+	public Point3d interseccion(Rayo r) {				
 		/* Calcula a, b y c de la ecuacion de interseccion */
 		Vector3d r1 = r.getD();
 		double a = r1.dot(r.getD());
+		a=Math.pow(r1.x,2)+Math.pow(r1.y,2)+Math.pow(r1.z,2);
 		Point3d p0 = r.getP0();
 		Vector3d ca = new Vector3d();
 		ca.sub(p0, centro);

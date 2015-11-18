@@ -6,7 +6,7 @@ import javax.vecmath.Vector3d;
 public class Camara {
 	private Point3d e;
 	private Vector3d g;
-	private Vector3d up = new Vector3d(1,1,2);
+	private Vector3d up = new Vector3d(1,0,0);
 	private Vector3d u;
 	private Vector3d v;
 	private Vector3d w;
@@ -15,14 +15,15 @@ public class Camara {
 	public Camara(Point3d e ,Vector3d g) {
 		this.e = e;
 		this.g = g;
-		Vector3d aux = g;
+		Vector3d aux = new Vector3d(g);
+		aux.negate();
 		aux.normalize();
-		w = new Vector3d(-aux.x, -aux.y, -aux.z);
+		w = new Vector3d(aux);
 		aux.cross(up, w);
 		aux.normalize();
-		u = new Vector3d(-aux.x, -aux.y, -aux.z);
+		u = new Vector3d(aux);
 		aux.cross(w, u);
-		v = new Vector3d(-aux.x, -aux.y, -aux.z);
+		v = new Vector3d(aux);
 	}
 
 
