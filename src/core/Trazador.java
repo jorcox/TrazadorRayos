@@ -129,7 +129,7 @@ public class Trazador {
 				/*
 				 *  Creamos el rayo primario del pixel i,j
 				 */
-				if(i==670 && j==520){
+				if(i==960 && j==540){
 					System.out.println("hola");
 					Point3d pppp = pantalla.coordCamara[i][j];
 					pppp.toString();
@@ -187,24 +187,20 @@ public class Trazador {
 					 * Aplicaciones de color segun si es sombra o no
 					 */
 					if(esSombra){
-						double ins = objetoCol.getKd()*iAmbiental;
 						pixels[i][j] = objetoCol.getColor().aplicarIntensidad(objetoCol.getKd()*iAmbiental);
-//						Vector3d n = new Vector3d(objetoCol.getN(puntoColisionFinal));
-//						Point3d aux = new Point3d(luz.getPunto());
-//						aux.sub(puntoColisionFinal);
-//						Vector3d l = new Vector3d(aux);
-//						double iDifusa = objetoCol.getKd()*luz.getBrillo()*(1-n.angle(l));
-//						Color cl = objetoCol.getColor().aplicarIntensidad(objetoCol.getKd()*iAmbiental+objetoCol.getKd()*iDifusa);
-//						pixels[i][j] = cl;
 					} else {
 						Vector3d n = new Vector3d(objetoCol.getN(puntoColisionFinal));
 						Point3d aux = new Point3d(luz.getPunto());
 						aux.sub(puntoColisionFinal);
 						Vector3d l = new Vector3d(aux);
 						double iDifusa = objetoCol.getKd()*luz.getBrillo()*(1-n.angle(l));
-						double ins = objetoCol.getKd()*iAmbiental;
-						double ins2 = objetoCol.getKd()*iDifusa;
-						Color cl = objetoCol.getColor().aplicarIntensidad((objetoCol.getKd()*iAmbiental)+(objetoCol.getKd()*iDifusa));
+						Color cl;
+						if(iDifusa<0){
+							cl = objetoCol.getColor().aplicarIntensidad(objetoCol.getKd()*iAmbiental);
+						} else{
+							cl = objetoCol.getColor().aplicarIntensidad((objetoCol.getKd()*iAmbiental)+(objetoCol.getKd()*iDifusa));
+						}
+						
 						pixels[i][j] = cl;
 					}
 				} 
