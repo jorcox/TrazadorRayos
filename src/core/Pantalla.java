@@ -27,8 +27,8 @@ public class Pantalla {
 		this.nR = nR;
 		int L = 0;
 		int R = 0;
-		int T = 0;
-		int B = 0;
+		float T = 0;
+		float B = 0;
 		L = l/2;
 		R = L;
 		T = t/2;
