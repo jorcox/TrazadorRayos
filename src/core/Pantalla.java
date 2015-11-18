@@ -7,8 +7,8 @@ import javax.vecmath.Vector3d;
 import javax.vecmath.Vector4d;
 
 public class Pantalla {
-	private int l;
-	private int t;
+	private double l;
+	private double t;
 	private double f;
 	private int nC;
 	private int nR;
@@ -17,7 +17,7 @@ public class Pantalla {
 	Point3d[][] coordCamara;
 	Point3d[][] coordMundo;
 
-	public Pantalla(int l, int t, double f, int nC, int nR) {
+	public Pantalla(double l, double t, double f, int nC, int nR) {
 		this.l = l;
 		this.t = t;
 		coordCamara = new Point3d[nC][nR];
@@ -25,10 +25,10 @@ public class Pantalla {
 		this.f = f;
 		this.nC = nC;
 		this.nR = nR;
-		int L = 0;
-		int R = 0;
-		float T = 0;
-		float B = 0;
+		double L = 0;
+		double R = 0;
+		double T = 0;
+		double B = 0;
 		L = l/2;
 		R = L;
 		T = t/2;
@@ -83,11 +83,11 @@ public class Pantalla {
 //        return new Point3d(y[0], y[1], y[2]);
     }
 
-	public int getL() {
+	public double getL() {
 		return l;
 	}
 
-	public int getT() {
+	public double getT() {
 		return t;
 	}
 
