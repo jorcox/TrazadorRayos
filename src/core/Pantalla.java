@@ -53,7 +53,8 @@ public class Pantalla {
 				Point3d punto = new Point3d((i-mColumnas)*varU, (-j+mFilas)*varV, -f);
 				coordCamara[i][j] = punto;
 				Point4d dd = multiplyPointMatrix(new Point4d(punto.x,punto.y,punto.z,1), mCW);
-				coordMundo[i][j] =new Point3d(dd.x, dd.y, dd.z);
+				//coordMundo[i][j] =new Point3d(dd.x, dd.y, dd.z);
+				coordMundo[i][j] = multiplicar(mCW,new double[]{punto.x,punto.y,punto.z,1.0});
 			}
 		}
 	}
@@ -68,19 +69,19 @@ public class Pantalla {
 						* matrix.m23 + point.w * matrix.m33);
 	}
 	
-	public static Point4d multiplicar(Matrix4d A, double[] x) {
-		return new Point4d(x[0] * A.m00 + x[1] * A.m10
-				+ x[2] * A.m20 + x[3] * A.m30, x[0]
-				* A.m01 + x[1] * A.m11 + x[2] * A.m21
-				+ x[3] * A.m31, x[0] * A.m02 + x[1]
-				* A.m12 + x[2] * A.m22 + x[3] * A.m32,
-				x[0] * A.m03 + x[1] * A.m13 + x[2]
-						* A.m23 + x[3] * A.m33);
-//        double[] y = new double[x.length];
-//        for (int i = 0; i < 4; i++)
-//            for (int j = 0; j < 4; j++)
-//                y[i] += A.getElement(i, j) * x[j];
-//        return new Point3d(y[0], y[1], y[2]);
+	public static Point3d multiplicar(Matrix4d A, double[] x) {
+//		return new Point4d(x[0] * A.m00 + x[1] * A.m10
+//				+ x[2] * A.m20 + x[3] * A.m30, x[0]
+//				* A.m01 + x[1] * A.m11 + x[2] * A.m21
+//				+ x[3] * A.m31, x[0] * A.m02 + x[1]
+//				* A.m12 + x[2] * A.m22 + x[3] * A.m32,
+//				x[0] * A.m03 + x[1] * A.m13 + x[2]
+//						* A.m23 + x[3] * A.m33);
+        double[] y = new double[x.length];
+        for (int i = 0; i < 4; i++)
+            for (int j = 0; j < 4; j++)
+                y[i] += A.getElement(j, i) * x[j];
+        return new Point3d(y[0], y[1], y[2]);
     }
 
 	public double getL() {

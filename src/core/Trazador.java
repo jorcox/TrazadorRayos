@@ -96,22 +96,24 @@ public class Trazador {
 		g = new Vector3d(-1,-1,0);
 		camara = new Camara(ojo,g);
 		pantalla.calcularCoordenadasCamaraYMundo(camara);
-		luz = new Luz(new Point3d(7,4,3), 1);
+		//luz = new Luz(new Point3d(0,0,0), 1);
 		
 		/*
 		 * PRUEBAS
 		 */
 		
-		Rayo rayoPrimario1 = new Rayo(camara.getE(),pantalla.coordMundo[960][450]);
+		Rayo rayoPrimario1 = new Rayo(camara.getE(),pantalla.coordMundo[1700][200]);
 		Rayo rayoPrimario4 = new Rayo(camara.getE(),pantalla.coordMundo[960][540]);
-		Rayo rayoPrimario2 = new Rayo(camara.getE(),pantalla.coordMundo[860][440]);
+		Rayo rayoPrimario2 = new Rayo(camara.getE(),pantalla.coordMundo[160][540]);
 		Rayo rayoPrimario3 = new Rayo(camara.getE(),pantalla.coordMundo[1060][440]);
-		objetos.add(new Triangulo(rayoPrimario4.getPunto(1.1), rayoPrimario3.getPunto(1.1), 
-				rayoPrimario2.getPunto(1.1), new Color(255,0,0),0.5));
+		//objetos.add(new Triangulo(rayoPrimario4.getPunto(1.1), rayoPrimario3.getPunto(1.1), 
+		//		rayoPrimario2.getPunto(1.1), new Color(255,0,0),0.9));
 		//Point3d ss = rayoPrimario1.getPunto(1.1); 
-		objetos.add(new Esfera(0.51,rayoPrimario1.getPunto(1.1), new Color(255,0,0),0.5));
+		objetos.add(new Esfera(0.51,rayoPrimario1.getPunto(1.3), new Color(255,0,0),0.9));
+		objetos.add(new Esfera(1,rayoPrimario4.getPunto(1.1), new Color(255,0,180),0.9));
 		//objetos.add(new Plano(rayoPrimario1.getPunto(1.1), new Vector3d(-1.5,10,1), new Color(255,0,0),0.5));
-		double iAmbiental = 0.1;
+		luz = new Luz(rayoPrimario2.getPunto(1), 1);
+		double iAmbiental = 0.3;
 		
 		/*
 		 * FIN DE PRUEBAS
@@ -184,7 +186,7 @@ public class Trazador {
 					 * Aplicaciones de color segun si es sombra o no
 					 */
 					if(esSombra){
-						//pixels[i][j] = objetoCol.getColor().aplicarIntensidad(objetoCol.getKd()*iAmbiental);
+//						pixels[i][j] = objetoCol.getColor().aplicarIntensidad(objetoCol.getKd()*iAmbiental);
 						Vector3d n = new Vector3d(objetoCol.getN(puntoColisionFinal));
 						Point3d aux = new Point3d(luz.getPunto());
 						aux.sub(puntoColisionFinal);
