@@ -47,7 +47,10 @@ public class Pantalla {
 		int mFilas = nR/2;
 		for(int i = 0; i < nC; i++){
 			for(int j = 0; j < nR; j++){
-				Point3d punto = new Point3d(i-mColumnas*varU, (-j)+mFilas*varV, -f);
+				if(i==159&&j==106){
+					System.out.println("lololo");
+				}
+				Point3d punto = new Point3d((i-mColumnas)*varU, (-j+mFilas)*varV, -f);
 				coordCamara[i][j] = punto;
 				Point4d dd = multiplyPointMatrix(new Point4d(punto.x,punto.y,punto.z,1), mCW);
 				coordMundo[i][j] =new Point3d(dd.x, dd.y, dd.z);

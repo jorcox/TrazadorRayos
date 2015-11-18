@@ -88,8 +88,8 @@ public class Trazador {
 		/* 
 		 * Inicializacion de algunos elementos
 		 */
-		pantalla = new Pantalla(6, 4, 2, 640,480);
-		pixels = new Color[640][480];
+		pantalla = new Pantalla(600, 400, 2000, 1920,1080);
+		pixels = new Color[1920][1080];
 		ojo = new Point3d(7,4,3);
 		g = new Vector3d(-1,-1,0);
 		camara = new Camara(ojo,g);
@@ -100,13 +100,13 @@ public class Trazador {
 		 * PRUEBAS
 		 */
 		
-		Rayo rayoPrimario1 = new Rayo(camara.getE(),pantalla.coordMundo[300][200]);
+		Rayo rayoPrimario1 = new Rayo(camara.getE(),pantalla.coordMundo[100][100]);
 		Rayo rayoPrimario2 = new Rayo(camara.getE(),pantalla.coordMundo[0][200]);
 		Rayo rayoPrimario3 = new Rayo(camara.getE(),pantalla.coordMundo[200][0]);
 		//objetos.add(new Triangulo(rayoPrimario1.getPunto(1.1), rayoPrimario3.getPunto(1.1), 
 		//		rayoPrimario2.getPunto(1.1), new Color(255,0,0),0.5));
 		//Point3d ss = rayoPrimario1.getPunto(1.1); 
-		objetos.add(new Esfera(2,rayoPrimario1.getPunto(1.1), new Color(255,0,0),0.5));
+		objetos.add(new Esfera(50,rayoPrimario1.getPunto(1.1), new Color(255,0,0),0.5));
 		//objetos.add(new Plano(rayoPrimario1.getPunto(1.1), new Vector3d(-1.5,10,1), new Color(255,0,0),0.5));
 		double iAmbiental = 0.1;
 		
@@ -125,15 +125,18 @@ public class Trazador {
 				/*
 				 *  Creamos el rayo primario del pixel i,j
 				 */
+				if(i==159 && j==106){
+					System.out.println("hola");
+					Point3d pppp = pantalla.coordCamara[i][j];
+					pppp.toString();
+				}
 				Rayo rayoPrimario = new Rayo(camara.getE(),pantalla.coordMundo[i][j]);
 				// Disparamos el rayo primario a la escena y se comprueba si intersecta
 				Objeto objetoCol = null;
 				Point3d puntoColision = null;
 				Point3d puntoColisionFinal = null;
 				double distanciaMin = Double.MAX_VALUE;
-				if(i==95 && j==54){
-					System.out.println("hola");
-				}
+				
 				
 				/*
 				 * Por cada objeto se calcula con cual intersecta primer ( i.e. el mas cercano)
@@ -178,7 +181,7 @@ public class Trazador {
 					 * Aplicaciones de color segun si es sombra o no
 					 */
 					if(esSombra){
-						pixels[i][j] = new Color(0,255,0);
+						pixels[i][j] = new Color(0,0,0);
 					} else {
 						Vector3d n = new Vector3d(objetoCol.getN(puntoColisionFinal));
 						Point3d aux = new Point3d(luz.getPunto());
