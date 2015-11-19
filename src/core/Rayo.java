@@ -43,7 +43,7 @@ public class Rayo {
 		rayo.sub(p1, p0);
 		double th = rayo.dot(nNorm);
 		nNorm.scale(2*th);
-		rayo.sub(nNorm);
+		nNorm.sub(rayo);
 		return rayo;
 	}
 	

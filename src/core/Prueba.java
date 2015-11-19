@@ -27,9 +27,23 @@ public class Prueba {
 //		Vector3d r = l.getReflejado(n);
 //		System.out.println(r);
 		
-		Rayo r = new Rayo(new Point3d(0,0,0), new Point3d(1,0,0));
-		Vector3d v2 = new Vector3d(1,-1,0);
-		double angulo = r.getAngulo(v2);
-		System.out.println(angulo);
+//		Rayo r = new Rayo(new Point3d(0,0,0), new Point3d(1,0,0));
+//		Vector3d v2 = new Vector3d(1,-1,0);
+//		double angulo = r.getAngulo(v2);
+//		System.out.println(angulo);
+		
+		Point3d puntoColisionFinal = new Point3d(0,0,0);
+		Vector3d n = new Vector3d(0,10,0);
+		Point3d pLuz = new Point3d(10,10,0);
+		pLuz.sub(puntoColisionFinal);
+		Vector3d l = new Vector3d(pLuz);
+		Rayo rayoLuz = new Rayo(puntoColisionFinal, pLuz);
+		Vector3d r = rayoLuz.getReflejado(n);
+		Point3d ojo = new Point3d(-5,5,0);
+		Rayo rayoVista = new Rayo(puntoColisionFinal, ojo);
+		Vector3d v = rayoVista.getD();
+		System.out.println(l);
+		System.out.println(r);
+		System.out.println(v);
 	}
 }
