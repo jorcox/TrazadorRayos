@@ -6,30 +6,30 @@ import javax.vecmath.Vector3d;
 public abstract class Objeto {
 	
 	public enum tipo { TRIANGULO, PLANO, ESFERA }
-	private Color color;
-	private double kd;
+	private Color kd;
+	private Color ks;
 	private Vector3d n;
 	
 	public abstract Point3d interseccion(Rayo r);
 	
 	
-	public Objeto(Color color, double kd, Vector3d n) {
-		this.color = color;
+	public Objeto(Color kd, Vector3d n) {
 		this.kd = kd;
+		this.ks = kd.calcularKD();
 		this.n = n;
 	}
 	
-	public Objeto(Color color, double kd) {
-		this.color = color;
+	public Objeto(Color kd) {
 		this.kd = kd;
+		this.ks = kd.calcularKD();
 	}
 	
-	public Color getColor() {
-		return color;
+	public Color getKd() {
+		return kd;
 	}
 
-	public double getKd() {
-		return kd;
+	public Color getKs() {
+		return ks;
 	}
 	
 	public void setN(Vector3d n) {

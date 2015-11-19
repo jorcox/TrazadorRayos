@@ -58,5 +58,13 @@ public class Color {
 		return new Color(newR, newG, newB);
 		
 	}
+
+	public Color calcularKD() {
+		return new Color(255-r,255-g,255-b);
+	}
+
+	public Color suma(Color col) {
+		return new Color(r+col.getRed(),g+col.getGreen(),b+col.getBlue());
+	}
 	
 }

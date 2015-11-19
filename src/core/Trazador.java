@@ -109,8 +109,8 @@ public class Trazador {
 		//objetos.add(new Triangulo(rayoPrimario4.getPunto(1.1), rayoPrimario3.getPunto(1.1), 
 		//		rayoPrimario2.getPunto(1.1), new Color(255,0,0),0.9));
 		//Point3d ss = rayoPrimario1.getPunto(1.1); 
-		objetos.add(new Esfera(10,rayoPrimario1.getPunto(1.1), new Color(255,0,0),0.9));
-		objetos.add(new Esfera(10,rayoPrimario4.getPunto(1.1), new Color(255,0,0),0.9));
+		objetos.add(new Esfera(10,rayoPrimario1.getPunto(1.1), new Color(255,0,0)));
+		objetos.add(new Esfera(10,rayoPrimario4.getPunto(1.1), new Color(255,0,0)));
 		//objetos.add(new Plano(rayoPrimario1.getPunto(1.1), new Vector3d(-1.5,10,1), new Color(255,0,0),0.5));
 		luz = new Luz(rayoPrimario2.getPunto(1.05), 1);
 		double iAmbiental = 0.08;
@@ -187,27 +187,41 @@ public class Trazador {
 					 * Aplicaciones de color segun si es sombra o no
 					 */
 					if(esSombra){
-						pixels[i][j] = objetoCol.getColor().aplicarIntensidad(objetoCol.getKd()*iAmbiental);
+						pixels[i][j] = objetoCol.getKd().aplicarIntensidad(iAmbiental);
 					} else {
 						Vector3d n = new Vector3d(objetoCol.getN(puntoColisionFinal));
 						Point3d pLuz = new Point3d(luz.getPunto());
 						pLuz.sub(puntoColisionFinal);
 						Vector3d l = new Vector3d(pLuz);
-						double iDifusa = objetoCol.getKd()*luz.getBrillo()*(Math.cos(l.angle(n)));
+						double iDifusa = luz.getBrillo()*(Math.cos(l.angle(n)));
 						Rayo rayoLuz = new Rayo(puntoColisionFinal, pLuz);
 						Vector3d r = rayoLuz.getReflejado(n);
 						Rayo rayoVista = new Rayo(puntoColisionFinal, ojo);
 						Vector3d v = rayoVista.getD();
-						double iEspecular = (1-objetoCol.getKd())*luz.getBrillo()*(Math.pow(Math.cos(r.angle(v)),200));
+						double iEspecular = luz.getBrillo()*(Math.pow(Math.cos(r.angle(v)),200));
 						Color cl;
 						if(iDifusa<0 && iEspecular<0){
-							cl = objetoCol.getColor().aplicarIntensidad(objetoCol.getKd()*iAmbiental);
+							cl = objetoCol.getKd().aplicarIntensidad(iAmbiental);
 						} else if (iEspecular<0){
-							cl = objetoCol.getColor().aplicarIntensidad((objetoCol.getKd()*iAmbiental)+iDifusa);
+							Color ambiental = objetoCol.getKd().aplicarIntensidad(iAmbiental);
+							Color difusa = objetoCol.getKd().aplicarIntensidad(iDifusa);
+							cl = ambiental.suma(difusa);
 						} else if (iDifusa<0) {
-							cl = objetoCol.getColor().aplicarIntensidad((objetoCol.getKd()*iAmbiental)+iEspecular);
+							Color ambiental = objetoCol.getKd().aplicarIntensidad(iAmbiental);
+							Color especular = objetoCol.getKs().aplicarIntensidad(iDifusa);
+							if(especular.getBlue()>0){
+								System.out.println("caramba");
+							}
+							cl = ambiental.suma(especular);
 						} else {
-							cl = objetoCol.getColor().aplicarIntensidad((objetoCol.getKd()*iAmbiental)+iDifusa+iEspecular);
+							Color ambiental = objetoCol.getKd().aplicarIntensidad(iAmbiental);
+							Color difusa = objetoCol.getKd().aplicarIntensidad(iDifusa);
+							Color especular = objetoCol.getKs().aplicarIntensidad(iEspecular);
+							Color aux = ambiental.suma(difusa);
+							if(especular.getBlue()>0){
+								System.out.println("caramba");
+							}
+							cl =  aux.suma(especular);
 						}
 						
 						pixels[i][j] = cl;
