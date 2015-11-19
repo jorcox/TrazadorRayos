@@ -198,7 +198,7 @@ public class Trazador {
 						Vector3d r = rayoLuz.getReflejado(n);
 						Rayo rayoVista = new Rayo(puntoColisionFinal, ojo);
 						Vector3d v = rayoVista.getD();
-						double iEspecular = (1-objetoCol.getKd())*luz.getBrillo()*(Math.cos(r.angle(v)));
+						double iEspecular = (1-objetoCol.getKd())*luz.getBrillo()*(Math.pow(Math.cos(r.angle(v)),200));
 						Color cl;
 						if(iDifusa<0 && iEspecular<0){
 							cl = objetoCol.getColor().aplicarIntensidad(objetoCol.getKd()*iAmbiental);
