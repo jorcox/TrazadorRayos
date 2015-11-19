@@ -102,18 +102,18 @@ public class Trazador {
 		 * PRUEBAS
 		 */
 		
-		Rayo rayoPrimario1 = new Rayo(camara.getE(),pantalla.coordMundo[1700][200]);
+		Rayo rayoPrimario1 = new Rayo(camara.getE(),pantalla.coordMundo[1550][700]);
 		Rayo rayoPrimario4 = new Rayo(camara.getE(),pantalla.coordMundo[960][540]);
-		Rayo rayoPrimario2 = new Rayo(camara.getE(),pantalla.coordMundo[160][540]);
+		Rayo rayoPrimario2 = new Rayo(camara.getE(),pantalla.coordMundo[960][0]);
 		Rayo rayoPrimario3 = new Rayo(camara.getE(),pantalla.coordMundo[1060][440]);
 		//objetos.add(new Triangulo(rayoPrimario4.getPunto(1.1), rayoPrimario3.getPunto(1.1), 
 		//		rayoPrimario2.getPunto(1.1), new Color(255,0,0),0.9));
 		//Point3d ss = rayoPrimario1.getPunto(1.1); 
-		objetos.add(new Esfera(5,rayoPrimario1.getPunto(1.1), new Color(255,0,0),0.9));
+		objetos.add(new Esfera(10,rayoPrimario1.getPunto(1.1), new Color(255,0,0),0.9));
 		objetos.add(new Esfera(10,rayoPrimario4.getPunto(1.1), new Color(255,0,0),0.9));
 		//objetos.add(new Plano(rayoPrimario1.getPunto(1.1), new Vector3d(-1.5,10,1), new Color(255,0,0),0.5));
-		luz = new Luz(rayoPrimario2.getPunto(1.1), 1);
-		double iAmbiental = 0.13;
+		luz = new Luz(rayoPrimario2.getPunto(1.05), 1);
+		double iAmbiental = 0.08;
 		
 		/*
 		 * FIN DE PRUEBAS
