@@ -112,8 +112,8 @@ public class Trazador {
 		objetos.add(new Esfera(5,rayoPrimario1.getPunto(1.1), new Color(255,0,0),0.9));
 		objetos.add(new Esfera(10,rayoPrimario4.getPunto(1.1), new Color(255,0,0),0.9));
 		//objetos.add(new Plano(rayoPrimario1.getPunto(1.1), new Vector3d(-1.5,10,1), new Color(255,0,0),0.5));
-		luz = new Luz(rayoPrimario2.getPunto(1.1), 1);
-		double iAmbiental = 0.13;
+		luz = new Luz(rayoPrimario2.getPunto(0.9), 1);
+		double iAmbiental = 0.15;
 		
 		/*
 		 * FIN DE PRUEBAS
@@ -190,19 +190,61 @@ public class Trazador {
 						pixels[i][j] = objetoCol.getColor().aplicarIntensidad(objetoCol.getKd()*iAmbiental);
 					} else {
 						Vector3d n = new Vector3d(objetoCol.getN(puntoColisionFinal));
-						Point3d aux = new Point3d(luz.getPunto());
-						aux.sub(puntoColisionFinal);
-						Vector3d l = new Vector3d(aux);
-						double iDifusa = objetoCol.getKd()*luz.getBrillo()*(1-n.angle(l));
+						Point3d pLuz = new Point3d(luz.getPunto());
+						pLuz.sub(puntoColisionFinal);
+						Vector3d l = new Vector3d(pLuz);
+						double iDifusa = objetoCol.getKd()*luz.getBrillo()*(Math.cos(l.angle(n)));
+						Rayo rayoLuz = new Rayo(puntoColisionFinal, pLuz);
+						Vector3d r = rayoLuz.getReflejado(n);
+						Rayo rayoVista = new Rayo(puntoColisionFinal, ojo);
+						Vector3d v = rayoVista.getD();
+						double iEspecular = (1-objetoCol.getKd())*luz.getBrillo()*(Math.cos(r.angle(v)));
 						Color cl;
-						if(iDifusa<0){
+						if(iDifusa<0 && iEspecular<0){
 							cl = objetoCol.getColor().aplicarIntensidad(objetoCol.getKd()*iAmbiental);
-						} else{
-							cl = objetoCol.getColor().aplicarIntensidad((objetoCol.getKd()*iAmbiental)+(objetoCol.getKd()*iDifusa));
+						} else if (iEspecular<0){
+							cl = objetoCol.getColor().aplicarIntensidad((objetoCol.getKd()*iAmbiental)+iDifusa);
+						} else if (iDifusa<0) {
+							cl = objetoCol.getColor().aplicarIntensidad((objetoCol.getKd()*iAmbiental)+iEspecular);
+						} else {
+							cl = objetoCol.getColor().aplicarIntensidad((objetoCol.getKd()*iAmbiental)+iDifusa+iEspecular);
 						}
 						
 						pixels[i][j] = cl;
 					}
+					
+//					Color cl;						
+//					double kd = objetoCol.getKd();
+//					double ks = (1 - kd);						
+//					double ambiental = kd * iAmbiental;
+//					
+//					Point3d pLuz = new Point3d(luz.getPunto());
+//					Rayo rayoLuz = new Rayo(puntoColisionFinal, pLuz);
+//					Rayo rayoVista = new Rayo(puntoColisionFinal, ojo);
+//					Vector3d n = new Vector3d(objetoCol.getN(puntoColisionFinal));
+//					Vector3d r = rayoLuz.getReflejado(n);		
+//					
+//					double difusa;
+//					double especular;
+//					if (esSombra) {
+//						difusa = 0;
+//						especular = 0;
+//					} else {
+//						double cosNL = rayoLuz.getAngulo(n);
+//						difusa = kd * luz.getBrillo() * cosNL;
+//						if (difusa < 0) {
+//							difusa = 0;		// Puede que sea innecesario?
+//						}
+//
+//						double cosRV = rayoVista.getAngulo(r);
+//						especular = ks * luz.getBrillo() * cosRV;
+//						if (especular < 0) {
+//							especular = 0;	// Puede que sea innecesario?
+//						}
+//					}										
+//					double intensidad = ambiental + difusa + especular;
+//					cl = objetoCol.getColor().aplicarIntensidad(intensidad);
+//					pixels[i][j] = cl;
 				} 
 				/*
 				 * Caso en el que el rayo no ha colisionado con nada
