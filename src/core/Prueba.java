@@ -38,12 +38,10 @@ public class Prueba {
 		pLuz.sub(puntoColisionFinal);
 		Vector3d l = new Vector3d(pLuz);
 		Rayo rayoLuz = new Rayo(puntoColisionFinal, pLuz);
-		Vector3d r = rayoLuz.getReflejado(n);
 		Point3d ojo = new Point3d(-5,5,0);
 		Rayo rayoVista = new Rayo(puntoColisionFinal, ojo);
 		Vector3d v = rayoVista.getD();
 		System.out.println(l);
-		System.out.println(r);
 		System.out.println(v);
 	}
 }

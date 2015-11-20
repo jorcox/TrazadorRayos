@@ -21,7 +21,8 @@ public abstract class Objeto {
 	
 	public Objeto(Color kd) {
 		this.kd = kd;
-		this.ks = kd.calcularKD();
+		//this.ks = kd.calcularKD();
+		this.ks = new Color(255,255,255);
 	}
 	
 	public Color getKd() {

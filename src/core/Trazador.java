@@ -112,7 +112,7 @@ public class Trazador {
 		objetos.add(new Esfera(10,rayoPrimario1.getPunto(1.1), new Color(255,0,0)));
 		objetos.add(new Esfera(10,rayoPrimario4.getPunto(1.1), new Color(255,0,0)));
 		//objetos.add(new Plano(rayoPrimario1.getPunto(1.1), new Vector3d(-1.5,10,1), new Color(255,0,0),0.5));
-		luz = new Luz(rayoPrimario2.getPunto(1.05), 1);
+		luz = new Luz(rayoPrimario2.getPunto(1.1), 1);
 		double iAmbiental = 0.08;
 		
 		/*
@@ -189,24 +189,39 @@ public class Trazador {
 					if(esSombra){
 						pixels[i][j] = objetoCol.getKd().aplicarIntensidad(iAmbiental);
 					} else {
+						/*
+						 * Declaracion, inicializacion y normalizacion de la normal para su uso en los
+						 * proximos calculos
+						 */
 						Vector3d n = new Vector3d(objetoCol.getN(puntoColisionFinal));
 						n.normalize();
+						/*
+						 * Cálculo de la intensidad difusa 
+						 */
 						Point3d pLuz = new Point3d(luz.getPunto());
 						pLuz.sub(puntoColisionFinal);
 						Vector3d l = new Vector3d(pLuz);
 						l.normalize();
 						double iDifusa = luz.getBrillo()*(Math.cos(l.angle(n)));
-						Rayo rayoLuz = new Rayo(puntoColisionFinal, pLuz);
-						Vector3d r = rayoLuz.getReflejado(n);
-						r.normalize();
-						Rayo rayoVista = new Rayo(puntoColisionFinal, ojo);
-						Vector3d v = rayoVista.getD();
-						v.normalize();
-						//double cos = r.dot(v);
-						//cos = cos / (r.length()*v.length());
-						double cos = Math.cos(r.angle(v));
-						double iEspecular = luz.getBrillo()*(Math.pow(cos,100));
-						//double iEspecular = 0;
+						/*
+						 * Cálculo de la intensidad especular
+						 */
+						double iEspecular = 0;
+						if(iDifusa > 0){
+							Rayo alOjo = new Rayo(puntoColisionFinal, ojo);
+							Vector3d V = new Vector3d(alOjo.getD());
+							V.normalize();
+							Rayo aLaLuz = new Rayo(puntoColisionFinal, luz.getPunto());
+							Vector3d L = new Vector3d(aLaLuz.getD());
+							L.normalize();
+							Vector3d R = calcularReflejado(L,n);
+							R.normalize();
+							iEspecular = Math.pow(Math.cos(R.angle(V)),100);
+						}
+						
+						
+						
+						
 						Color cl;
 						if(iDifusa<0 && iEspecular<0){
 							cl = objetoCol.getKd().aplicarIntensidad(iAmbiental);
@@ -286,5 +301,13 @@ public class Trazador {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	private static Vector3d calcularReflejado(Vector3d L, Vector3d n) {
+		Vector3d nor = new Vector3d(n);
+		double pO = nor.dot(L);
+		nor.scale(2*pO);
+		nor.sub(L);
+		return nor;
 	}
 }

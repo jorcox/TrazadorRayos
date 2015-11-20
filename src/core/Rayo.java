@@ -36,17 +36,6 @@ public class Rayo {
 		return p;
 	}
 	
-	public Vector3d getReflejado(Vector3d n) {
-		Vector3d nNorm = new Vector3d(n);
-		nNorm.normalize();
-		Vector3d rayo = new Vector3d();
-		rayo.sub(p1, p0);
-		double th = rayo.dot(nNorm);
-		nNorm.scale(2*th);
-		nNorm.sub(rayo);
-		return rayo;
-	}
-	
 	public double getAngulo(Vector3d v) {
 		Vector3d a = new Vector3d(d);
 		double radianes = a.angle(v);
