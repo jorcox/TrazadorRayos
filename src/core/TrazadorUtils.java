@@ -41,7 +41,7 @@ public class TrazadorUtils {
 		Point3d p = new Point3d(px,py,pz);
 		Vector3d n = new Vector3d(nx,ny,nz);
 		Color kd = new Color(cR,cG,cB);
-		return new Plano(p, n, kd);
+		return new Plano(p, n, kd,1);
 	}
 	
 	public static Triangulo getTriangulo(String[] orden) throws FicheroDatosException {
@@ -61,7 +61,7 @@ public class TrazadorUtils {
 		Point3d p2 = new Point3d(p2x, p2y, p2z);
 		Point3d p3 = new Point3d(p3x, p3y, p3z);
 		Color kd = new Color(cR, cG, cB); 
-		return new Triangulo(p1, p2, p3, kd);
+		return new Triangulo(p1, p2, p3, kd,1);
 	}
 	
 	public static Esfera getEsfera(String[] orden) throws FicheroDatosException {
@@ -74,7 +74,7 @@ public class TrazadorUtils {
 		int cB = Integer.parseInt(orden[7]);
 		Point3d centro = new Point3d(px, py, pz);
 		Color kd = new Color(cR, cG, cB);
-		return new Esfera(radio, centro, kd);
+		return new Esfera(radio, centro, kd,1);
 	}
 	
 	public static Luz getLuz(String[] orden) throws FicheroDatosException {

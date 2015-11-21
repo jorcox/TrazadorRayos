@@ -15,6 +15,11 @@ public class Rayo {
 		d.sub(p1, p0);
 	}
 	
+	public Rayo(Vector3d vector, Point3d punto) {
+		d = vector;
+		p0 = punto;
+	}
+
 	public Point3d getP0() {
 		return p0;
 	}
@@ -28,8 +33,7 @@ public class Rayo {
 	}
 
 	public Point3d getPunto(double lambda) {		
-		Vector3d d = new Vector3d();
-		d.sub(p1, p0);
+		
 		d.scale(lambda, d);
 		Point3d p = new Point3d(p0);
 		p.add(d);

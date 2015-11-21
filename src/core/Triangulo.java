@@ -10,8 +10,8 @@ public class Triangulo extends Objeto{
 	private Vector3d n;
 	
 
-	public Triangulo(Point3d p1, Point3d p2, Point3d p3, Color kd) {
-		super(kd);
+	public Triangulo(Point3d p1, Point3d p2, Point3d p3, Color kd, double refrac) {
+		super(kd, refrac);
 		this.p1 = new Point3d(p1);
 		this.p2 = new Point3d(p2);
 		this.p3 = new Point3d(p3);

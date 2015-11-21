@@ -1,5 +1,7 @@
 package core;
 
+
+
 public class Color {
 	
 	private int r;
@@ -66,5 +68,26 @@ public class Color {
 	public Color suma(Color col) {
 		return new Color(r+col.getRed(),g+col.getGreen(),b+col.getBlue());
 	}
+
+	public void normalizar() {
+			int mayor = 0;
+			if (r > mayor) mayor = r;
+			if (g > mayor) mayor = g;
+			if (b > mayor) mayor = b;
+			if (mayor > 255) {
+				double indiceReduccion = (double) mayor / 255;
+				indiceReduccion = Math.sqrt(indiceReduccion);
+				r = (int) (r / indiceReduccion);
+				g = (int) (g / indiceReduccion);
+				b = (int) (b / indiceReduccion);
+			}
+
+			if (r > 255) r = 255;
+			if (g > 255) g = 255;
+			if (b > 255) b = 255;
+
+	}
+		
+	
 	
 }
