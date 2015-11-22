@@ -94,11 +94,11 @@ public class Trazador {
 		// rayoPrimario3.getPunto(1.1),
 		// rayoPrimario2.getPunto(1.1), new Color(255,0,0),0.9));
 		// Point3d ss = rayoPrimario1.getPunto(1.1);
-		objetos.add(new Esfera(10, rayoPrimario1.getPunto(1.1), new Color(0, 255, 0),0.2));
-		objetos.add(new Esfera(10, rayoPrimario4.getPunto(1.1), new Color(255, 0, 0),0.2));
+		objetos.add(new Esfera(10, rayoPrimario1.getPunto(1.1), new Color(0, 255, 0),1));
+		objetos.add(new Esfera(10, rayoPrimario4.getPunto(1.1), new Color(255, 0, 0),1));
 		Vector3d jarl = new Vector3d(rayoPrimario5.getD());
 		jarl.negate();
-		objetos.add(new Plano(rayoPrimario5.getPunto(3), jarl, new Color(0,255,0),0.5));
+		objetos.add(new Plano(rayoPrimario5.getPunto(3), jarl, new Color(0,0,255),0.5));
 		//objetos.add(new Plano(new Point3d(20,30,10), new Vector3d(-1,0,-1), new Color(0,255,0),0.5));
 		//objetos.add(new Plano(new Point3d(20,30,10), new Vector3d(0,-1,-1), new Color(0,0,255),0.5));
 		
@@ -127,7 +127,7 @@ public class Trazador {
 				// Disparamos el rayo primario a la escena y se comprueba si
 				// intersecta
 
-				if(i==1226&&j==608){
+				if(i==1053&&j==732){
 					System.out.println("melon");
 				}
 				Color col = trazarRayo(rayoPrimario,0, null);
@@ -233,7 +233,13 @@ public class Trazador {
 				 */
 				double iEspecular = 0;
 				if (iDifusa > 0) {
-					iEspecular = Math.pow(Math.cos(R.angle(V)), 100);
+					double angulo = Math.cos(R.angle(V));
+					if(angulo>0){
+						iEspecular = Math.pow(Math.cos(R.angle(V)), 100);
+					}
+					else{
+						iEspecular = angulo;
+					}
 				}
 				
 				/***************************************************************************************/
@@ -261,8 +267,8 @@ public class Trazador {
 					Rayo rayoReflejado = new Rayo(calcularReflejado(rayoPrimario.getD(),N),puntoColisionFinal);
 					recursion += 1;
 					Color nuevo = trazarRayo(rayoReflejado,recursion, objetoCol);
-					nuevo.aplicarIntensidad(objetoCol.getIndiceRefraccion());
-					cl = cl.suma(nuevo);
+					Color reducido = nuevo.aplicarIntensidad(objetoCol.getIndiceRefraccion());
+					cl = cl.suma(reducido);
 				}				
 				//cl.normalizar();
 				return cl;
