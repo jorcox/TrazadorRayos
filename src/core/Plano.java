@@ -20,7 +20,7 @@ public class Plano extends Objeto{
 
 	public Point3d interseccion(Rayo r) {
 		Vector3d d = r.getD();
-		Point3d p = this.p;
+		Point3d p = new Point3d(this.p);
 		double inf = d.dot(this.n);
 		if (inf < 0){
 			/*
