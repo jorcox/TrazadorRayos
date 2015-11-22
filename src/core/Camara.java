@@ -6,7 +6,7 @@ import javax.vecmath.Vector3d;
 public class Camara {
 	private Point3d e;
 	private Vector3d g;
-	private Vector3d up = new Vector3d(1,0,0);
+	private Vector3d up = new Vector3d(0,1,0);
 	private Vector3d u;
 	private Vector3d v;
 	private Vector3d w;
