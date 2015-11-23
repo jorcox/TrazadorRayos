@@ -14,6 +14,7 @@ import javax.vecmath.Vector3d;
 
 public class Trazador {
 
+	private static Point3d origen = new Point3d(0,0,0);
 	private static ArrayList<Objeto> objetos = new ArrayList<Objeto>();
 	private static Camara camara = null;
 	private static Luz luz = null;
@@ -95,19 +96,38 @@ public class Trazador {
 		// rayoPrimario3.getPunto(1.1),
 		// rayoPrimario2.getPunto(1.1), new Color(255,0,0),0.9));
 		// Point3d ss = rayoPrimario1.getPunto(1.1);
-		objetos.add(new Esfera(10, rayoPrimario1.getPunto(2.5), new Color(0, 255, 0), 1));
-		objetos.add(new Esfera(10, rayoPrimario4.getPunto(2.5), new Color(255, 0, 0), 1));
+		Point3d cE1 = rayoPrimario1.getPunto(2.5);
+		Transformacion transEsf1 = Transformacion.getTranslationMatrix(cE1.getX(), cE1.getY(), cE1.getZ());
+		cE1 = transEsf1.traslacion(origen);
+		objetos.add(new Esfera(10, cE1, new Color(0, 255, 0), 1));
+		
+		Point3d cE2 = rayoPrimario4.getPunto(2.5);
+		Transformacion transEsf2 = Transformacion.getTranslationMatrix(cE2.getX(), cE2.getY(), cE2.getZ());
+		cE2 = transEsf2.traslacion(origen);
+		objetos.add(new Esfera(10, cE2, new Color(255, 0, 0), 1));
+		
+		Point3d pPlanos = new Point3d(611.7642947406024, -508.5222180876726, 611.7642947406024);
+		Transformacion transP = Transformacion.getTranslationMatrix(pPlanos.getX(), pPlanos.getY(), pPlanos.getZ());
+		pPlanos = transP.traslacion(origen);		
+		
 //		Vector3d jarl = new Vector3d(rayoPrimario6.getD());
 //		jarl.negate();
-		Vector3d jarl = new Vector3d(-1,0,0);
+		Vector3d n1 = new Vector3d(-1,0,0);
+		Transformacion transN1 = Transformacion.getTranslationMatrix(n1.getX(), n1.getY(), n1.getZ());
+		n1 = transN1.traslacion(new Vector3d(origen));
+		objetos.add(new Plano(pPlanos, n1, new Color(0, 0, 255), 0));
 //		Point3d jj = new Point3d(rayoPrimario6.getPunto(5));
-		Point3d jj = new Point3d(611.7642947406024, -508.5222180876726, 611.7642947406024);
-		objetos.add(new Plano(jj, jarl, new Color(0, 0, 255), 0));
-		Vector3d jarl2 = new Vector3d(0,0,-1);
+		
+		Vector3d n2 = new Vector3d(0,0,-1);
+		Transformacion transN2 = Transformacion.getTranslationMatrix(n2.getX(), n2.getY(), n2.getZ());
+		n2 = transN2.traslacion(new Vector3d(origen));
 		Rayo rayoPrimario7 = new Rayo(camara.getE(), pantalla.coordMundo[0][1079]);
-		objetos.add(new Plano(jj, jarl2, new Color(255, 0, 0), 0));
-		Vector3d jarl3 = new Vector3d(0,1,0);
-		objetos.add(new Plano(jj, jarl3, new Color(255, 145, 0), 0));
+		objetos.add(new Plano(pPlanos, n2, new Color(255, 0, 0), 0));
+		
+		Vector3d n3 = new Vector3d(0,1,0);
+		Transformacion transN3 = Transformacion.getTranslationMatrix(n3.getX(), n3.getY(), n3.getZ());
+		n3 = transN3.traslacion(new Vector3d(origen));
+		objetos.add(new Plano(pPlanos, n3, new Color(255, 145, 0), 0));
 		// objetos.add(new Plano(new Point3d(20,30,10), new Vector3d(-1,0,-1),
 		// new Color(0,255,0),0.5));
 		// objetos.add(new Plano(new Point3d(20,30,10), new Vector3d(0,-1,-1),
@@ -115,7 +135,7 @@ public class Trazador {
 
 		luz = new Luz(rayoPrimario2.getPunto(1), 1);
 		//luz = new Luz(camara.getE(),1);
-
+		
 		iAmbiental = 0.08;
 
 		/*
@@ -221,8 +241,8 @@ public class Trazador {
 				return objetoCol.getKd().aplicarIntensidad(iAmbiental);
 			} else {
 				/*
-				 * Declaración, inicialización y normalización de los
-				 * principales vectores para su uso en los próximos cálculos
+				 * Declaraciï¿½n, inicializaciï¿½n y normalizaciï¿½n de los
+				 * principales vectores para su uso en los prï¿½ximos cï¿½lculos
 				 */
 				Vector3d N = new Vector3d(objetoCol.getN(puntoColisionFinal));
 				N.normalize();
@@ -237,12 +257,12 @@ public class Trazador {
 				Vector3d T = calcularRefractado(V, N, objetoCol.getIndiceRefraccion());
 
 				/*
-				 * Cálculo de la intensidad difusa
+				 * Cï¿½lculo de la intensidad difusa
 				 */
 				double iDifusa = luz.getBrillo() * (Math.cos(L.angle(N)));
 
 				/*
-				 * Cálculo de la intensidad especular
+				 * Cï¿½lculo de la intensidad especular
 				 */
 				double iEspecular = 0;
 				if (iDifusa > 0) {

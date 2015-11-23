@@ -32,16 +32,24 @@ public class Prueba {
 //		double angulo = r.getAngulo(v2);
 //		System.out.println(angulo);
 		
-		Point3d puntoColisionFinal = new Point3d(0,0,0);
-		Vector3d n = new Vector3d(0,10,0);
-		Point3d pLuz = new Point3d(10,10,0);
-		pLuz.sub(puntoColisionFinal);
-		Vector3d l = new Vector3d(pLuz);
-		Rayo rayoLuz = new Rayo(puntoColisionFinal, pLuz);
-		Point3d ojo = new Point3d(-5,5,0);
-		Rayo rayoVista = new Rayo(puntoColisionFinal, ojo);
-		Vector3d v = rayoVista.getD();
-		System.out.println(l);
-		System.out.println(v);
+//		Point3d puntoColisionFinal = new Point3d(0,0,0);
+//		Vector3d n = new Vector3d(0,10,0);
+//		Point3d pLuz = new Point3d(10,10,0);
+//		pLuz.sub(puntoColisionFinal);
+//		Vector3d l = new Vector3d(pLuz);
+//		Rayo rayoLuz = new Rayo(puntoColisionFinal, pLuz);
+//		Point3d ojo = new Point3d(-5,5,0);
+//		Rayo rayoVista = new Rayo(puntoColisionFinal, ojo);
+//		Vector3d v = rayoVista.getD();
+//		System.out.println(l);
+//		System.out.println(v);
+		
+		Point3d p0 = new Point3d(1,1,1);
+		Point3d p1 = new Point3d(1,2,3);
+		Transformacion t = Transformacion.getTranslationMatrix(p1.getX(), p1.getY(), p1.getZ());
+		Point3d p2 = t.traslacion(p0);
+		System.out.println(p0);
+		System.out.println(p1);
+		System.out.println(p2);
 	}
 }
