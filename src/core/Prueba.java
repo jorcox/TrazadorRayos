@@ -47,7 +47,7 @@ public class Prueba {
 		Point3d p0 = new Point3d(1,1,1);
 		Point3d p1 = new Point3d(1,2,3);
 		Transformacion t = Transformacion.getTranslationMatrix(p1.getX(), p1.getY(), p1.getZ());
-		Point3d p2 = t.traslacion(p0);
+		Point3d p2 = t.transformar(p0);
 		System.out.println(p0);
 		System.out.println(p1);
 		System.out.println(p2);

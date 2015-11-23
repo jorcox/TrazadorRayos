@@ -86,7 +86,7 @@ public class Trazador {
 		 * PRUEBAS
 		 */
 
-		Rayo rayoPrimario1 = new Rayo(camara.getE(), pantalla.coordMundo[1550][700]);
+		/*Rayo rayoPrimario1 = new Rayo(camara.getE(), pantalla.coordMundo[1550][700]);
 		Rayo rayoPrimario4 = new Rayo(camara.getE(), pantalla.coordMundo[960][540]);
 		Rayo rayoPrimario2 = new Rayo(camara.getE(), pantalla.coordMundo[960][0]);
 		Rayo rayoPrimario3 = new Rayo(camara.getE(), pantalla.coordMundo[1060][440]);
@@ -98,44 +98,76 @@ public class Trazador {
 		// Point3d ss = rayoPrimario1.getPunto(1.1);
 		Point3d cE1 = rayoPrimario1.getPunto(2.5);
 		Transformacion transEsf1 = Transformacion.getTranslationMatrix(cE1.getX(), cE1.getY(), cE1.getZ());
-		cE1 = transEsf1.traslacion(origen);
+		cE1 = transEsf1.transformar(origen);
 		objetos.add(new Esfera(10, cE1, new Color(0, 255, 0), 1));
 		
 		Point3d cE2 = rayoPrimario4.getPunto(2.5);
 		Transformacion transEsf2 = Transformacion.getTranslationMatrix(cE2.getX(), cE2.getY(), cE2.getZ());
-		cE2 = transEsf2.traslacion(origen);
+		cE2 = transEsf2.transformar(origen);
 		objetos.add(new Esfera(10, cE2, new Color(255, 0, 0), 1));
 		
 		Point3d pPlanos = new Point3d(611.7642947406024, -508.5222180876726, 611.7642947406024);
 		Transformacion transP = Transformacion.getTranslationMatrix(pPlanos.getX(), pPlanos.getY(), pPlanos.getZ());
-		pPlanos = transP.traslacion(origen);		
+		pPlanos = transP.transformar(origen);	
+		
 		
 //		Vector3d jarl = new Vector3d(rayoPrimario6.getD());
 //		jarl.negate();
 		Vector3d n1 = new Vector3d(-1,0,0);
 		Transformacion transN1 = Transformacion.getTranslationMatrix(n1.getX(), n1.getY(), n1.getZ());
-		n1 = transN1.traslacion(new Vector3d(origen));
+		n1 = transN1.transformar(new Vector3d(origen));
 		objetos.add(new Plano(pPlanos, n1, new Color(0, 0, 255), 0));
 //		Point3d jj = new Point3d(rayoPrimario6.getPunto(5));
 		
 		Vector3d n2 = new Vector3d(0,0,-1);
 		Transformacion transN2 = Transformacion.getTranslationMatrix(n2.getX(), n2.getY(), n2.getZ());
-		n2 = transN2.traslacion(new Vector3d(origen));
+		n2 = transN2.transformar(new Vector3d(origen));
 		Rayo rayoPrimario7 = new Rayo(camara.getE(), pantalla.coordMundo[0][1079]);
 		objetos.add(new Plano(pPlanos, n2, new Color(255, 0, 0), 0));
 		
 		Vector3d n3 = new Vector3d(0,1,0);
 		Transformacion transN3 = Transformacion.getTranslationMatrix(n3.getX(), n3.getY(), n3.getZ());
-		n3 = transN3.traslacion(new Vector3d(origen));
+		n3 = transN3.transformar(new Vector3d(origen));
 		objetos.add(new Plano(pPlanos, n3, new Color(255, 145, 0), 0));
 		// objetos.add(new Plano(new Point3d(20,30,10), new Vector3d(-1,0,-1),
 		// new Color(0,255,0),0.5));
 		// objetos.add(new Plano(new Point3d(20,30,10), new Vector3d(0,-1,-1),
 		// new Color(0,0,255),0.5));
 
-		luz = new Luz(rayoPrimario2.getPunto(1), 1);
-		//luz = new Luz(camara.getE(),1);
+		System.out.println(cE1 + " " + cE2 + " " + pPlanos + " " + n1 + " " + n2 + " " + n3 + " " + rayoPrimario2.getPunto(1));
 		
+		luz = new Luz(rayoPrimario2.getPunto(1), 1);
+		//luz = new Luz(camara.getE(),1);*/
+		
+		
+		Transformacion cameraToWorld = Transformacion.getCameraToWorldMatrix(camara);
+		
+		Rayo rayoPrimario2 = new Rayo(camara.getE(), pantalla.coordMundo[960][0]);
+		luz = new Luz(rayoPrimario2.getPunto(1), 1);
+		
+		Point3d cEsf1 = new Point3d(50, -10, -500);
+		cEsf1 = cameraToWorld.transformar(cEsf1);
+		objetos.add(new Esfera(5, cEsf1, new Color(0, 255, 0), 1));
+		
+		Point3d cEsf2 = new Point3d(0, 10, -700);
+		cEsf2 = cameraToWorld.transformar(cEsf2);
+		objetos.add(new Esfera(7, cEsf2, new Color(255, 0, 0), 1));
+		
+		Point3d pPlanos = new Point3d(0, -72, -1000);
+		pPlanos = cameraToWorld.transformar(pPlanos);
+		
+		Vector3d n1 = new Vector3d(7, -3, 6);
+		n1 = cameraToWorld.transformar(n1);
+		objetos.add(new Plano(pPlanos, n1, new Color(0, 0, 255), 0));
+		
+		Vector3d n2 = new Vector3d(-7, -3, 6);
+		n2 = cameraToWorld.transformar(n2);
+		objetos.add(new Plano(pPlanos, n2, new Color(255, 0, 0), 0));
+		
+		Vector3d n3 = new Vector3d(0, 8, 4);
+		n3 = cameraToWorld.transformar(n3);
+		objetos.add(new Plano(pPlanos, n3, new Color(255, 145, 0), 0));
+
 		iAmbiental = 0.08;
 
 		/*
