@@ -76,7 +76,7 @@ public class Trazador {
 		pantalla = new Pantalla(60, 33.75, 200, anchura, altura);
 		pixels = new Color[anchura][altura];
 		ojo = new Point3d(0, 0, 0);
-		g = new Vector3d(1, 1, 1);
+		g = new Vector3d(1,-0.7,1);
 		camara = new Camara(ojo, g);
 		pantalla.calcularCoordenadasCamaraYMundo(camara);
 		// luz = new Luz(new Point3d(0,0,0), 1);
@@ -95,25 +95,25 @@ public class Trazador {
 		// rayoPrimario3.getPunto(1.1),
 		// rayoPrimario2.getPunto(1.1), new Color(255,0,0),0.9));
 		// Point3d ss = rayoPrimario1.getPunto(1.1);
-		objetos.add(new Esfera(10, rayoPrimario1.getPunto(1.3), new Color(0, 255, 0), 1));
-		objetos.add(new Esfera(10, rayoPrimario4.getPunto(1.3), new Color(255, 0, 0), 1));
+		objetos.add(new Esfera(10, rayoPrimario1.getPunto(2.5), new Color(0, 255, 0), 1));
+		objetos.add(new Esfera(10, rayoPrimario4.getPunto(2.5), new Color(255, 0, 0), 1));
 //		Vector3d jarl = new Vector3d(rayoPrimario6.getD());
 //		jarl.negate();
 		Vector3d jarl = new Vector3d(-1,0,0);
 //		Point3d jj = new Point3d(rayoPrimario6.getPunto(5));
-		Point3d jj = new Point3d(611.7642947406024, 508.5222180876726, 611.7642947406024);
+		Point3d jj = new Point3d(611.7642947406024, -508.5222180876726, 611.7642947406024);
 		objetos.add(new Plano(jj, jarl, new Color(0, 0, 255), 0));
 		Vector3d jarl2 = new Vector3d(0,0,-1);
 		Rayo rayoPrimario7 = new Rayo(camara.getE(), pantalla.coordMundo[0][1079]);
 		objetos.add(new Plano(jj, jarl2, new Color(255, 0, 0), 0));
 		Vector3d jarl3 = new Vector3d(0,1,0);
-		//objetos.add(new Plano(jj, jarl3, new Color(255, 145, 0), 0));
+		objetos.add(new Plano(jj, jarl3, new Color(255, 145, 0), 0));
 		// objetos.add(new Plano(new Point3d(20,30,10), new Vector3d(-1,0,-1),
 		// new Color(0,255,0),0.5));
 		// objetos.add(new Plano(new Point3d(20,30,10), new Vector3d(0,-1,-1),
 		// new Color(0,0,255),0.5));
 
-		luz = new Luz(rayoPrimario2.getPunto(1.3), 1);
+		luz = new Luz(rayoPrimario2.getPunto(1), 1);
 		//luz = new Luz(camara.getE(),1);
 
 		iAmbiental = 0.08;
