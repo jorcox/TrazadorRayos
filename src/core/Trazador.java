@@ -77,96 +77,51 @@ public class Trazador {
 		pantalla = new Pantalla(60, 33.75, 200, anchura, altura);
 		pixels = new Color[anchura][altura];
 		ojo = new Point3d(0, 0, 0);
-		g = new Vector3d(1,-0.7,1);
+		g = new Vector3d(1,1,1);
 		camara = new Camara(ojo, g);
 		pantalla.calcularCoordenadasCamaraYMundo(camara);
-		// luz = new Luz(new Point3d(0,0,0), 1);
-
-		/*
-		 * PRUEBAS
-		 */
-
-		/*Rayo rayoPrimario1 = new Rayo(camara.getE(), pantalla.coordMundo[1550][700]);
-		Rayo rayoPrimario4 = new Rayo(camara.getE(), pantalla.coordMundo[960][540]);
-		Rayo rayoPrimario2 = new Rayo(camara.getE(), pantalla.coordMundo[960][0]);
-		Rayo rayoPrimario3 = new Rayo(camara.getE(), pantalla.coordMundo[1060][440]);
-		Rayo rayoPrimario5 = new Rayo(camara.getE(), pantalla.coordMundo[1919][1079]);
-		Rayo rayoPrimario6 = new Rayo(camara.getE(), pantalla.coordMundo[960][1079]);
-		// objetos.add(new Triangulo(rayoPrimario4.getPunto(1.1),
-		// rayoPrimario3.getPunto(1.1),
-		// rayoPrimario2.getPunto(1.1), new Color(255,0,0),0.9));
-		// Point3d ss = rayoPrimario1.getPunto(1.1);
-		Point3d cE1 = rayoPrimario1.getPunto(2.5);
-		Transformacion transEsf1 = Transformacion.getTranslationMatrix(cE1.getX(), cE1.getY(), cE1.getZ());
-		cE1 = transEsf1.transformar(origen);
-		objetos.add(new Esfera(10, cE1, new Color(0, 255, 0), 1));
+				
 		
-		Point3d cE2 = rayoPrimario4.getPunto(2.5);
-		Transformacion transEsf2 = Transformacion.getTranslationMatrix(cE2.getX(), cE2.getY(), cE2.getZ());
-		cE2 = transEsf2.transformar(origen);
-		objetos.add(new Esfera(10, cE2, new Color(255, 0, 0), 1));
+		Transformacion camaraAMundo = Transformacion.getCameraToWorldMatrix(camara);
 		
-		Point3d pPlanos = new Point3d(611.7642947406024, -508.5222180876726, 611.7642947406024);
-		Transformacion transP = Transformacion.getTranslationMatrix(pPlanos.getX(), pPlanos.getY(), pPlanos.getZ());
-		pPlanos = transP.transformar(origen);	
+		Point3d pLuz = new Point3d(100, 25, -1350);
+		pLuz = camaraAMundo.transformar(pLuz);
+		luz = new Luz(pLuz, 1);
 		
+		Point3d cEsf1 = new Point3d(50, -10, -1400);
+		cEsf1 = camaraAMundo.transformar(cEsf1);
+		objetos.add(new Esfera(15, cEsf1, new Color(0, 255, 0), 1));
 		
-//		Vector3d jarl = new Vector3d(rayoPrimario6.getD());
-//		jarl.negate();
-		Vector3d n1 = new Vector3d(-1,0,0);
-		Transformacion transN1 = Transformacion.getTranslationMatrix(n1.getX(), n1.getY(), n1.getZ());
-		n1 = transN1.transformar(new Vector3d(origen));
-		objetos.add(new Plano(pPlanos, n1, new Color(0, 0, 255), 0));
-//		Point3d jj = new Point3d(rayoPrimario6.getPunto(5));
+		Point3d cEsf2 = new Point3d(0, 10, -1400);
+		cEsf2 = camaraAMundo.transformar(cEsf2);
+		objetos.add(new Esfera(21, cEsf2, new Color(255, 0, 0), 1));
 		
-		Vector3d n2 = new Vector3d(0,0,-1);
-		Transformacion transN2 = Transformacion.getTranslationMatrix(n2.getX(), n2.getY(), n2.getZ());
-		n2 = transN2.transformar(new Vector3d(origen));
-		Rayo rayoPrimario7 = new Rayo(camara.getE(), pantalla.coordMundo[0][1079]);
-		objetos.add(new Plano(pPlanos, n2, new Color(255, 0, 0), 0));
+		Point3d cEsf3 = new Point3d(0, 100, -1400);
+		cEsf3 = camaraAMundo.transformar(cEsf3);
+		objetos.add(new Esfera(21, cEsf3, new Color(150, 20, 189), 1));
 		
-		Vector3d n3 = new Vector3d(0,1,0);
-		Transformacion transN3 = Transformacion.getTranslationMatrix(n3.getX(), n3.getY(), n3.getZ());
-		n3 = transN3.transformar(new Vector3d(origen));
-		objetos.add(new Plano(pPlanos, n3, new Color(255, 145, 0), 0));
-		// objetos.add(new Plano(new Point3d(20,30,10), new Vector3d(-1,0,-1),
-		// new Color(0,255,0),0.5));
-		// objetos.add(new Plano(new Point3d(20,30,10), new Vector3d(0,-1,-1),
-		// new Color(0,0,255),0.5));
-
-		System.out.println(cE1 + " " + cE2 + " " + pPlanos + " " + n1 + " " + n2 + " " + n3 + " " + rayoPrimario2.getPunto(1));
+		Point3d cEsf4 = new Point3d(-50, 100, -1400);
+		cEsf4 = camaraAMundo.transformar(cEsf4);
+		objetos.add(new Esfera(10, cEsf4, new Color(150, 189, 20), 1));
 		
-		luz = new Luz(rayoPrimario2.getPunto(1), 1);
-		//luz = new Luz(camara.getE(),1);*/
+		Point3d cEsf5 = new Point3d(-41, 30, -1400);
+		cEsf5 = camaraAMundo.transformar(cEsf5);
+		objetos.add(new Esfera(21, cEsf5, new Color(20, 150, 189), 1));
 		
-		
-		Transformacion cameraToWorld = Transformacion.getCameraToWorldMatrix(camara);
-		
-		Rayo rayoPrimario2 = new Rayo(camara.getE(), pantalla.coordMundo[960][0]);
-		luz = new Luz(rayoPrimario2.getPunto(1), 1);
-		
-		Point3d cEsf1 = new Point3d(50, -10, -500);
-		cEsf1 = cameraToWorld.transformar(cEsf1);
-		objetos.add(new Esfera(5, cEsf1, new Color(0, 255, 0), 1));
-		
-		Point3d cEsf2 = new Point3d(0, 10, -700);
-		cEsf2 = cameraToWorld.transformar(cEsf2);
-		objetos.add(new Esfera(7, cEsf2, new Color(255, 0, 0), 1));
-		
-		Point3d pPlanos = new Point3d(0, -72, -1000);
-		pPlanos = cameraToWorld.transformar(pPlanos);
+		Point3d pPlanos = new Point3d(0, -0, -1550);
+		pPlanos = camaraAMundo.transformar(pPlanos);
 		
 		Vector3d n1 = new Vector3d(7, -3, 6);
-		n1 = cameraToWorld.transformar(n1);
-		objetos.add(new Plano(pPlanos, n1, new Color(0, 0, 255), 0));
+		n1 = camaraAMundo.transformar(n1);
+		objetos.add(new Plano(pPlanos, n1, new Color(0, 0, 255), 0.1));
 		
 		Vector3d n2 = new Vector3d(-7, -3, 6);
-		n2 = cameraToWorld.transformar(n2);
-		objetos.add(new Plano(pPlanos, n2, new Color(255, 0, 0), 0));
+		n2 = camaraAMundo.transformar(n2);
+		objetos.add(new Plano(pPlanos, n2, new Color(255, 0, 0), 0.1));
 		
 		Vector3d n3 = new Vector3d(0, 8, 4);
-		n3 = cameraToWorld.transformar(n3);
-		objetos.add(new Plano(pPlanos, n3, new Color(255, 145, 0), 0));
+		n3 = camaraAMundo.transformar(n3);
+		objetos.add(new Plano(pPlanos, n3, new Color(255, 115, 0), 0.1));
 
 		iAmbiental = 0.08;
 
@@ -184,36 +139,52 @@ public class Trazador {
 				 * Creamos el rayo primario del pixel i,j
 				 */
 				Rayo rayoPrimario = new Rayo(camara.getE(), pantalla.coordMundo[i][j]);
-				// Disparamos el rayo primario a la escena y se comprueba si
-				// intersecta
+				/*
+				 *  Disparamos el rayo primario a la escena y se comprueba si intersecta
+				 */  
 
-				if (i == 588 && j == 419) {
+				if (i == 700 && j == 400) {
 					System.out.println("melon");
 				}
+				
 				Color col = trazarRayo(rayoPrimario, 0, null);
 
 				pixels[i][j] = col;
 			}
 		}
-
-		System.out.println(cu);
+		/*
+		 * Creacion y rellenado de la imagen 
+		 */
 		BufferedImage img = new BufferedImage(anchura, altura, BufferedImage.TYPE_INT_RGB);
 		for (int i = 0; i < pantalla.getnC(); i++) {
 			for (int j = 0; j < pantalla.getnR(); j++) {
+				/*
+				 * Desplazamos los colores para introducirlos de la forma RRRGGGBBB
+				 */
 				int col = (pixels[i][j].getRed() << 16) | (pixels[i][j].getGreen() << 8) | pixels[i][j].getBlue();
 				img.setRGB(i, j, col);
 			}
 		}
-		File outputfile = new File("saved.png");
+		File outputfile = new File("imagen.png");
 		try {
 			ImageIO.write(img, "png", outputfile);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Error en la creacion del fichero de la foto");
 		}
 	}
 
-	private static Color trazarRayo(Rayo rayoPrimario, int recursion, Objeto original) {
+	/**
+	 * Metodo principal del trazador 
+	 * @param rayoPrimario
+	 * @param recursion indica las veces que se ha llamado al metodo 
+	 *  	  recursivamente para un mismo pixel
+	 * @param original Indica el objeto desde el que parte el rayo para 
+	 * 		  no tenerlo en cuenta en el calculo de las colisiones
+	 * 
+	 * @return el Color del pixel
+	 * 
+	 */
+	private static Color trazarRayo(Rayo rayoPrincipal, int recursion, Objeto original) {
 		/*
 		 * Por cada objeto se calcula con cual intersecta primer ( i.e. el mas
 		 * cercano)
@@ -222,9 +193,12 @@ public class Trazador {
 		Point3d puntoColision = null;
 		Point3d puntoColisionFinal = null;
 		double distanciaMin = Double.MAX_VALUE;
+		/*
+		 * Bucle para comprobar con que objeto se colisiona
+		 */
 		for (int k = 0; k < objetos.size(); k++) {
 			if (original == null || !original.equals(objetos.get(k))) {
-				puntoColision = objetos.get(k).interseccion(rayoPrimario);
+				puntoColision = objetos.get(k).interseccion(rayoPrincipal);
 				if (puntoColision != null) {
 					double distancia = puntoColision.distance(camara.getE());
 					if (distancia < distanciaMin) {
@@ -247,7 +221,7 @@ public class Trazador {
 			Point3d puntoColisionSombra = null;
 			boolean esSombra = false;
 			/*
-			 * Se comprueba si en el camino a la luz hay algun otro objeto
+			 * Bucle en el que se comprueba si en el camino a la luz hay algun otro objeto
 			 */
 			for (int k = 0; k < objetos.size(); k++) {
 				if (!objetoCol.equals(objetos.get(k))) {
@@ -325,8 +299,8 @@ public class Trazador {
 					cl = aux.suma(especular);
 				}
 
-				if (recursion <= 3) {
-					Rayo rayoReflejado = new Rayo(calcularReflejado(rayoPrimario.getD(), N), puntoColisionFinal);
+				if (recursion < 3) {
+					Rayo rayoReflejado = new Rayo(calcularReflejado(rayoPrincipal.getD(), N), puntoColisionFinal);
 					recursion += 1;
 					Color nuevo = trazarRayo(rayoReflejado, recursion, objetoCol);
 					Color reducido = nuevo.aplicarIntensidad(objetoCol.getIndiceRefraccion());
