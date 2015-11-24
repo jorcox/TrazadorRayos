@@ -113,15 +113,15 @@ public class Trazador {
 		
 		Vector3d n1 = new Vector3d(7, -3, 6);
 		n1 = camaraAMundo.transformar(n1);
-		objetos.add(new Plano(pPlanos, n1, new Color(0, 0, 255), 0.1));
+		objetos.add(new Plano(pPlanos, n1, new Color(0, 0, 255), 1));
 		
 		Vector3d n2 = new Vector3d(-7, -3, 6);
 		n2 = camaraAMundo.transformar(n2);
-		objetos.add(new Plano(pPlanos, n2, new Color(255, 0, 0), 0.1));
+		objetos.add(new Plano(pPlanos, n2, new Color(255, 0, 0), 1));
 		
 		Vector3d n3 = new Vector3d(0, 8, 4);
 		n3 = camaraAMundo.transformar(n3);
-		objetos.add(new Plano(pPlanos, n3, new Color(255, 115, 0), 0.1));
+		objetos.add(new Plano(pPlanos, n3, new Color(255, 115, 0), 1));
 
 		iAmbiental = 0.08;
 
