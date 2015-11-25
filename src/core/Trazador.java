@@ -90,38 +90,38 @@ public class Trazador {
 		
 		Point3d cEsf1 = new Point3d(50, -10, -1400);
 		cEsf1 = camaraAMundo.transformar(cEsf1);
-		objetos.add(new Esfera(15, cEsf1, new Color(0, 255, 0), 1));
+		objetos.add(new Esfera(15, cEsf1, new Color(0, 255, 0), 1,0,4));
 		
 		Point3d cEsf2 = new Point3d(0, 10, -1400);
 		cEsf2 = camaraAMundo.transformar(cEsf2);
-		objetos.add(new Esfera(21, cEsf2, new Color(255, 0, 0), 1));
+		objetos.add(new Esfera(21, cEsf2, new Color(255, 0, 0), 0, 1, 2));
 		
 		Point3d cEsf3 = new Point3d(0, 100, -1400);
 		cEsf3 = camaraAMundo.transformar(cEsf3);
-		objetos.add(new Esfera(21, cEsf3, new Color(150, 20, 189), 1));
+		objetos.add(new Esfera(21, cEsf3, new Color(150, 20, 189), 1, 0, 2));
 		
 		Point3d cEsf4 = new Point3d(-50, 100, -1400);
 		cEsf4 = camaraAMundo.transformar(cEsf4);
-		objetos.add(new Esfera(10, cEsf4, new Color(150, 189, 20), 1));
+		objetos.add(new Esfera(10, cEsf4, new Color(150, 189, 20), 1, 0, 2));
 		
 		Point3d cEsf5 = new Point3d(-41, 30, -1400);
 		cEsf5 = camaraAMundo.transformar(cEsf5);
-		objetos.add(new Esfera(21, cEsf5, new Color(20, 150, 189), 1));
+		objetos.add(new Esfera(21, cEsf5, new Color(20, 150, 189), 1, 0, 2));
 		
-		Point3d pPlanos = new Point3d(0, -0, -1550);
+		Point3d pPlanos = new Point3d(0, -25, -1550);
 		pPlanos = camaraAMundo.transformar(pPlanos);
 		
 		Vector3d n1 = new Vector3d(7, -3, 6);
 		n1 = camaraAMundo.transformar(n1);
-		objetos.add(new Plano(pPlanos, n1, new Color(0, 0, 255), 1));
+		objetos.add(new Plano(pPlanos, n1, new Color(0, 0, 255), 0.1, 0, 2));
 		
 		Vector3d n2 = new Vector3d(-7, -3, 6);
 		n2 = camaraAMundo.transformar(n2);
-		objetos.add(new Plano(pPlanos, n2, new Color(255, 0, 0), 1));
+		objetos.add(new Plano(pPlanos, n2, new Color(255, 0, 0), 0.1,0,2));
 		
-		Vector3d n3 = new Vector3d(0, 8, 4);
+		Vector3d n3 = new Vector3d(0, 1, 0.15);
 		n3 = camaraAMundo.transformar(n3);
-		objetos.add(new Plano(pPlanos, n3, new Color(255, 115, 0), 1));
+		objetos.add(new Plano(pPlanos, n3, new Color(255, 115, 0), 0.1,0,2));
 
 		iAmbiental = 0.08;
 
@@ -136,22 +136,26 @@ public class Trazador {
 		for (int i = 0; i < pantalla.getnC(); i++) {
 			for (int j = 0; j < pantalla.getnR(); j++) {
 				/*
-				 * Creamos el rayo primario del pixel i,j
+				 * Creamos el rayo primario del pixel [i,j]
 				 */
 				Rayo rayoPrimario = new Rayo(camara.getE(), pantalla.coordMundo[i][j]);
-				/*
-				 *  Disparamos el rayo primario a la escena y se comprueba si intersecta
-				 */  
-
-				if (i == 700 && j == 400) {
+			
+				if (i == 1040 && j == 510) {
 					System.out.println("melon");
 				}
 				
-				Color col = trazarRayo(rayoPrimario, 0, null);
-
+				/*
+				 * Lanzamos el rayo que sale del ojo y pasa por el pixel [i,j]
+				 */
+				Color col = trazarRayo(rayoPrimario, 0, null, false);
+				
+				/*
+				 * Asignamos el valor del color del pixel [i,j] en su posicion correspondiente
+				 */
 				pixels[i][j] = col;
 			}
 		}
+		
 		/*
 		 * Creacion y rellenado de la imagen 
 		 */
@@ -184,7 +188,7 @@ public class Trazador {
 	 * @return el Color del pixel
 	 * 
 	 */
-	private static Color trazarRayo(Rayo rayoPrincipal, int recursion, Objeto original) {
+	private static Color trazarRayo(Rayo rayoPrincipal, int recursion, Objeto original, boolean interno) {
 		/*
 		 * Por cada objeto se calcula con cual intersecta primer ( i.e. el mas
 		 * cercano)
@@ -198,9 +202,12 @@ public class Trazador {
 		 */
 		for (int k = 0; k < objetos.size(); k++) {
 			if (original == null || !original.equals(objetos.get(k))) {
+				if(objetos.get(k).esComplejo(){
+					
+				}
 				puntoColision = objetos.get(k).interseccion(rayoPrincipal);
 				if (puntoColision != null) {
-					double distancia = puntoColision.distance(camara.getE());
+					double distancia = puntoColision.distance(rayoPrincipal.getP0());
 					if (distancia < distanciaMin) {
 						distanciaMin = distancia;
 						objetoCol = objetos.get(k);
@@ -247,28 +254,28 @@ public class Trazador {
 				return objetoCol.getKd().aplicarIntensidad(iAmbiental);
 			} else {
 				/*
-				 * Declaraci�n, inicializaci�n y normalizaci�n de los
-				 * principales vectores para su uso en los pr�ximos c�lculos
+				 * Declaracion, inicializacion y normalizacion de los
+				 * principales vectores para su uso en los proximos calculos
 				 */
 				Vector3d N = new Vector3d(objetoCol.getN(puntoColisionFinal));
 				N.normalize();
-				Rayo alOjo = new Rayo(puntoColisionFinal, camara.getE());
-				Vector3d V = new Vector3d(alOjo.getD());
+				Rayo alOrigen = new Rayo(puntoColisionFinal, rayoPrincipal.getP0());
+				Vector3d V = new Vector3d(alOrigen.getD());
 				V.normalize();
 				Rayo aLaLuz = new Rayo(puntoColisionFinal, luz.getPunto());
 				Vector3d L = new Vector3d(aLaLuz.getD());
 				L.normalize();
 				Vector3d R = calcularReflejadoEspecular(L, N);
 				R.normalize();
-				Vector3d T = calcularRefractado(V, N, objetoCol.getIndiceRefraccion());
+				Vector3d T = calcularRefractado(V, N, objetoCol.getCoeficienteRefraccion(), rayoPrincipal);
 
 				/*
-				 * C�lculo de la intensidad difusa
+				 * Calculo de la intensidad difusa
 				 */
 				double iDifusa = luz.getBrillo() * (Math.cos(L.angle(N)));
 
 				/*
-				 * C�lculo de la intensidad especular
+				 * Calculo de la intensidad especular
 				 */
 				double iEspecular = 0;
 				if (iDifusa > 0) {
@@ -302,8 +309,18 @@ public class Trazador {
 				if (recursion < 3) {
 					Rayo rayoReflejado = new Rayo(calcularReflejado(rayoPrincipal.getD(), N), puntoColisionFinal);
 					recursion += 1;
-					Color nuevo = trazarRayo(rayoReflejado, recursion, objetoCol);
-					Color reducido = nuevo.aplicarIntensidad(objetoCol.getIndiceRefraccion());
+					Color nuevo = trazarRayo(rayoReflejado, recursion, objetoCol, false);
+					Color reducido = nuevo.aplicarIntensidad(objetoCol.getIndiceReflexion());
+					cl = cl.suma(reducido);
+					Rayo rayoRefractado = new Rayo(T, puntoColisionFinal);
+					recursion += 1;
+					if(objetoCol instanceof Esfera){
+						nuevo = trazarRayo(rayoRefractado, recursion, null, true);
+					} else {
+						nuevo = trazarRayo(rayoRefractado, recursion, objetoCol, true);
+					}
+					
+					reducido = nuevo.aplicarIntensidad(objetoCol.getIndiceRefraccion());
 					cl = cl.suma(reducido);
 				}
 				cl.normalizarColor();
@@ -328,19 +345,25 @@ public class Trazador {
 		return V;
 	}
 
-	private static Vector3d calcularRefractado(Vector3d i, Vector3d n, double indiceRefraccion) {
+	private static Vector3d calcularRefractado(Vector3d i, Vector3d n, double indiceRefraccion, Rayo rayoPrincipal) {
 		Vector3d N = new Vector3d(n);
 		Vector3d I = new Vector3d(i);
-		double nXi = N.dot(I);
+		double nXi = N.dot(I);;
 		// nr*(N*I)-sqrt(1-nr^2*(1-(N*I)^2))
-		double pO = indiceRefraccion * nXi - Math.sqrt(1 - (Math.pow(indiceRefraccion, 2) * (1 - Math.pow(nXi, 2))));
-		// ans*N
-		N.scale(pO);
-		// nr*I
-		I.scale(indiceRefraccion);
-		// ans*N-nr*I
-		N.sub(I);
-		return N;
+		double enRaiz = 1 - (Math.pow(indiceRefraccion, 2) * (1 - Math.pow(nXi, 2)));
+		if(enRaiz >= 0) {
+			double pO = (indiceRefraccion * nXi) - Math.sqrt(enRaiz);
+			// ans*N
+			N.scale(pO);
+			// nr*I
+			I.scale(indiceRefraccion);
+			// ans*N-nr*I
+			N.sub(I);			
+			return N;
+		} else {
+			return calcularReflejado(rayoPrincipal.getD(), N);
+		}
+	
 	}
 
 	private static Vector3d calcularReflejadoEspecular(Vector3d L, Vector3d n) {

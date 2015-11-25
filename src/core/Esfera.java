@@ -10,8 +10,8 @@ public class Esfera extends Objeto {
 	double radio;
 	Point3d centro;
 	
-	public Esfera(double radio, Point3d centro, Color kd, double refrac) {
-		super(kd, refrac);
+	public Esfera(double radio, Point3d centro, Color kd, double reflex, double iRefrac, double cRefrac) {
+		super(kd, reflex, iRefrac, cRefrac, true);
 		this.radio = radio;
 		this.centro = centro;
 	}

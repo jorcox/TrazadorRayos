@@ -8,8 +8,8 @@ public class Plano extends Objeto{
 	private Point3d p;
 	private Vector3d n;
 	
-	public Plano (Point3d p, Vector3d n, Color kd, double refrac) {
-		super(kd, n, refrac);
+	public Plano (Point3d p, Vector3d n, Color kd, double reflex, double iRefrac, double cRefrac) {
+		super(kd, n, reflex, iRefrac, cRefrac);
 		this.p = p;
 		this.n = n;
 	}
