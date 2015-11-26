@@ -68,6 +68,14 @@ public class Pantalla {
 	public int getnR() {
 		return nR;
 	}
+	
+	public double getVarU() {
+		return varU;
+	}
+	
+	public double getVarV() {
+		return varV;
+	}
 
 	public Point3d[][] getCoordCamara() {
 		return coordCamara;

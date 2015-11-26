@@ -74,6 +74,29 @@ public class Color {
 	public Color suma(Color col) {
 		return new Color(r + col.getRed(), g + col.getGreen(), b + col.getBlue());
 	}
+	
+	/**
+	 * @param colores Array de colores
+	 * @return un nuevo Color que resulta del promedio de
+	 * los colores del array, es decir, el promedio de rojo,
+	 * verde y azul.
+	 */
+	public static Color promedio(Color[] colores) {
+		int red = 0;
+		int green = 0;
+		int blue = 0;
+		
+		for (Color c: colores) {
+			red += c.getRed();
+			green += c.getGreen();
+			blue += c.getBlue();
+		}		
+		red /= colores.length;
+		green /= colores.length;
+		blue /= colores.length;
+		
+		return new Color(red, green, blue);
+	}
 
 	public void normalizarColor() {
 		int mayor = 0;

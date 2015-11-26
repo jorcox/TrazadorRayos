@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.vecmath.Point3d;
@@ -19,6 +20,7 @@ public class Trazador {
 	private static Camara camara = null;
 	private static Luz luz = null;
 	private static double iAmbiental = 0.0;
+	private static final int NUM_ANTIALIASING = 9;
 
 	public static void main(String[] args) {
 		Pantalla pantalla = null;
@@ -131,28 +133,31 @@ public class Trazador {
 		/*
 		 * Por cada pixel de la pantalla se lanza un rayo
 		 */
-		int cu = 0;
+		double varU = pantalla.getVarU();
+		double varV = pantalla.getVarV();
 		for (int i = 0; i < pantalla.getnC(); i++) {
 			for (int j = 0; j < pantalla.getnR(); j++) {
+				
+				Point3d pixel = pantalla.coordMundo[i][j];
+				Color[] colores = new Color[NUM_ANTIALIASING];
+				Random random = new Random();
 				/*
-				 * Creamos el rayo primario del pixel [i,j]
+				 * Traza varios rayos en el pixel para el antialiasing.
 				 */
-				Rayo rayoPrimario = new Rayo(camara.getE(), pantalla.coordMundo[i][j]);
-
-				if (i == 38 && j == 100) {
-					System.out.println("melon");
+				for (int k=0; k<NUM_ANTIALIASING; k++) {
+					double offsetX = random.nextDouble()*varU - varU/2;
+					double offsetY = random.nextDouble()*varV - varV/2;
+					Point3d nuevo = new Point3d(pixel.getX() + offsetX, pixel.getY() + offsetY, pixel.getZ());
+					Rayo rayo = new Rayo(camara.getE(), nuevo);
+					colores[k] = trazarRayo(rayo, 0, null, null, false);
 				}
-
-				/*
-				 * Lanzamos el rayo que sale del ojo y pasa por el pixel [i,j]
-				 */
-				Color col = trazarRayo(rayoPrimario, 0, null, null, false);
+				Color colorFinal = Color.promedio(colores);
 
 				/*
 				 * Asignamos el valor del color del pixel [i,j] en su posicion
 				 * correspondiente
 				 */
-				pixels[i][j] = col;
+				pixels[i][j] = colorFinal;
 			}
 		}
 
