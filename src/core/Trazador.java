@@ -21,6 +21,8 @@ public class Trazador {
 	private static Luz luz = null;
 	private static double iAmbiental = 0.0;
 	private static final int NUM_ANTIALIASING = 9;
+	private static final String NOMBRE_IMG = "imagen";
+	private static final String FORMATO_IMG = "png";
 
 	public static void main(String[] args) {
 		Pantalla pantalla = null;
@@ -161,6 +163,8 @@ public class Trazador {
 			}
 		}
 
+		Imagen.crearImagen(pantalla, pixels, NOMBRE_IMG, FORMATO_IMG);
+		
 		/*
 		 * Creacion y rellenado de la imagen
 		 */
