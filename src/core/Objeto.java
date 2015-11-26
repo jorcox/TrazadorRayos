@@ -16,7 +16,7 @@ public abstract class Objeto {
 	
 	public abstract Point3d interseccion(Rayo r);
 	
-	
+
 	public Objeto(Color kd, Vector3d n, double reflex, double iRefrac, double cRefrac) {
 		this.kd = kd;
 		this.ks = new Color(255,255,255);
@@ -71,5 +71,9 @@ public abstract class Objeto {
 
 	public boolean esComplejo() {
 		return this.esComplejo;
+	}
+	
+	public Point3d[] interseccionCompleja(Rayo r){
+		return new Point3d[]{new Point3d(0,0,0)};
 	}
 }
