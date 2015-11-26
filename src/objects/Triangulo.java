@@ -1,7 +1,10 @@
-package core;
+package objects;
 
 import javax.vecmath.Point3d;
 import javax.vecmath.Vector3d;
+
+import core.Color;
+import scene.Rayo;
 
 public class Triangulo extends Objeto{
 	private Point3d p1;

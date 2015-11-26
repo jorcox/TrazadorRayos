@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import javax.vecmath.Point3d;
 
+import objects.Triangulo;
+
 public class ImportadorObj {
 
 	public static void main(String[] args) {
@@ -20,7 +22,6 @@ public class ImportadorObj {
 		try {
 			Scanner obj = new Scanner(new File(fichero));
 			while (obj.hasNextLine()) {
-				String linea = obj.nextLine();
 				String v = obj.next();
 				switch (v) {
 				// vertices

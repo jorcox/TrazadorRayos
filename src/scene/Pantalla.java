@@ -1,8 +1,8 @@
-package core;
+package scene;
 
-import javax.vecmath.Matrix4d;
 import javax.vecmath.Point3d;
-import math.AlgebraLineal;
+
+import core.Transformacion;
 
 public class Pantalla {
 	private double l;
@@ -12,8 +12,8 @@ public class Pantalla {
 	private int nR;
 	private double varU;
 	private double varV;
-	Point3d[][] coordCamara;
-	Point3d[][] coordMundo;
+	private Point3d[][] coordCamara;
+	private Point3d[][] coordMundo;
 
 	public Pantalla(double l, double t, double f, int nC, int nR) {
 		this.l = l;
@@ -83,5 +83,13 @@ public class Pantalla {
 
 	public Point3d[][] getCoordMundo() {
 		return coordMundo;
+	}
+	
+	public Point3d getPuntoCoordCamara(int i, int j) {
+		return coordCamara[i][j];
+	}
+	
+	public Point3d getPuntoCoordMundo(int i, int j) {
+		return coordMundo[i][j];
 	}
 }

@@ -1,4 +1,4 @@
-package core;
+package scene;
 
 import javax.vecmath.Point3d;
 import javax.vecmath.Vector3d;
@@ -30,21 +30,21 @@ public class Camara {
 	public Point3d getE() {
 		return e;
 	}
-
+	
+	public Vector3d getG() {
+		return g;
+	}
 
 	public Vector3d getU() {
 		return u;
 	}
 
-
 	public Vector3d getV() {
 		return v;
 	}
 
-
 	public Vector3d getW() {
 		return w;
-	}
-	
+	}	
 	
 }

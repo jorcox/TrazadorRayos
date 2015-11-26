@@ -1,13 +1,18 @@
 package core;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
-import javax.imageio.ImageIO;
 import javax.vecmath.Point3d;
 import javax.vecmath.Vector3d;
+
+import objects.Esfera;
+import objects.Objeto;
+import objects.Plano;
+import scene.Camara;
+import scene.Luz;
+import scene.Pantalla;
+import scene.Rayo;
 
 public class Trazador {
 
@@ -136,7 +141,7 @@ public class Trazador {
 		for (int i = 0; i < pantalla.getnC(); i++) {
 			for (int j = 0; j < pantalla.getnR(); j++) {
 				
-				Point3d pixel = pantalla.coordMundo[i][j];
+				Point3d pixel = pantalla.getPuntoCoordMundo(i,j);
 				Color[] colores = new Color[NUM_ANTIALIASING];
 				Random random = new Random();
 				/*
@@ -159,28 +164,11 @@ public class Trazador {
 			}
 		}
 
-		Imagen.crearImagen(pantalla, pixels, NOMBRE_IMG, FORMATO_IMG);
-		
-		/*
-		 * Creacion y rellenado de la imagen
-		 */
-		BufferedImage img = new BufferedImage(anchura, altura, BufferedImage.TYPE_INT_RGB);
-		for (int i = 0; i < pantalla.getnC(); i++) {
-			for (int j = 0; j < pantalla.getnR(); j++) {
-				/*
-				 * Desplazamos los colores para introducirlos de la forma
-				 * RRRGGGBBB
-				 */
-				int col = (pixels[i][j].getRed() << 16) | (pixels[i][j].getGreen() << 8) | pixels[i][j].getBlue();
-				img.setRGB(i, j, col);
-			}
-		}
-		File outputfile = new File("imagen.png");
 		try {
-			ImageIO.write(img, "png", outputfile);
+			Imagen.crearImagen(pantalla, pixels, NOMBRE_IMG, FORMATO_IMG);
 		} catch (IOException e) {
-			System.out.println("Error en la creacion del fichero de la foto");
-		}
+			System.out.println("Error al crear la imagen.");
+		}		
 	}
 
 	/**
@@ -310,7 +298,6 @@ public class Trazador {
 				 * por el que esta viajando ahora el rayo y el medio del objeto
 				 * con el que hemos colisionado
 				 */
-				double coeficiente = 0.0;
 				double indiceOrigen = 0.0;
 				double indiceDestino = 0.0;
 				/*

@@ -3,6 +3,12 @@ package core;
 import javax.vecmath.Point3d;
 import javax.vecmath.Vector3d;
 
+import objects.Esfera;
+import objects.Plano;
+import objects.Triangulo;
+import scene.Luz;
+import scene.Pantalla;
+
 public class TrazadorUtils {
 	
 	public static Pantalla getPantalla(String[] orden) throws FicheroDatosException {
