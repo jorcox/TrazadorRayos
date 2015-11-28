@@ -1,9 +1,9 @@
-package core;
+package objects;
 
 import javax.vecmath.Point3d;
-import javax.vecmath.Point4d;
 import javax.vecmath.Vector3d;
-import javax.vecmath.Vector4d;
+import core.Color;
+import scene.Rayo;
 
 public class Esfera extends Objeto {
 	

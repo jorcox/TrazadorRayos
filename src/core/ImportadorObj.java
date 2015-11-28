@@ -11,6 +11,9 @@ import javax.vecmath.Point3d;
 
 import math.AlgebraLineal;
 
+import objects.Triangulo;
+import scene.Camara;
+
 public class ImportadorObj {
 
 	public static ArrayList<Triangulo> leerFigura(String fichero, Camara cam) {
@@ -20,7 +23,6 @@ public class ImportadorObj {
 		try {
 			Scanner obj = new Scanner(new File(fichero));
 			while (obj.hasNextLine()) {
-				//String linea = obj.nextLine();
 				String v = obj.next();
 				switch (v) {
 				// vertices
