@@ -41,15 +41,22 @@ public class ImportadorObj {
 					Matrix4d matrizAlejar = new Matrix4d(1, 0, 0, 0,
 							0, 1, 0, 0,
 							0, 0, 1, 0,
-							0, 0, 30, 1);
+							0, 0, -1000, 1);
+					Matrix4d matrizAumentar = new Matrix4d(50, 0, 0, 0,
+							0, 50, 0, 0,
+							0, 0, 50, 0,
+							0, 0, 0, 1);
 					Matrix4d matrizCamaraMundo = Transformacion.obtenerMatrizCamaraMundo(cam);
+					p1 = AlgebraLineal.multiplicar(p1, matrizAumentar);
+					p2 = AlgebraLineal.multiplicar(p2, matrizAumentar);
+					p3 = AlgebraLineal.multiplicar(p3, matrizAumentar);
 					p1 = AlgebraLineal.multiplicar(p1, matrizAlejar);
 					p2 = AlgebraLineal.multiplicar(p2, matrizAlejar);
 					p3 = AlgebraLineal.multiplicar(p3, matrizAlejar);
 					p1 = AlgebraLineal.multiplicar(p1, matrizCamaraMundo);
 					p2 = AlgebraLineal.multiplicar(p2, matrizCamaraMundo);
 					p3 = AlgebraLineal.multiplicar(p3, matrizCamaraMundo);
-					Triangulo t = new Triangulo(p1,p3,p2,new Color(255,0,0),0,0,1.3333333333);
+					Triangulo t = new Triangulo(p1,p2,p3,new Color(255,0,0),0,0,1.3333333333);
 					caras.add(t);
 					break;
 				}

@@ -78,8 +78,8 @@ public class Trazador {
 		/*
 		 * Inicializacion de algunos elementos
 		 */
-		int anchura = 1920;
-		int altura = 1080;
+		int anchura = 720;
+		int altura = 480;
 		pantalla = new Pantalla(60, 33.75, 200, anchura, altura);
 		pixels = new Color[anchura][altura];
 		ojo = new Point3d(0, 0, 0);
@@ -89,7 +89,7 @@ public class Trazador {
 
 		Transformacion camaraAMundo = Transformacion.getCameraToWorldMatrix(camara);
 
-		Point3d pLuz = new Point3d(0, 0, -1200);
+		Point3d pLuz = new Point3d(0, 0, -0);
 		pLuz = camaraAMundo.transformar(pLuz);
 		luz = new Luz(pLuz, 1);
 
@@ -138,8 +138,10 @@ public class Trazador {
 		
 		ArrayList<Triangulo> lista = ImportadorObj.leerFigura("Pommy.obj", camara);
 		
-		objetos.add(lista.get(37));
 		
+		objetos.addAll(lista);
+		//objetos.add(lista.get(64));
+		//objetos.add(lista.get(68));
 		
 
 		iAmbiental = 0.08;
@@ -162,8 +164,9 @@ public class Trazador {
 				/*
 				 * Traza varios rayos en el pixel para el antialiasing.
 				 */
-				if(i==960 && j==600){
-					System.out.println("·melon"); 
+				int cuenta = 0;
+				if(i==158 && j==250){
+					cuenta++;
 				}
 				for (int k=0; k<NUM_ANTIALIASING; k++) {
 					double offsetX = random.nextDouble()*varU - varU/2;
@@ -283,6 +286,7 @@ public class Trazador {
 						double distanciaAObjetoColisionado = puntoColisionSombra.distance(puntoColisionFinal);
 						if (distanciaALuz > distanciaAObjetoColisionado) {
 							esSombra = true;
+							
 						}
 					}
 				}
