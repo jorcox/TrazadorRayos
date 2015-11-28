@@ -87,7 +87,7 @@ public class Trazador {
 		camara = new Camara(ojo, g);
 		pantalla.calcularCoordenadasCamaraYMundo(camara);
 
-		Transformacion camaraAMundo = Transformacion.getCameraToWorldMatrix(camara);
+		Transformacion camaraAMundo = Transformacion.getMatrizCamaraMundo(camara);
 
 		Point3d pLuz = new Point3d(0, 0, -0);
 		pLuz = camaraAMundo.transformar(pLuz);
@@ -113,13 +113,13 @@ public class Trazador {
 		cEsf5 = camaraAMundo.transformar(cEsf5);
 		objetos.add(new Esfera(21, cEsf5, new Color(20, 150, 189), 1, 0, 2));
 		
-		Point3d p1 = new Point3d(0, 0, -1300);
-		Point3d p2 = new Point3d(-20, -20, -1300);
+		Point3d p1 = new Point3d(0, 20, -1300);
+		Point3d p2 = new Point3d(-40, -20, -1300);
 		Point3d p3 = new Point3d(+20, -20, -1300);
 		p1 = camaraAMundo.transformar(p1);
 		p2 = camaraAMundo.transformar(p2);
 		p3 = camaraAMundo.transformar(p3);
-		objetos.add(new Triangulo(p1,p3,p2, new Color(255, 0, 0), 1, 0, 2));
+		//objetos.add(new Triangulo(p1,p3,p2, new Color(255, 0, 0), 1, 0, 2));
 		
 		Point3d p11 = new Point3d(0, 30, -1350);
 		Point3d p22 = new Point3d(-50, -50, -1350);
@@ -127,7 +127,7 @@ public class Trazador {
 		p11 = camaraAMundo.transformar(p11);
 		p22 = camaraAMundo.transformar(p22);
 		p33 = camaraAMundo.transformar(p33);
-		objetos.add(new Triangulo(p11,p33,p22, new Color(0, 255, 0), 1, 0, 2));
+		//objetos.add(new Triangulo(p11,p33,p22, new Color(0, 255, 0), 1, 0, 2));
 
 		Point3d pPlanos = new Point3d(0, -25, -1550);
 		pPlanos = camaraAMundo.transformar(pPlanos);
@@ -144,13 +144,8 @@ public class Trazador {
 		n3 = camaraAMundo.transformar(n3);
 		objetos.add(new Plano(pPlanos, n3, new Color(255, 115, 0), 0.1, 0, 2));
 		
-		ArrayList<Triangulo> lista = ImportadorObj.leerFigura("Pommy.obj", camara);
-		
-		
-		//objetos.addAll(lista);
-		//objetos.add(lista.get(64));
-		//objetos.add(lista.get(68));
-		
+		ArrayList<Triangulo> lista = ImportadorObj.leerFigura("Pommy.obj", camara);		
+		objetos.addAll(lista);
 
 		iAmbiental = 0.08;
 
@@ -169,13 +164,10 @@ public class Trazador {
 				Point3d pixel = pantalla.getPuntoCoordMundo(i,j);
 				Color[] colores = new Color[NUM_ANTIALIASING];
 				Random random = new Random();
+				
 				/*
 				 * Traza varios rayos en el pixel para el antialiasing.
 				 */
-				int cuenta = 0;
-				if(i==158 && j==250){
-					cuenta++;
-				}
 				for (int k=0; k<NUM_ANTIALIASING; k++) {
 					double offsetX = random.nextDouble()*varU - varU/2;
 					double offsetY = random.nextDouble()*varV - varV/2;
@@ -328,7 +320,6 @@ public class Trazador {
 				 * por el que esta viajando ahora el rayo y el medio del objeto
 				 * con el que hemos colisionado
 				 */
-				double coeficiente = 0.0;
 				double indiceOrigen = 0.0;
 				double indiceDestino = 0.0;
 				/*

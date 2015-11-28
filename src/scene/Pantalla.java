@@ -43,7 +43,7 @@ public class Pantalla {
 			for(int j = 0; j < nR; j++){
 				Point3d punto = new Point3d((i-mColumnas)*varU, (-j+mFilas)*varV, -f);
 				coordCamara[i][j] = punto;
-				Transformacion cameraToWorld = Transformacion.getCameraToWorldMatrix(cam);
+				Transformacion cameraToWorld = Transformacion.getMatrizCamaraMundo(cam);
 				coordMundo[i][j] = cameraToWorld.transformar(punto);
 			}
 		}
