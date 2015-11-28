@@ -2,8 +2,6 @@ package objects;
 
 import javax.vecmath.Point3d;
 import javax.vecmath.Vector3d;
-import javax.vecmath.Vector4d;
-
 import core.Color;
 import scene.Rayo;
 
@@ -42,19 +40,6 @@ public class Triangulo extends Objeto {
 		this.p1 = new Point3d(p1);
 		this.p2 = new Point3d(p2);
 		this.p3 = new Point3d(p3);
-//		/*
-//		 * Calculo de la normal n
-//		 */
-//		Point3d aux2 = new Point3d(this.p2);
-//		Point3d aux3 = new Point3d(this.p3);
-//
-//		aux2.sub(p1);
-//		aux3.sub(p1);
-//		Vector3d vec12 = new Vector3d(aux2);
-//		Vector3d vec13 = new Vector3d(aux3);
-//		n = new Vector3d(vec12);
-//		n.cross(vec12, vec13);
-//		// n.negate();
 		super.setN(n);
 	}
 
@@ -64,7 +49,7 @@ public class Triangulo extends Objeto {
 		Vector3d d = new Vector3d(r.getD());
 		Point3d p = new Point3d(this.p1);
 		double inf = d.dot(this.n);
-		if (inf != 0) {
+		if (inf < 0) {
 			/*
 			 * La normal del triangulo y el rayo van en sentidos inveros,
 			 * entonces intersectan
