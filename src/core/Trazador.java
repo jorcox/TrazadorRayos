@@ -113,21 +113,21 @@ public class Trazador {
 		cEsf5 = camaraAMundo.transformar(cEsf5);
 		objetos.add(new Esfera(21, cEsf5, new Color(20, 150, 189), 1, 0, 2));
 		
-		Point3d p1 = new Point3d(0, 0, -1300);
-		Point3d p2 = new Point3d(-20, -20, -1300);
-		Point3d p3 = new Point3d(+20, -20, -1300);
-		p1 = camaraAMundo.transformar(p1);
-		p2 = camaraAMundo.transformar(p2);
-		p3 = camaraAMundo.transformar(p3);
-		objetos.add(new Triangulo(p1,p3,p2, new Color(255, 0, 0), 1, 0, 2));
-		
-		Point3d p11 = new Point3d(0, 30, -1350);
-		Point3d p22 = new Point3d(-50, -50, -1350);
-		Point3d p33 = new Point3d(+50, -50, -1350);
-		p11 = camaraAMundo.transformar(p11);
-		p22 = camaraAMundo.transformar(p22);
-		p33 = camaraAMundo.transformar(p33);
-		objetos.add(new Triangulo(p11,p33,p22, new Color(0, 255, 0), 1, 0, 2));
+//		Point3d p1 = new Point3d(0, 0, -1300);
+//		Point3d p2 = new Point3d(-20, -20, -1300);
+//		Point3d p3 = new Point3d(+20, -20, -1300);
+//		p1 = camaraAMundo.transformar(p1);
+//		p2 = camaraAMundo.transformar(p2);
+//		p3 = camaraAMundo.transformar(p3);
+//		objetos.add(new Triangulo(p1,p3,p2, new Color(255, 0, 0), 1, 0, 2));
+//		
+//		Point3d p11 = new Point3d(0, 30, -1350);
+//		Point3d p22 = new Point3d(-50, -50, -1350);
+//		Point3d p33 = new Point3d(+50, -50, -1350);
+//		p11 = camaraAMundo.transformar(p11);
+//		p22 = camaraAMundo.transformar(p22);
+//		p33 = camaraAMundo.transformar(p33);
+//		objetos.add(new Triangulo(p11,p33,p22, new Color(0, 255, 0), 1, 0, 2));
 
 		Point3d pPlanos = new Point3d(0, -25, -1550);
 		pPlanos = camaraAMundo.transformar(pPlanos);
@@ -148,9 +148,9 @@ public class Trazador {
 		
 		
 		//objetos.addAll(lista);
-		//objetos.add(lista.get(64));
-		//objetos.add(lista.get(68));
-		
+		objetos.add(lista.get(24));   //detras
+		objetos.add(lista.get(25));   // delante
+
 
 		iAmbiental = 0.08;
 
@@ -173,7 +173,7 @@ public class Trazador {
 				 * Traza varios rayos en el pixel para el antialiasing.
 				 */
 				int cuenta = 0;
-				if(i==158 && j==250){
+				if(i==130 && j==240){
 					cuenta++;
 				}
 				for (int k=0; k<NUM_ANTIALIASING; k++) {

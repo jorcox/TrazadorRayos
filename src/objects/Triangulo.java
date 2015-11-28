@@ -16,30 +16,45 @@ public class Triangulo extends Objeto {
 		this.p1 = p1;
 		this.p2 = p2;
 		this.p3 = p3;
-		Vector3d vector1 = new Vector3d();
-		Vector3d vector2 = new Vector3d();
+//		Vector3d vector1 = new Vector3d();
+//		Vector3d vector2 = new Vector3d();
+//		/*
+//		 * Calculas los dos vectores que salen del punto uno para poder calcular
+//		 * la normal
+//		 */
+//		vector1.x = p2.x - p1.x;
+//		vector1.y = p2.y - p1.y;
+//		vector1.z = p2.z - p1.z;
+//		vector2.x = p3.x - p1.x;
+//		vector2.y = p3.y - p1.y;
+//		vector2.z = p3.z - p1.z;
+//		/*
+//		 * Ahora el calculo de la normal es el producto vectorial de los dos
+//		 * vectores recien calculados
+//		 */
+//		Vector3d normal = new Vector3d();
+//		normal.cross(vector2, vector1);
+//		Vector3d solucion = normal;
+//		solucion.normalize();
+//		this.n = new Vector3d(solucion.x, solucion.y, solucion.z);
+//		this.p1 = new Point3d(p1);
+//		this.p2 = new Point3d(p2);
+//		this.p3 = new Point3d(p3);
+//		super.setN(n);
+//		
 		/*
-		 * Calculas los dos vectores que salen del punto uno para poder calcular
-		 * la normal
+		 * Calculo de la normal n
 		 */
-		vector1.x = p2.x - p1.x;
-		vector1.y = p2.y - p1.y;
-		vector1.z = p2.z - p1.z;
-		vector2.x = p3.x - p1.x;
-		vector2.y = p3.y - p1.y;
-		vector2.z = p3.z - p1.z;
-		/*
-		 * Ahora el calculo de la normal es el producto vectorial de los dos
-		 * vectores recien calculados
-		 */
-		Vector3d normal = new Vector3d();
-		normal.cross(vector2, vector1);
-		Vector3d solucion = normal;
-		solucion.normalize();
-		this.n = new Vector3d(solucion.x, solucion.y, solucion.z);
-		this.p1 = new Point3d(p1);
-		this.p2 = new Point3d(p2);
-		this.p3 = new Point3d(p3);
+		Point3d aux2 = new Point3d(this.p2);
+		Point3d aux3 = new Point3d(this.p3);
+
+		aux2.sub(p1);
+		aux3.sub(p1);
+		Vector3d vec12 = new Vector3d(aux2);
+		Vector3d vec13 = new Vector3d(aux3);
+		n = new Vector3d(vec12);
+		n.cross(vec12, vec13);
+		// n.negate();
 		super.setN(n);
 	}
 
