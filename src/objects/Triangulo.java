@@ -60,67 +60,6 @@ public class Triangulo extends Objeto {
 
 	@Override
 	public Point3d interseccion(Rayo r) {
-		// Vector3d N = new Vector3d(this.n);
-		// // intersecta con el plano en el que esta el triangulo
-		// // calculamos el punto de interseccion de ese plano
-		// // numerador=(p1-a)* n
-		// Vector3d vectorTriangulo = new Vector3d();
-		// vectorTriangulo.sub(this.p1, r.getP0());
-		// double numerador = vectorTriangulo.dot(N);
-		// double landa = 0.0;
-		// if (numerador != 0.0) {
-		// // denominador=(d * n)
-		// double denominador = r.getD().dot(N);
-		// landa = numerador / denominador;
-		// }
-		// // comprobar si rayo(landa) se encuentra dentro
-		// // de los parametros del triangulo
-		// Point3d p = r.getPunto(landa);
-		// // comprobamos que tienen el mismo signo
-		// // S1=((p2-p1)x(p-p1)) * n
-		// Vector3d aux = new Vector3d();
-		// Vector3d aux2 = new Vector3d();
-		// Vector3d aux3 = new Vector3d();
-		// aux.sub(this.p2, this.p1);
-		// aux2.sub(p, this.p1);
-		// aux3.cross(aux2, aux3);
-		// double S1 = aux3.dot(N);
-		//
-		// // S2=((p3-p2)x(p-p2))* n
-		// aux = new Vector3d();
-		// aux2 = new Vector3d();
-		// aux3 = new Vector3d();
-		// aux.sub(this.p3, this.p2);
-		// aux2.sub(p, this.p2);
-		// aux3.cross(aux2, aux3);
-		// double S2 = aux3.dot(N);
-		//
-		// // S1=((p1-p3)x(p-p3)) * n
-		// aux = new Vector3d();
-		// aux2 = new Vector3d();
-		// aux3 = new Vector3d();
-		// aux.sub(this.p1, this.p3);
-		// aux2.sub(p, this.p3);
-		// aux3.cross(aux2, aux3);
-		// double S3 = aux3.dot(N);
-		//
-		// // else no intersecta con el triangulo
-		// double casos = r.getD().dot(N);
-		// if (casos < 0.0) {
-		// if (landa >= 0.0) {
-		// if ((S1 >= 0 && S2 >= 0 && S3 >= 0) || (S1 <= 0 && S2 <= 0 && S3 <=
-		// 0)) {
-		// // esta dentro del triangulo
-		// // System.out.println(landa);
-		// return r.getPunto(landa);
-		// }
-		// // else no da en el triangulo
-		// }
-		// // else no se ve
-		// }
-		// // else no intersecta
-		// return null;
-		// }
 
 		Vector3d d = new Vector3d(r.getD());
 		Point3d p = new Point3d(this.p1);
