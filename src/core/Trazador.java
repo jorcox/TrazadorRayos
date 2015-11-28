@@ -16,7 +16,7 @@ public class Trazador {
 	private static Camara camara = null;
 	private static Luz luz = null;
 	private static double iAmbiental = 0.0;
-	private static final int NUM_ANTIALIASING = 9;
+	private static final int NUM_ANTIALIASING = 1;
 
 	public static void main(String[] args) {
 		Pantalla pantalla = null;
@@ -81,7 +81,7 @@ public class Trazador {
 
 		Transformacion camaraAMundo = Transformacion.getCameraToWorldMatrix(camara);
 
-		Point3d pLuz = new Point3d(0, 100, -1350);
+		Point3d pLuz = new Point3d(0, 0, -1200);
 		pLuz = camaraAMundo.transformar(pLuz);
 		luz = new Luz(pLuz, 1);
 
@@ -104,6 +104,14 @@ public class Trazador {
 		Point3d cEsf5 = new Point3d(-41, 30, -1400);
 		cEsf5 = camaraAMundo.transformar(cEsf5);
 		objetos.add(new Esfera(21, cEsf5, new Color(20, 150, 189), 1, 0, 2));
+		
+//		Point3d p1 = new Point3d(0, 0, -1300);
+//		Point3d p2 = new Point3d(-20, -20, -1300);
+//		Point3d p3 = new Point3d(+20, -20, -1300);
+//		p1 = camaraAMundo.transformar(p1);
+//		p2 = camaraAMundo.transformar(p2);
+//		p3 = camaraAMundo.transformar(p3);
+//		objetos.add(new Triangulo(p1,p2,p3, new Color(255, 0, 0), 1, 0, 2));
 
 		Point3d pPlanos = new Point3d(0, -25, -1550);
 		pPlanos = camaraAMundo.transformar(pPlanos);
@@ -119,6 +127,12 @@ public class Trazador {
 		Vector3d n3 = new Vector3d(0, 1, 0.15);
 		n3 = camaraAMundo.transformar(n3);
 		objetos.add(new Plano(pPlanos, n3, new Color(255, 115, 0), 0.1, 0, 2));
+		
+		ArrayList<Triangulo> lista = ImportadorObj.leerFigura("Pommy.obj", camara);
+		
+		objetos.add(lista.get(37));
+		
+		
 
 		iAmbiental = 0.08;
 
@@ -140,6 +154,9 @@ public class Trazador {
 				/*
 				 * Traza varios rayos en el pixel para el antialiasing.
 				 */
+				if(i==960 && j==600){
+					System.out.println("·melon"); 
+				}
 				for (int k=0; k<NUM_ANTIALIASING; k++) {
 					double offsetX = random.nextDouble()*varU - varU/2;
 					double offsetY = random.nextDouble()*varV - varV/2;

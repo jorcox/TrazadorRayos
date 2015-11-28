@@ -1,7 +1,10 @@
 package core;
 
+import javax.vecmath.Matrix4d;
 import javax.vecmath.Point3d;
 import javax.vecmath.Vector3d;
+
+import math.AlgebraLineal;
 
 public class Triangulo extends Objeto{
 	private Point3d p1;
@@ -27,6 +30,7 @@ public class Triangulo extends Objeto{
 		Vector3d vec13 = new Vector3d(aux3);
 		n = new Vector3d(vec12);
 		n.cross(vec12, vec13);
+		//n.negate();
 		super.setN(n);
 	}
 	
@@ -35,7 +39,7 @@ public class Triangulo extends Objeto{
 		Vector3d d = new Vector3d(r.getD());
 		Point3d p = new Point3d(this.p1);
 		double inf = d.dot(this.n);
-		if (inf < 0){
+		if (inf != 0){
 			/*
 			 * La normal del triangulo y el rayo van en sentidos inveros, entonces 
 			 * intersectan
@@ -81,6 +85,7 @@ public class Triangulo extends Objeto{
 			else
 				return null;
 		} else {
+			
 			/*
 			 * El rayo no intersecta, se devuelve null ( inf == 0)
 			 * o 
@@ -94,5 +99,4 @@ public class Triangulo extends Objeto{
 	public Vector3d getN(){
 		return this.n;
 	}
-
 }

@@ -29,6 +29,14 @@ public class Transformacion {
 		return new Transformacion(m);
 	}
 	
+	public static Matrix4d obtenerMatrizCamaraMundo(Camara cam) {
+		Matrix4d m = new Matrix4d(cam.getU().x,cam.getU().y,cam.getU().z,0,
+									cam.getV().x,cam.getV().y,cam.getV().z,0,
+									cam.getW().x,cam.getW().y,cam.getW().z,0,
+									cam.getE().x,cam.getE().y,cam.getE().z,1);
+		return m;
+	}
+	
 	public Point3d transformar(Point3d p) {
 		Point3d res = AlgebraLineal.multiplicar(p, m);
 		return res;
