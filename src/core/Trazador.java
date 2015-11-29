@@ -7,10 +7,9 @@ import javax.vecmath.Point3d;
 import javax.vecmath.Vector3d;
 
 import objects.Esfera;
-import objects.Triangulo;
 import objects.Objeto;
-import objects.Plano;
 import scene.Camara;
+import scene.DatosEscena;
 import scene.Luz;
 import scene.Pantalla;
 import scene.Rayo;
@@ -28,130 +27,32 @@ public class Trazador {
 
 	public static void main(String[] args) {
 		Pantalla pantalla = null;
-		Point3d ojo = null;
-		Vector3d g = null;
-
-		int pixelsX = 0;
-		int pixelsY = 0;
 		Color[][] pixels = null;
 
 		/* Procesar fichero y crear objetos */
-		/*
-		 * if (args[0]!=null) { try { File fichero = new File(args[0]);
-		 * BufferedReader reader = new BufferedReader(new FileReader(fichero));
-		 * ArrayList<String[]> lineas = new ArrayList<String[]>();
-		 *
-		 * String linea = reader.readLine(); while (linea != null) {
-		 * lineas.add(linea.split(" ")); linea = reader.readLine(); }
-		 * reader.close();
-		 *
-		 * for (String[] orden: lineas) { if (orden[0].equals("pantalla")) {
-		 * pantalla = TrazadorUtils.getPantalla(orden); pixelsX =
-		 * Integer.parseInt(orden[4]); pixelsY = Integer.parseInt(orden[5]); }
-		 * else if (orden[0].equals("ojo")) { ojo = TrazadorUtils.getOjo(orden);
-		 * } else if (orden[0].equals("g")) { g = TrazadorUtils.getG(orden); }
-		 * else if (orden[0].equals("plano")) { Plano plano =
-		 * TrazadorUtils.getPlano(orden); objetos.add(plano); } else if
-		 * (orden[0].equals("triangulo")) { Triangulo triangulo =
-		 * TrazadorUtils.getTriangulo(orden); objetos.add(triangulo); } else if
-		 * (orden[0].equals("esfera")) { Esfera esfera =
-		 * TrazadorUtils.getEsfera(orden); objetos.add(esfera); } else if
-		 * (orden[0].equals("luz")) { luz = TrazadorUtils.getLuz(orden); } }
-		 *
-		 * camara = new Camara(ojo, g); pixels = new Color[pixelsX][pixelsY];
-		 * pantalla.calcularCoordenadasCamaraYMundo(camara); } catch
-		 * (FileNotFoundException e) { System.out.println(
-		 * "Error: fichero de datos no encontrado"); System.exit(1); } catch
-		 * (FicheroDatosException e) { System.out.println(
-		 * "Error: fichero de datos introducido incorrectamente");
-		 * System.exit(1); } catch (Exception e) { System.out.println(
-		 * "Error: problema con el fichero de datos"); System.exit(1); } } else
-		 * { System.out.println("Error: no ha introducido un fichero de datos");
-		 * System.exit(1); }
-		 */
-
-		/*
-		 * Inicializacion de el ArrayList de objetos
-		 */
-		objetos = new ArrayList<Objeto>();
-
-		/*
-		 * Inicializacion de algunos elementos
-		 */
-		int anchura = 720;
-		int altura = 480;
-		pantalla = new Pantalla(60, 33.75, 200, anchura, altura);
-		pixels = new Color[anchura][altura];
-		ojo = new Point3d(0, 0, 0);
-		g = new Vector3d(1, 1, 1);
-		camara = new Camara(ojo, g);
-		pantalla.calcularCoordenadasCamaraYMundo(camara);
-
-		Transformacion camaraAMundo = Transformacion.getMatrizCamaraMundo(camara);
-
-		Point3d pLuz = new Point3d(0, 0, -0);
-		pLuz = camaraAMundo.transformar(pLuz);
-		luz = new Luz(pLuz, 1);
-
-		Point3d cEsf1 = new Point3d(-170, -40, -1325);
-		cEsf1 = camaraAMundo.transformar(cEsf1);
-		objetos.add(new Esfera(15, cEsf1, new Color(0, 255, 0), 0, 1, 1.52));
-
-		Point3d cEsf2 = new Point3d(0, 10, -1400);
-		cEsf2 = camaraAMundo.transformar(cEsf2);
-		objetos.add(new Esfera(21, cEsf2, new Color(0, 0, 0), 1, 0, 1.52));
-
-		Point3d cEsf3 = new Point3d(0, 100, -1400);
-		cEsf3 = camaraAMundo.transformar(cEsf3);
-		objetos.add(new Esfera(21, cEsf3, new Color(150, 20, 189), 1, 0, 0.75));
-
-		Point3d cEsf4 = new Point3d(-50, 100, -1400);
-		cEsf4 = camaraAMundo.transformar(cEsf4);
-		objetos.add(new Esfera(10, cEsf4, new Color(150, 189, 20), 1, 0, 2));
-
-		Point3d cEsf5 = new Point3d(-41, 30, -1400);
-		cEsf5 = camaraAMundo.transformar(cEsf5);
-		objetos.add(new Esfera(21, cEsf5, new Color(20, 150, 189), 1, 0, 2));
-		
-		Point3d p1 = new Point3d(0, 20, -1300);
-		Point3d p2 = new Point3d(-40, -20, -1300);
-		Point3d p3 = new Point3d(+20, -20, -1300);
-		p1 = camaraAMundo.transformar(p1);
-		p2 = camaraAMundo.transformar(p2);
-		p3 = camaraAMundo.transformar(p3);
-		//objetos.add(new Triangulo(p1,p3,p2, new Color(255, 0, 0), 1, 0, 2));
-		
-		Point3d p11 = new Point3d(0, 30, -1350);
-		Point3d p22 = new Point3d(-50, -50, -1350);
-		Point3d p33 = new Point3d(+50, -50, -1350);
-		p11 = camaraAMundo.transformar(p11);
-		p22 = camaraAMundo.transformar(p22);
-		p33 = camaraAMundo.transformar(p33);
-		//objetos.add(new Triangulo(p11,p33,p22, new Color(0, 255, 0), 1, 0, 2));
-
-		Point3d pPlanos = new Point3d(0, -25, -1550);
-		pPlanos = camaraAMundo.transformar(pPlanos);
-
-		Vector3d n1 = new Vector3d(7, -3, 6);
-		n1 = camaraAMundo.transformar(n1);
-		objetos.add(new Plano(pPlanos, n1, new Color(0, 0, 255), 0.1, 0, 2));
-
-		Vector3d n2 = new Vector3d(-7, -3, 6);
-		n2 = camaraAMundo.transformar(n2);
-		objetos.add(new Plano(pPlanos, n2, new Color(255, 0, 0), 0.1, 0, 2));
-
-		Vector3d n3 = new Vector3d(0, 1, 0.15);
-		n3 = camaraAMundo.transformar(n3);
-		objetos.add(new Plano(pPlanos, n3, new Color(255, 115, 0), 0.1, 0, 2));
-		
-		ArrayList<Triangulo> lista = ImportadorObj.leerFigura("Pommy.obj", camara);		
-		objetos.addAll(lista);
-
-		iAmbiental = 0.08;
-
-		/*
-		 * FIN DE PRUEBAS
-		 */
+		if (args.length >= 1) {
+			try {
+				DatosEscena datos = TrazadorUtils.cargarObjetos(args[0]);
+				if (datos == null) {
+					System.out.println("Error en el fichero de datos");
+					System.exit(1);
+				}
+				objetos = datos.getObjetos();
+				iAmbiental = datos.getAmbiental();
+				pantalla = datos.getPantalla();
+				camara = datos.getCamara();
+				luz = datos.getLuz();
+				pixels = new Color[pantalla.getnC()][pantalla.getnR()];
+				pantalla.calcularCoordenadasCamaraYMundo(camara);
+				
+			} catch(Exception e) {
+				System.out.println("Error en la entrada de datos");
+				System.exit(1);
+			}		
+		} else {
+			System.out.println("Error: no ha introducido un fichero de datos");
+			System.exit(1);
+		}
 
 		/*
 		 * Por cada pixel de la pantalla se lanza un rayo
