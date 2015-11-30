@@ -47,6 +47,13 @@ public class ImportadorObj {
 							0, 0, 50, 0,
 							0, 0, 0, 1);
 					Matrix4d matrizCamaraMundo = Transformacion.obtenerMatrizCamaraMundo(cam);
+					Matrix4d matrizGiro = new Matrix4d(0.7071, 0, -0.7071, 0,
+							0, 1, 0, 0,
+							0.7071, 0, 0.7071, 0,
+							0, 0, 0, 1);
+//					p1 = AlgebraLineal.multiplicar(p1, matrizGiro);
+//					p2 = AlgebraLineal.multiplicar(p2, matrizGiro);
+//					p3 = AlgebraLineal.multiplicar(p3, matrizGiro);
 					p1 = AlgebraLineal.multiplicar(p1, matrizAumentar);
 					p2 = AlgebraLineal.multiplicar(p2, matrizAumentar);
 					p3 = AlgebraLineal.multiplicar(p3, matrizAumentar);

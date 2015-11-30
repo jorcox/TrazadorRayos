@@ -55,6 +55,8 @@ public class Triangulo extends Objeto {
 		n = new Vector3d(vec12);
 		n.cross(vec12, vec13);
 		// n.negate();
+
+		n.normalize();
 		super.setN(n);
 	}
 
@@ -64,7 +66,7 @@ public class Triangulo extends Objeto {
 		Vector3d d = new Vector3d(r.getD());
 		Point3d p = new Point3d(this.p1);
 		double inf = d.dot(this.n);
-		if (inf < 0) {
+		if (inf != 0) {
 			/*
 			 * La normal del triangulo y el rayo van en sentidos inveros,
 			 * entonces intersectan
@@ -105,10 +107,13 @@ public class Triangulo extends Objeto {
 			mPN = new Vector3d();
 			mPN.cross(a, b);
 			double s3 = mPN.dot(n);
-			if ((s1 > 0 && s2 > 0 && s3 > 0) || (s1 < 0 && s2 < 0 && s3 < 0))
-				return p = new Point3d(r.getPunto(sup / inf));
-			else
+			if ((s1 > 0 && s2 > 0 && s3 > 0) || (s1 < 0 && s2 < 0 && s3 < 0)){			
+			p = new Point3d(r.getPunto(sup/inf));
+			return p;
+			}
+			else{
 				return null;
+			}
 		} else {
 
 			/*

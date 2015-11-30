@@ -89,7 +89,7 @@ public class Trazador {
 
 		Transformacion camaraAMundo = Transformacion.getCameraToWorldMatrix(camara);
 
-		Point3d pLuz = new Point3d(0, 0, -0);
+		Point3d pLuz = new Point3d(0, 50, -1200);
 		pLuz = camaraAMundo.transformar(pLuz);
 		luz = new Luz(pLuz, 1);
 
@@ -147,9 +147,9 @@ public class Trazador {
 		ArrayList<Triangulo> lista = ImportadorObj.leerFigura("Pommy.obj", camara);
 		
 		
-		//objetos.addAll(lista);
-		objetos.add(lista.get(24));   //detras
-		objetos.add(lista.get(25));   // delante
+		objetos.addAll(lista);
+		//objetos.add(lista.get(24));   //detras
+		//objetos.add(lista.get(25));   // delante
 
 
 		iAmbiental = 0.08;
@@ -173,7 +173,7 @@ public class Trazador {
 				 * Traza varios rayos en el pixel para el antialiasing.
 				 */
 				int cuenta = 0;
-				if(i==130 && j==240){
+				if(i==165 && j==245){
 					cuenta++;
 				}
 				for (int k=0; k<NUM_ANTIALIASING; k++) {

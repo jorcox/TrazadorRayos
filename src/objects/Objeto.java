@@ -11,7 +11,7 @@ public abstract class Objeto {
 	public enum tipo { TRIANGULO, PLANO, ESFERA }
 	private Color kd;
 	private Color ks;
-	private Vector3d n;
+	protected Vector3d n;
 	private double iRefrac;
 	private double iReflex;
 	private double cRefrac;
