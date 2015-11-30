@@ -14,7 +14,15 @@ public class Transformacion {
 		this.m = m;
 	}
 	
-	public static Transformacion getTranslationMatrix(double x, double y, double z) {
+	public static Transformacion getMatrizCamaraMundo(Camara cam) {
+		Matrix4d m = new Matrix4d(cam.getU().x,cam.getU().y,cam.getU().z,0,
+								cam.getV().x,cam.getV().y,cam.getV().z,0,
+								cam.getW().x,cam.getW().y,cam.getW().z,0,
+								cam.getE().x,cam.getE().y,cam.getE().z,1);
+		return new Transformacion(m);
+	}
+	
+	public static Transformacion getMatrizTraslacion(double x, double y, double z) {
 		Matrix4d m = new Matrix4d(1, 0, 0, 0,
 								0, 1, 0, 0,
 								0, 0, 1, 0,
@@ -22,20 +30,12 @@ public class Transformacion {
 		return new Transformacion(m);
 	}
 	
-	public static Transformacion getCameraToWorldMatrix(Camara cam) {
-		Matrix4d m = new Matrix4d(cam.getU().x,cam.getU().y,cam.getU().z,0,
-									cam.getV().x,cam.getV().y,cam.getV().z,0,
-									cam.getW().x,cam.getW().y,cam.getW().z,0,
-									cam.getE().x,cam.getE().y,cam.getE().z,1);
+	public static Transformacion getMatrizEscala(double x, double y, double z) {
+		Matrix4d m = new Matrix4d(x, 0, 0, 0,
+								0, y, 0, 0,
+								0, 0, z, 0,
+								0, 0, 0, 1);
 		return new Transformacion(m);
-	}
-	
-	public static Matrix4d obtenerMatrizCamaraMundo(Camara cam) {
-		Matrix4d m = new Matrix4d(cam.getU().x,cam.getU().y,cam.getU().z,0,
-									cam.getV().x,cam.getV().y,cam.getV().z,0,
-									cam.getW().x,cam.getW().y,cam.getW().z,0,
-									cam.getE().x,cam.getE().y,cam.getE().z,1);
-		return m;
 	}
 	
 	public Point3d transformar(Point3d p) {

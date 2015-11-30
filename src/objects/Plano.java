@@ -9,22 +9,17 @@ import scene.Rayo;
 public class Plano extends Objeto{
 	
 	private Point3d p;
-	private Vector3d n;
 	
 	public Plano (Point3d p, Vector3d n, Color kd, double reflex, double iRefrac, double cRefrac) {
 		super(kd, n, reflex, iRefrac, cRefrac);
 		this.p = p;
-		this.n = n;
-	}
-	
-	public Vector3d getNormal() {
-		return n;
+		super.setN(n);
 	}
 
 	public Point3d interseccion(Rayo r) {
 		Vector3d d = r.getD();
 		Point3d p = new Point3d(this.p);
-		double inf = d.dot(this.n);
+		double inf = d.dot(super.getN(p));
 		if (inf < 0){
 			/*
 			 * La normal del plano y el rayo van en sentidos inveros, entonces 
@@ -32,7 +27,7 @@ public class Plano extends Objeto{
 			 */
 			p.sub(r.getP0());
 			Vector3d vec = new Vector3d(p);
-			double sup = vec.dot(n);
+			double sup = vec.dot(super.getN(p));
 			return r.getPunto(sup/inf);
 		} else {
 			/*
