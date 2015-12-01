@@ -33,18 +33,24 @@ public class ImportadorObj {
 					Point3d p2 = new Point3d(vertices.get(v2));
 					Point3d p3 = new Point3d(vertices.get(v3));
 					
-					Transformacion aumento = Transformacion.getMatrizEscala(50, 50, 50);
-					Transformacion lejos = Transformacion.getMatrizTraslacion(1, 1, -1000);
+					Transformacion aumento = Transformacion.getMatrizEscala(0.3, 0.3, 0.3);
+					Transformacion lejos = Transformacion.getMatrizTraslacion(1, 40, -1700);
 					Transformacion camaraMundo = Transformacion.getMatrizCamaraMundo(cam);
+					Transformacion giroX = Transformacion.getMatrizGiroX(30);
+					p1 = giroX.transformar(p1);
+					p2 = giroX.transformar(p2);
+					p3 = giroX.transformar(p3);
 					p1 = aumento.transformar(p1);
 					p2 = aumento.transformar(p2);
 					p3 = aumento.transformar(p3);
 					p1 = lejos.transformar(p1);
 					p2 = lejos.transformar(p2);
 					p3 = lejos.transformar(p3);
+
 					p1 = camaraMundo.transformar(p1);
 					p2 = camaraMundo.transformar(p2);
 					p3 = camaraMundo.transformar(p3);
+					
 					
 					Triangulo t = new Triangulo(p1,p2,p3,new Color(255,0,0),0,0,1.3333333333);
 					caras.add(t);

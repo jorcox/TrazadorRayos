@@ -60,6 +60,7 @@ public class Trazador {
 		double varU = pantalla.getVarU();
 		double varV = pantalla.getVarV();
 		for (int i = 0; i < pantalla.getnC(); i++) {
+			System.out.println(i);
 			for (int j = 0; j < pantalla.getnR(); j++) {
 				
 				Point3d pixel = pantalla.getPuntoCoordMundo(i,j);
