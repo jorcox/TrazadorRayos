@@ -4,6 +4,7 @@ ojo x:0 y:0 z:0
 g x:1 y:1 z:1
 objetos
 luz x:0 y:0 z:-300 i:1
+luz x:30 y:30 z:-800 i:1
 esfera radio:15 px:-170 py:0 pz:-1325 cR:0 cG:0 cB:0 iRefl:0 iRefr:1 cRefr:1.52
 esfera radio:21 px:0 py:10 pz:-1400 cR:0 cG:0 cB:0 iRefl:1 iRefr:0 cRefr:1.52
 esfera radio:21 px:0 py:100 pz:-1400 cR:150 cG:20 cB:189 iRefl:1 iRefr:0 cRefr:0.75

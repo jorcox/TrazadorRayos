@@ -19,8 +19,8 @@ public class Trazador {
 	private static Point3d origen = new Point3d(0, 0, 0);
 	private static ArrayList<Objeto> objetos = new ArrayList<Objeto>();
 	private static Camara camara = null;
-	private static Luz luz = null;
-	private static double iAmbiental = 0.0;
+	private static ArrayList<Luz>  luces = null;
+	private static double iAmbiental = 0.1;
 	private static final int NUM_ANTIALIASING = 1;
 	private static final String NOMBRE_IMG = "imagen";
 	private static final String FORMATO_IMG = "png";
@@ -41,7 +41,7 @@ public class Trazador {
 				iAmbiental = datos.getAmbiental();
 				pantalla = datos.getPantalla();
 				camara = datos.getCamara();
-				luz = datos.getLuz();
+				luces = datos.getLuces();
 				pixels = new Color[pantalla.getnC()][pantalla.getnR()];
 				pantalla.calcularCoordenadasCamaraYMundo(camara);
 				
@@ -110,6 +110,8 @@ public class Trazador {
 	 */
 	private static Color trazarRayo(Rayo rayoPrincipal, int recursion, Objeto objetoIgnorar, Objeto objetoActual,
 			boolean interno) {
+		
+		ArrayList<Boolean> haceSombra = new ArrayList<Boolean>();
 		/*
 		 * Por cada objeto se calcula con cual intersecta primer ( i.e. el mas
 		 * cercano)
@@ -169,27 +171,30 @@ public class Trazador {
 			 * Se crea un rayo que va desde el punto de colision con el objeto
 			 * hasta el foco de luz
 			 */
-			Rayo rayoSombra = new Rayo(puntoColisionFinal, luz.getPunto());
+			for (int l = 0; l < luces.size(); l++) {
+			haceSombra.add(l, false);
+			Rayo rayoSombra = new Rayo(puntoColisionFinal, luces.get(l).getPunto());
 			Point3d puntoColisionSombra = null;
-			boolean esSombra = false;
-			/*
-			 * Bucle en el que se comprueba si en el camino a la luz hay algun
-			 * otro objeto
-			 */
-			for (int k = 0; k < objetos.size(); k++) {
-				if (!objetoCol.equals(objetos.get(k))) {
-					puntoColisionSombra = objetos.get(k).interseccion(rayoSombra);
-					/*
-					 * Si colisiona con un objeto, este pixel esta en la sombra
-					 */
-					double distanciaALuz = luz.getPunto().distance(puntoColisionFinal);
-
-					if (puntoColisionSombra != null) {
-						double distanciaAObjetoColisionado = puntoColisionSombra.distance(puntoColisionFinal);
-						if (distanciaALuz > distanciaAObjetoColisionado) {
-							esSombra = true;
-							
-						}
+			
+				/*
+				 * Bucle en el que se comprueba si en el camino a la luz hay algun
+				 * otro objeto
+				 */
+				for (int k = 0; k < objetos.size(); k++) {
+					if (!objetoCol.equals(objetos.get(k))) {
+						puntoColisionSombra = objetos.get(k).interseccion(rayoSombra);
+						/*
+						 * Si colisiona con un objeto, este pixel esta en la sombra
+						 */
+						double distanciaALuz = luces.get(l).getPunto().distance(puntoColisionFinal);
+	
+						if (puntoColisionSombra != null) {
+							double distanciaAObjetoColisionado = puntoColisionSombra.distance(puntoColisionFinal);
+							if (distanciaALuz > distanciaAObjetoColisionado) {
+								//esSombra = true;
+								haceSombra.add(l, true);
+							} 
+						} 
 					}
 				}
 			}
@@ -197,27 +202,8 @@ public class Trazador {
 			/*
 			 * Aplicaciones de color segun si es sombra o no
 			 */
-			if (esSombra) {
-				return objetoCol.getKd().aplicarIntensidad(iAmbiental);
-			} else {
-				/*
-				 * Declaracion, inicializacion y normalizacion de los
-				 * principales vectores para su uso en los proximos calculos
-				 */
-				Vector3d N = new Vector3d(objetoCol.getN(puntoColisionFinal));
-				N.normalize();
-				if(interno){
-					N.negate();
-				}
-				Rayo alOrigen = new Rayo(puntoColisionFinal, rayoPrincipal.getP0());
-				Vector3d V = new Vector3d(alOrigen.getD());
-				V.normalize();
-				Rayo aLaLuz = new Rayo(puntoColisionFinal, luz.getPunto());
-				Vector3d L = new Vector3d(aLaLuz.getD());
-				L.normalize();
-				Vector3d R = calcularReflejadoEspecular(L, N);
-				R.normalize();
-				/*
+			
+								/*
 				 * Calculo de indice de refraccion teniendo en cuenta el medio
 				 * por el que esta viajando ahora el rayo y el medio del objeto
 				 * con el que hemos colisionado
@@ -250,26 +236,56 @@ public class Trazador {
 				} catch (NullPointerException e) {
 					indiceDestino = 1.0;
 				}
-
+				
+				/*
+				 * Declaracion, inicializacion y normalizacion de los
+				 * principales vectores para su uso en los proximos calculos
+				 */
+				Vector3d N = new Vector3d(objetoCol.getN(puntoColisionFinal));
+				N.normalize();
+				if(interno){
+					N.negate();
+				}
+				Rayo alOrigen = new Rayo(puntoColisionFinal, rayoPrincipal.getP0());
+				Vector3d V = new Vector3d(alOrigen.getD());
+				V.normalize();
 				Vector3d T = calcularRefractado(V, N, indiceOrigen / indiceDestino, rayoPrincipal);
-
-				/*
-				 * Calculo de la intensidad difusa
-				 */
-				double iDifusa = luz.getBrillo() * (Math.cos(L.angle(N)));
-
-				/*
-				 * Calculo de la intensidad especular
-				 */
-				double iEspecular = 0;
-				if (iDifusa > 0) {
-					double angulo = Math.cos(R.angle(V));
-					if (angulo > 0) {
-						iEspecular = Math.pow(Math.cos(R.angle(V)), 100);
-					} else {
-						iEspecular = angulo;
+				
+				
+				double iDifusa = 0.0;
+				double iEspecular = 0.0;
+				for (int l = 0; l < luces.size(); l++) {
+					if(!haceSombra.get(l)){
+						Rayo aLaLuz = new Rayo(puntoColisionFinal, luces.get(l).getPunto());
+						Vector3d L = new Vector3d(aLaLuz.getD());
+						L.normalize();
+						Vector3d R = calcularReflejadoEspecular(L, N);
+						R.normalize();
+		
+						/*
+						 * Calculo de la intensidad difusa
+						 */
+						
+						double difusaTmp = luces.get(l).getBrillo() * (Math.cos(L.angle(N)));
+						if(difusaTmp>0){
+							iDifusa += difusaTmp;
+						}
+						
+						/*
+						 * Calculo de la intensidad especular
+						 */
+						
+						if (iDifusa > 0) {
+							double angulo = Math.cos(R.angle(V));
+							if (angulo > 0) {
+								iEspecular += Math.pow(Math.cos(R.angle(V)), 100);
+							} else {
+								iEspecular += angulo;
+							}
+						}		
 					}
 				}
+				
 
 				Color cl;
 				if (iDifusa < 0 && iEspecular < 0) {
@@ -330,7 +346,7 @@ public class Trazador {
 				cl.normalizarColor();
 				return cl;
 
-			}
+			
 		}
 		/*
 		 * Caso en el que el rayo no ha colisionado con nada

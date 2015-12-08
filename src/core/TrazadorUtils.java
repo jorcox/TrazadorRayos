@@ -30,7 +30,8 @@ public class TrazadorUtils {
 			Point3d ojo = new Point3d();
 			Vector3d g = new Vector3d();
 			Pantalla pantalla = null;
-			Luz luz = null;
+			ArrayList<Luz> luces = new ArrayList<Luz>();
+			ArrayList<Objeto> objetos = new ArrayList<Objeto>();
 			double iAmbiental = 0;
 			
 			for (String[] orden: lineas) {
@@ -54,7 +55,7 @@ public class TrazadorUtils {
 			}
 			reader.close();
 			
-			ArrayList<Objeto> objetos = new ArrayList<Objeto>();
+			
 			
 			for (String[] orden: lineas) {
 				if (orden[0].equals("plano")) {
@@ -64,13 +65,13 @@ public class TrazadorUtils {
 				} else if (orden[0].equals("esfera")) {
 					objetos.add(TrazadorUtils.getEsfera(orden));
 				} else if (orden[0].equals("luz")) {
-					luz = TrazadorUtils.getLuz(orden);
+					luces.add(TrazadorUtils.getLuz(orden));
 				} else if (orden[0].equals("complejo")) {
 					objetos.addAll(ImportadorObj.leerFigura(orden[1], cam));
 				}
 			}
 			
-			return new DatosEscena(cam, luz, pantalla, objetos, iAmbiental);
+			return new DatosEscena(cam, luces, pantalla, objetos, iAmbiental);
 			
 		} catch (Exception e) {
 			return null;

@@ -7,14 +7,14 @@ import objects.Objeto;
 public class DatosEscena {
 	
 	private Camara camara;
-	private Luz luz;
+	private ArrayList<Luz> luces;
 	private Pantalla pantalla;
 	private ArrayList<Objeto> objetos;
 	private double iAmbiental;
 	
-	public DatosEscena(Camara cam, Luz l, Pantalla p, ArrayList<Objeto> obj, double iAmb) {
+	public DatosEscena(Camara cam, ArrayList<Luz> luces, Pantalla p, ArrayList<Objeto> obj, double iAmb) {
 		camara = cam;
-		luz = l;
+		this.luces = luces;
 		pantalla = p;
 		objetos = obj;
 		iAmbiental = iAmb;
@@ -32,8 +32,8 @@ public class DatosEscena {
 		return camara;
 	}
 
-	public Luz getLuz() {
-		return luz;
+	public ArrayList<Luz> getLuces() {
+		return luces;
 	}
 
 	public Pantalla getPantalla() {
