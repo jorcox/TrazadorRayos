@@ -6,16 +6,28 @@ import javax.vecmath.Vector3d;
 import core.Color;
 import scene.Rayo;
 
+/**
+ * Clase que define al plano.
+ */
 public class Plano extends Objeto{
 	
 	private Point3d p;
 	
+	/**
+	 * Metodo constructor a partir de un punto del plano, la normal y propiedades
+	 * del objeto.
+	 */
 	public Plano (Point3d p, Vector3d n, Color kd, double reflex, double iRefrac, double cRefrac) {
 		super(kd, n, reflex, iRefrac, cRefrac);
 		this.p = p;
 		super.setN(n);
 	}
 
+	/**
+	 * Calcula la interseccion entre el plano y el rayo r. Si esta no
+	 * existe, devuelve null. Solo se devuelven intersecciones con la cara
+	 * delantera de un plano.
+	 */
 	public Point3d interseccion(Rayo r) {
 		Vector3d d = r.getD();
 		Point3d p = new Point3d(this.p);

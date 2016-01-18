@@ -6,6 +6,10 @@ import javax.vecmath.Vector3d;
 import core.Color;
 import scene.Rayo;
 
+/**
+ * Clase abstracta que representa cualquier objeto de la escena. Sus
+ * implementaciones son Triangulo, Plano y Esfera.
+ */
 public abstract class Objeto {
 	
 	public enum tipo { TRIANGULO, PLANO, ESFERA }
@@ -20,9 +24,16 @@ public abstract class Objeto {
 	public boolean AD = false;
 	public boolean AE = false;
 	
+	/**
+	 * Devuelve la interseccion entre el objeto y el rayo r. Si esta
+	 * no existe, devuelve null.
+	 */
 	public abstract Point3d interseccion(Rayo r);
 	
-
+	/**
+	 * Constructor del objeto a partir de kd, vector normal, indice de reflexion,
+	 * indice de refraccion y coeficiente de refraccion.
+	 */
 	public Objeto(Color kd, Vector3d n, double reflex, double iRefrac, double cRefrac) {
 		this.kd = kd;
 		this.ks = new Color(255,255,255);
@@ -33,6 +44,11 @@ public abstract class Objeto {
 		
 	}
 	
+	/**
+	 * Constructor del objeto a partir de kd, indice de reflexion,
+	 * indice de refraccion, coeficiente de refraccion y un booleano que indica
+	 * si es un objeto complejo (con multiples caras) o no.
+	 */
 	public Objeto(Color kd, double reflex, double iRefrac, double cRefrac, boolean complejo) {
 		this.kd = kd;
 		//this.ks = kd.calcularKD();
@@ -79,6 +95,10 @@ public abstract class Objeto {
 		return this.esComplejo;
 	}
 	
+	/**
+	 * Implementacion por defecto de la interseccion compleja. Los tipos
+	 * de objeto que sean complejos deben reescribirla.
+	 */
 	public Point3d[] interseccionCompleja(Rayo r){
 		return new Point3d[]{new Point3d(0,0,0)};
 	}

@@ -11,22 +11,33 @@ import javax.vecmath.Vector3d;
 import objects.*;
 import scene.*;
 
+/**
+ * Utilidad para configurar el programa en funcion de la
+ * informacion pasada por fichero.
+ */
 public class TrazadorUtils {
 	
 	private static Camara cam;
 	
+	/**
+	 * Devuelve un objeto que almacena todos los objetos de la
+	 * escena.
+	 */
 	public static DatosEscena cargarObjetos(String rutaFichero) {
 		try {
+			/* Carga el fichero */
 			File fichero = new File(rutaFichero);
 			BufferedReader reader = new BufferedReader(new FileReader(fichero));
 			ArrayList<String[]> lineas = new ArrayList<String[]>();
 			
+			/* Lee las lineas del fichero (parte 1, propiedades) */
 			String linea = reader.readLine();
 			while (linea != null && !linea.contains("objetos")) {
 				lineas.add(linea.split(" "));
 				linea = reader.readLine();
 			}
 			
+			/* Define las propiedades de la escena */
 			Point3d ojo = new Point3d();
 			Vector3d g = new Vector3d();
 			Pantalla pantalla = null;
@@ -34,6 +45,7 @@ public class TrazadorUtils {
 			ArrayList<Objeto> objetos = new ArrayList<Objeto>();
 			double iAmbiental = 0;
 			
+			/* Crea las propiedades encontrados */
 			for (String[] orden: lineas) {
 				if (orden[0].equals("pantalla")) {
 					pantalla = TrazadorUtils.getPantalla(orden);
@@ -47,6 +59,7 @@ public class TrazadorUtils {
 			}
 			cam = new Camara(ojo, g);
 			
+			/* Lee las lineas del fichero (parte 2, objetos) */
 			lineas = new ArrayList<String[]>();
 			linea = reader.readLine();
 			while (linea != null) {
@@ -55,8 +68,7 @@ public class TrazadorUtils {
 			}
 			reader.close();
 			
-			
-			
+			/* Crea los objetos encontrados */
 			for (String[] orden: lineas) {
 				if (orden[0].equals("plano")) {
 					objetos.add(TrazadorUtils.getPlano(orden));
@@ -69,17 +81,18 @@ public class TrazadorUtils {
 				} else if (orden[0].equals("complejo")) {
 					objetos.addAll(ImportadorObj.leerFigura(orden[1], cam));
 				}
-			}
-			
+			}			
 			return new DatosEscena(cam, luces, pantalla, objetos, iAmbiental);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
-		
 	}
 	
+	/**
+	 * Crea una pantalla en funcion de lo indicado en el fichero.
+	 */
 	public static Pantalla getPantalla(String[] orden) throws FicheroDatosException {
 		double l = 0;
 		double t = 0;
@@ -113,6 +126,9 @@ public class TrazadorUtils {
 		return new Pantalla(l, t, f, nC, nR);
 	}
 	
+	/**
+	 * Define la posicion del ojo en funcion de lo indicado en el fichero.
+	 */
 	public static Point3d getOjo(String[] orden) throws FicheroDatosException {
 		double x = 0;
 		double y = 0;
@@ -138,6 +154,9 @@ public class TrazadorUtils {
 		return new Point3d(x,y,z);
 	}
 	
+	/**
+	 * Define el vector g en funcion de lo indicado en el fichero.
+	 */
 	public static Vector3d getG(String[] orden) throws FicheroDatosException {
 		double x = 0;
 		double y = 0;
@@ -163,6 +182,9 @@ public class TrazadorUtils {
 		return new Vector3d(x,y,z);
 	}
 	
+	/**
+	 * Crea un plano en funcion de lo indicado en el fichero.
+	 */
 	public static Plano getPlano(String[] orden) throws FicheroDatosException {
 		double px = 0; double py = 0; double pz = 0;
 		double nx = 0; double ny = 0; double nz = 0;
@@ -217,6 +239,8 @@ public class TrazadorUtils {
 				throw new FicheroDatosException("Error de fichero");
 			}
 		}
+		
+		/* Transforma el plano de las coordenadas de la camara al mundo */
 		Transformacion aMundo = Transformacion.getMatrizCamaraMundo(cam);
 		Point3d p = new Point3d(px,py,pz);
 		p = aMundo.transformar(p);
@@ -224,6 +248,8 @@ public class TrazadorUtils {
 		n = aMundo.transformar(n);
 		Color kd = new Color(cR,cG,cB);
 		Plano pl = new Plano(p, n, kd,iRefl, iRefr, cRefr);
+		
+		/* Indica cuantos fenomenos de iluminacion se deben mostrar */
 		if (flag==1) {
 			pl.A = true;
 		} else if (flag==2) {
@@ -232,6 +258,9 @@ public class TrazadorUtils {
 		return pl;
 	}
 	
+	/**
+	 * Crea un triangulo en funcion de lo indicado en el fichero.
+	 */
 	public static Triangulo getTriangulo(String[] orden) throws FicheroDatosException {
 		double p1x = 0; double p1y = 0; double p1z = 0;
 		double p2x = 0; double p2y = 0; double p2z = 0;
@@ -293,6 +322,8 @@ public class TrazadorUtils {
 				throw new FicheroDatosException("Error de fichero");
 			}
 		}
+		
+		/* Transforma el triangulo de las coordenadas de la camara al mundo */
 		Transformacion aMundo = Transformacion.getMatrizCamaraMundo(cam);
 		Point3d p1 = new Point3d(p1x, p1y, p1z);
 		p1 = aMundo.transformar(p1);
@@ -301,9 +332,13 @@ public class TrazadorUtils {
 		Point3d p3 = new Point3d(p3x, p3y, p3z);
 		p3 = aMundo.transformar(p3);
 		Color kd = new Color(cR, cG, cB); 
+		
 		return new Triangulo(p1, p2, p3, kd, iRefl, iRefr, cRefr);
 	}
 	
+	/**
+	 * Crea una esfera en funcion de lo indicado en el fichero.
+	 */
 	public static Esfera getEsfera(String[] orden) throws FicheroDatosException {
 		double radio = 0;
 		double px = 0; double py = 0; double pz = 0;
@@ -353,11 +388,15 @@ public class TrazadorUtils {
 				throw new FicheroDatosException("Error de fichero");
 			}
 		}
+		
+		/* Transforma la esfera de las coordenadas de la camara al mundo */
 		Transformacion aMundo = Transformacion.getMatrizCamaraMundo(cam);
 		Point3d centro = new Point3d(px, py, pz);
 		centro = aMundo.transformar(centro);
 		Color kd = new Color(cR, cG, cB);
 		Esfera e = new Esfera(radio, centro, kd, iRefl, iRefr, cRefr);
+		
+		/* Indica cuantos fenomenos de iluminacion mostrar */
 		if (flag==1) {
 			e.A = true;
 		} else if (flag==2) {
@@ -366,6 +405,9 @@ public class TrazadorUtils {
 		return e;
 	}
 	
+	/**
+	 * Crea una luz en funcion de lo indicado en el fichero.
+	 */
 	public static Luz getLuz(String[] orden) throws FicheroDatosException {
 		double x = 0; double y = 0; double z = 0;
 		double intensidad = 0;
@@ -392,6 +434,7 @@ public class TrazadorUtils {
 			}
 		}
 		
+		/* Transforma la luz de coordenadas de la camara al mundo */
 		Point3d p = new Point3d(x, y, z);
 		Transformacion aMundo = Transformacion.getMatrizCamaraMundo(cam);
 		p = aMundo.transformar(p);

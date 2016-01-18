@@ -172,9 +172,9 @@ public class Trazador {
 			 * hasta el foco de luz
 			 */
 			for (int l = 0; l < luces.size(); l++) {
-			haceSombra.add(l, false);
-			Rayo rayoSombra = new Rayo(puntoColisionFinal, luces.get(l).getPunto());
-			Point3d puntoColisionSombra = null;
+				haceSombra.add(l, false);
+				Rayo rayoSombra = new Rayo(puntoColisionFinal, luces.get(l).getPunto());
+				Point3d puntoColisionSombra = null;
 			
 				/*
 				 * Bucle en el que se comprueba si en el camino a la luz hay algun
@@ -203,7 +203,7 @@ public class Trazador {
 			 * Aplicaciones de color segun si es sombra o no
 			 */
 			
-								/*
+				/*
 				 * Calculo de indice de refraccion teniendo en cuenta el medio
 				 * por el que esta viajando ahora el rayo y el medio del objeto
 				 * con el que hemos colisionado
