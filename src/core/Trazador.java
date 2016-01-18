@@ -54,6 +54,7 @@ public class Trazador {
 			System.exit(1);
 		}
 
+		long t1 = System.currentTimeMillis();
 		/*
 		 * Por cada pixel de la pantalla se lanza un rayo
 		 */
@@ -73,7 +74,7 @@ public class Trazador {
 				for (int k=0; k<NUM_ANTIALIASING; k++) {
 					double offsetX = random.nextDouble()*varU - varU/2;
 					double offsetY = random.nextDouble()*varV - varV/2;
-					Point3d nuevo = new Point3d(pixel.getX() + offsetX, pixel.getY() + offsetY, pixel.getZ());
+					Point3d nuevo = new Point3d(pixel.x + offsetX, pixel.y + offsetY, pixel.z);
 					Rayo rayo = new Rayo(camara.getE(), nuevo);
 					colores[k] = trazarRayo(rayo, 0, null, null, false);
 				}
@@ -92,6 +93,8 @@ public class Trazador {
 		} catch (IOException e) {
 			System.out.println("Error al crear la imagen.");
 		}		
+		long t2 = System.currentTimeMillis();
+		System.out.println("Tiempo empleado: " + (t2-t1) + " ms");
 	}
 
 	/**
