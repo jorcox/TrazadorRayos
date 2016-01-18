@@ -34,12 +34,16 @@ public class ImportadorObj {
 					Point3d p3 = new Point3d(vertices.get(v3));
 					
 					Transformacion aumento = Transformacion.getMatrizEscala(0.3, 0.3, 0.3);
-					Transformacion lejos = Transformacion.getMatrizTraslacion(1, 40, -1700);
+					Transformacion lejos = Transformacion.getMatrizTraslacion(1, -70, -1700);
 					Transformacion camaraMundo = Transformacion.getMatrizCamaraMundo(cam);
-					Transformacion giroX = Transformacion.getMatrizGiroX(30);
+					Transformacion giroX = Transformacion.getMatrizGiroX(15);
 					p1 = giroX.transformar(p1);
 					p2 = giroX.transformar(p2);
 					p3 = giroX.transformar(p3);
+//					Transformacion giroY = Transformacion.getMatrizGiroY(20);
+//					p1 = giroY.transformar(p1);
+//					p2 = giroY.transformar(p2);
+//					p3 = giroY.transformar(p3);
 					p1 = aumento.transformar(p1);
 					p2 = aumento.transformar(p2);
 					p3 = aumento.transformar(p3);
@@ -52,7 +56,7 @@ public class ImportadorObj {
 					p3 = camaraMundo.transformar(p3);
 					
 					
-					Triangulo t = new Triangulo(p1,p2,p3,new Color(255,0,0),0,0,1.3333333333);
+					Triangulo t = new Triangulo(p1,p2,p3,new Color(200,200,200),0,0,1.3333333333);
 					caras.add(t);
 					break;
 				}

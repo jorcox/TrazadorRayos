@@ -288,14 +288,27 @@ public class Trazador {
 				
 
 				Color cl;
-				if (iDifusa < 0 && iEspecular < 0) {
+				Color ambiental = objetoCol.getKd().aplicarIntensidad(iAmbiental);
+				Color difusa = objetoCol.getKd().aplicarIntensidad(iDifusa);
+				Color especular = objetoCol.getKs().aplicarIntensidad(iEspecular);
+				if((iDifusa < 0 && iEspecular < 0) || objetoCol.A) {
+					cl = ambiental;
+				} else if (iEspecular < 0 || objetoCol.AD ) {
+					cl = ambiental.suma(difusa);
+				} else {
+					Color aux = ambiental.suma(difusa);
+					cl = aux.suma(especular);
+				}
+				
+				
+/*				if ((iDifusa < 0 && iEspecular < 0) || objetoCol.A) {
 					cl = objetoCol.getKd().aplicarIntensidad(iAmbiental);
-				} else if (iEspecular < 0) {
+				} else if (iEspecular < 0 || objetoCol.AD ) {
 					Color ambiental = objetoCol.getKd().aplicarIntensidad(iAmbiental);
 					Color difusa = objetoCol.getKd().aplicarIntensidad(iDifusa);
-					difusa = difusa.aplicarIntensidad(1-objetoCol.getIndiceRefraccion());
+					difusa = difusa.aplicarIntensidad(1);
 					cl = ambiental.suma(difusa);
-				} else if (iDifusa < 0) {
+				} else if (iDifusa < 0 || objetoCol.AE ) {
 					Color ambiental = objetoCol.getKd().aplicarIntensidad(iAmbiental);
 					Color especular = objetoCol.getKs().aplicarIntensidad(iEspecular);
 					especular = especular.aplicarIntensidad(1-objetoCol.getIndiceRefraccion());
@@ -308,9 +321,9 @@ public class Trazador {
 					especular = especular.aplicarIntensidad(1-objetoCol.getIndiceRefraccion());
 					Color aux = ambiental.suma(difusa);
 					cl = aux.suma(especular);
-				}
+				}*/
 
-				if (recursion < 3) {
+				if (recursion < 2) {
 					Rayo rayoReflejado = new Rayo(calcularReflejado(rayoPrincipal.getD(), N), puntoColisionFinal);
 					recursion += 1;
 					Color nuevo = trazarRayo(rayoReflejado, recursion, objetoCol, objetoCol, false);
@@ -369,7 +382,6 @@ public class Trazador {
 		Vector3d N = new Vector3d(n);
 		Vector3d I = new Vector3d(i);
 		double nXi = N.dot(I);
-		;
 		// nr*(N*I)-sqrt(1-nr^2*(1-(N*I)^2))
 		double enRaiz = 1 - (Math.pow(indiceRefraccion, 2) * (1 - Math.pow(nXi, 2)));
 		if (enRaiz >= 0) {

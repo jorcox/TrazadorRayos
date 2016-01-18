@@ -16,6 +16,9 @@ public abstract class Objeto {
 	private double iReflex;
 	private double cRefrac;
 	private boolean esComplejo;
+	public boolean A = false;
+	public boolean AD = false;
+	public boolean AE = false;
 	
 	public abstract Point3d interseccion(Rayo r);
 	

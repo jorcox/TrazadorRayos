@@ -74,6 +74,7 @@ public class TrazadorUtils {
 			return new DatosEscena(cam, luces, pantalla, objetos, iAmbiental);
 			
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 		
@@ -167,7 +168,7 @@ public class TrazadorUtils {
 		double nx = 0; double ny = 0; double nz = 0;
 		int cR = 0; int cG = 0; int cB = 0;
 		double iRefl = 0; double iRefr = 0; double cRefr = 0;
-		
+		int flag = 0;
 		for (int i=1; i<orden.length; i++) {
 			String[] partes = orden[i].split(":");
 			String clave = partes[0];
@@ -209,6 +210,9 @@ public class TrazadorUtils {
 			case "cRefr":
 				cRefr = Double.parseDouble(valor);
 				break;
+			case "tipo":
+				flag = Integer.parseInt(valor);
+				break;
 			default:
 				throw new FicheroDatosException("Error de fichero");
 			}
@@ -219,7 +223,13 @@ public class TrazadorUtils {
 		Vector3d n = new Vector3d(nx,ny,nz);
 		n = aMundo.transformar(n);
 		Color kd = new Color(cR,cG,cB);
-		return new Plano(p, n, kd,iRefl, iRefr, cRefr);
+		Plano pl = new Plano(p, n, kd,iRefl, iRefr, cRefr);
+		if (flag==1) {
+			pl.A = true;
+		} else if (flag==2) {
+			pl.AD = true;
+		}
+		return pl;
 	}
 	
 	public static Triangulo getTriangulo(String[] orden) throws FicheroDatosException {
@@ -299,6 +309,7 @@ public class TrazadorUtils {
 		double px = 0; double py = 0; double pz = 0;
 		int cR = 0; int cG = 0; int cB = 0;
 		double iRefl = 0; double iRefr = 0; double cRefr = 0;
+		int flag = 0;
 		
 		for (int i=1; i<orden.length; i++) {
 			String[] partes = orden[i].split(":");
@@ -335,6 +346,9 @@ public class TrazadorUtils {
 			case "cRefr":
 				cRefr = Double.parseDouble(valor);
 				break;
+			case "tipo":
+				flag = Integer.parseInt(valor);
+				break;
 			default:
 				throw new FicheroDatosException("Error de fichero");
 			}
@@ -343,7 +357,13 @@ public class TrazadorUtils {
 		Point3d centro = new Point3d(px, py, pz);
 		centro = aMundo.transformar(centro);
 		Color kd = new Color(cR, cG, cB);
-		return new Esfera(radio, centro, kd, iRefl, iRefr, cRefr);
+		Esfera e = new Esfera(radio, centro, kd, iRefl, iRefr, cRefr);
+		if (flag==1) {
+			e.A = true;
+		} else if (flag==2) {
+			e.AD = true;
+		}
+		return e;
 	}
 	
 	public static Luz getLuz(String[] orden) throws FicheroDatosException {
@@ -373,6 +393,8 @@ public class TrazadorUtils {
 		}
 		
 		Point3d p = new Point3d(x, y, z);
+		Transformacion aMundo = Transformacion.getMatrizCamaraMundo(cam);
+		p = aMundo.transformar(p);
 		return new Luz(p, intensidad);
 	}
 	
