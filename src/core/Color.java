@@ -34,18 +34,31 @@ public class Color {
 			this.b = b;
 	}
 
+	/**
+	 * Devuelve la componente roja
+	 */
 	public int getRed() {
 		return r;
 	}
 
+	/**
+	 * Devuelve la componente verde
+	 */
 	public int getGreen() {
 		return g;
 	}
 
+	/**
+	 * Devuelve la componente azul
+	 */
 	public int getBlue() {
 		return b;
 	}
 
+	
+	/**
+	 * Multiplica el color actual por el brillo dado 
+	 */
 	public void setBrillo(double brillo) {
 		r = (int) (r * brillo);
 		g = (int) (g * brillo);
@@ -53,6 +66,9 @@ public class Color {
 
 	}
 
+	/**
+	 * Metido auxiliar que sirve para aplicar intensidad a un color
+	 */
 	public Color aplicarIntensidad(double i) {
 		int newR = (int) (this.r * i);
 		int newG = (int) (this.g * i);
@@ -61,6 +77,9 @@ public class Color {
 
 	}
 
+	/**
+	 * Calcula el Kd
+	 */
 	public Color calcularKD() {
 		return new Color(255 - r, 255 - g, 255 - b);
 	}
@@ -74,30 +93,36 @@ public class Color {
 	public Color suma(Color col) {
 		return new Color(r + col.getRed(), g + col.getGreen(), b + col.getBlue());
 	}
-	
+
 	/**
-	 * @param colores Array de colores
-	 * @return un nuevo Color que resulta del promedio de
-	 * los colores del array, es decir, el promedio de rojo,
-	 * verde y azul.
+	 * @param colores
+	 *            Array de colores
+	 * @return un nuevo Color que resulta del promedio de los colores del array,
+	 *         es decir, el promedio de rojo, verde y azul.
 	 */
 	public static Color promedio(Color[] colores) {
 		int red = 0;
 		int green = 0;
 		int blue = 0;
-		
-		for (Color c: colores) {
+
+		for (Color c : colores) {
 			red += c.getRed();
 			green += c.getGreen();
 			blue += c.getBlue();
-		}		
+		}
 		red /= colores.length;
 		green /= colores.length;
 		blue /= colores.length;
-		
+
 		return new Color(red, green, blue);
 	}
 
+	
+	/**
+	 * Normaliza el color, es decir, si alguna de las componentes 
+	 * esta por encima de 255, reduce todas proporcionalmente hasta 
+	 * que la mayor llegue a 255
+	 */
 	public void normalizarColor() {
 		int mayor = 0;
 		if (r > mayor)

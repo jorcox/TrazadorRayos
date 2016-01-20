@@ -21,7 +21,7 @@ public class Trazador {
 	private static Camara camara = null;
 	private static ArrayList<Luz>  luces = null;
 	private static double iAmbiental = 0.0;
-	private static final int NUM_ANTIALIASING = 1;
+	private static final int NUM_ANTIALIASING = 9;
 	private static final String NOMBRE_IMG = "imagen";
 	private static final String FORMATO_IMG = "png";
 
@@ -136,8 +136,8 @@ public class Trazador {
 					try {
 						puntoColision = puntos[0];
 						/*
-						 * Si es complejo pero interno, puede haber una o dos
-						 * colisiones, cogemos la mas lejana
+						 * Si es complejo pero interno ( el rayo esta actualmente dentro del objeto),
+						 * puede haber una o dos colisiones, cogemos la mas lejana
 						 */
 						if (interno) {
 							puntoColision = puntos[puntos.length - 1];
@@ -288,7 +288,11 @@ public class Trazador {
 						}		
 					}
 				}
-				
+				/*
+				 * Calculo de las diferentes componentes del color.
+				 * Ya que la luz es aditiva se procedera a sumarlas segun
+				 * las propiedades del objeto 
+				 */
 
 				Color cl;
 				Color ambiental = objetoCol.getKd().aplicarIntensidad(iAmbiental);
@@ -303,29 +307,9 @@ public class Trazador {
 					cl = aux.suma(especular);
 				}
 				
-				
-/*				if ((iDifusa < 0 && iEspecular < 0) || objetoCol.A) {
-					cl = objetoCol.getKd().aplicarIntensidad(iAmbiental);
-				} else if (iEspecular < 0 || objetoCol.AD ) {
-					Color ambiental = objetoCol.getKd().aplicarIntensidad(iAmbiental);
-					Color difusa = objetoCol.getKd().aplicarIntensidad(iDifusa);
-					difusa = difusa.aplicarIntensidad(1);
-					cl = ambiental.suma(difusa);
-				} else if (iDifusa < 0 || objetoCol.AE ) {
-					Color ambiental = objetoCol.getKd().aplicarIntensidad(iAmbiental);
-					Color especular = objetoCol.getKs().aplicarIntensidad(iEspecular);
-					especular = especular.aplicarIntensidad(1-objetoCol.getIndiceRefraccion());
-					cl = ambiental.suma(especular);
-				} else {
-					Color ambiental = objetoCol.getKd().aplicarIntensidad(iAmbiental);
-					Color difusa = objetoCol.getKd().aplicarIntensidad(iDifusa);
-					difusa = difusa.aplicarIntensidad(1-objetoCol.getIndiceRefraccion());
-					Color especular = objetoCol.getKs().aplicarIntensidad(iEspecular);
-					especular = especular.aplicarIntensidad(1-objetoCol.getIndiceRefraccion());
-					Color aux = ambiental.suma(difusa);
-					cl = aux.suma(especular);
-				}*/
-
+				/*
+				 * Mientras se hayan hecho menos de 3 rebotes
+				 */
 				if (recursion < 2) {
 					Rayo rayoReflejado = new Rayo(calcularReflejado(rayoPrincipal.getD(), N), puntoColisionFinal);
 					recursion += 1;
@@ -372,6 +356,9 @@ public class Trazador {
 		}
 	}
 
+	/**
+	 * Calcula el rayo reflejado dados V y N
+	 */
 	private static Vector3d calcularReflejado(Vector3d v, Vector3d n) {
 		Vector3d V = new Vector3d(v);
 		Vector3d N = new Vector3d(n);
@@ -381,6 +368,10 @@ public class Trazador {
 		return V;
 	}
 
+	/**
+	 * Calcula el rayo refractado dados I, N, el indice de refraccion de
+	 * el objeto que desvia el rayo y el rayo en cuestion.
+	 */
 	private static Vector3d calcularRefractado(Vector3d i, Vector3d n, double indiceRefraccion, Rayo rayoPrincipal) {
 		Vector3d N = new Vector3d(n);
 		Vector3d I = new Vector3d(i);
