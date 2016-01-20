@@ -7,7 +7,12 @@ import core.Color;
 import scene.Rayo;
 
 /**
+ * 
+ * @author Javier Beltran Jorba
+ * @author Jorge Cancer Gil
+ * 
  * Clase que define al plano.
+ * 
  */
 public class Plano extends Objeto{
 	
@@ -34,7 +39,7 @@ public class Plano extends Objeto{
 		double inf = d.dot(super.getN(p));
 		if (inf < 0){
 			/*
-			 * La normal del plano y el rayo van en sentidos inveros, entonces 
+			 * La normal del plano y el rayo van en sentidos inverso, entonces 
 			 * intersectan
 			 */
 			p.sub(r.getP0());

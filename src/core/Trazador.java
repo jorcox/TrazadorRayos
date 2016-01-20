@@ -14,9 +14,18 @@ import scene.Luz;
 import scene.Pantalla;
 import scene.Rayo;
 
+/**
+ * 
+ * @author Javier Beltran Jorba
+ * @author Jorge Cancer Gil
+ * 
+ * Clase principal del programa. Crea una escena a partir de la
+ * informacion leida en el fichero de entrada, y realiza el trazado
+ * de rayos para darle un color a cada pixel de la imagen.
+ *
+ */
 public class Trazador {
 
-	private static Point3d origen = new Point3d(0, 0, 0);
 	private static ArrayList<Objeto> objetos = new ArrayList<Objeto>();
 	private static Camara camara = null;
 	private static ArrayList<Luz>  luces = null;
@@ -25,6 +34,10 @@ public class Trazador {
 	private static final String NOMBRE_IMG = "imagen";
 	private static final String FORMATO_IMG = "png";
 
+	/**
+	 * Metodo principal del programa. Crea la escena y traza los rayos
+	 * que salen del ojo y pasan por cada pixel.
+	 */
 	public static void main(String[] args) {
 		Pantalla pantalla = null;
 		Color[][] pixels = null;
@@ -55,9 +68,8 @@ public class Trazador {
 		}
 
 		long t1 = System.currentTimeMillis();
-		/*
-		 * Por cada pixel de la pantalla se lanza un rayo
-		 */
+		
+		/* Por cada pixel de la pantalla se lanza un rayo */
 		double varU = pantalla.getVarU();
 		double varV = pantalla.getVarV();
 		for (int i = 0; i < pantalla.getnC(); i++) {
@@ -68,9 +80,7 @@ public class Trazador {
 				Color[] colores = new Color[NUM_ANTIALIASING];
 				Random random = new Random();
 				
-				/*
-				 * Traza varios rayos en el pixel para el antialiasing.
-				 */
+				/* Traza varios rayos en el pixel para el antialiasing. */
 				for (int k=0; k<NUM_ANTIALIASING; k++) {
 					double offsetX = random.nextDouble()*varU - varU/2;
 					double offsetY = random.nextDouble()*varV - varV/2;
@@ -88,6 +98,7 @@ public class Trazador {
 			}
 		}
 
+		/* Crea la imagen a partir de los rayos trazados */
 		try {
 			Imagen.crearImagen(pantalla, pixels, NOMBRE_IMG, FORMATO_IMG);
 		} catch (IOException e) {
@@ -98,7 +109,9 @@ public class Trazador {
 	}
 
 	/**
-	 * Metodo principal del trazador
+	 * Metodo recursivo que se encarga de trazar los rayos y calcular las 
+	 * intersecciones con los objetos de la escena, devolviendo la intensidad
+	 * que llega al pixel.
 	 * 
 	 * @param rayoPrimario
 	 * @param recursion
@@ -116,7 +129,7 @@ public class Trazador {
 		
 		ArrayList<Boolean> haceSombra = new ArrayList<Boolean>();
 		/*
-		 * Por cada objeto se calcula con cual intersecta primer ( i.e. el mas
+		 * Por cada objeto se calcula con cual intersecta primero (el mas
 		 * cercano)
 		 */
 		Objeto objetoCol = null;
@@ -136,7 +149,7 @@ public class Trazador {
 					try {
 						puntoColision = puntos[0];
 						/*
-						 * Si es complejo pero interno ( el rayo esta actualmente dentro del objeto),
+						 * Si es complejo pero interno (el rayo esta actualmente dentro del objeto),
 						 * puede haber una o dos colisiones, cogemos la mas lejana
 						 */
 						if (interno) {
@@ -147,14 +160,14 @@ public class Trazador {
 					}
 				}
 				/*
-				 * Si el objeto no es complejo solo tendra una colision ( o
-				 * ninguna )
+				 * Si el objeto no es complejo solo tendra una colision (o
+				 * ninguna)
 				 */
 				else {
 					puntoColision = objetos.get(k).interseccion(rayoPrincipal);
 				}
 				/*
-				 * Si ha habido colision se guarda la referencia
+				 * Si ha habido colision se guarda la referencia mas cercana
 				 */
 				if (puntoColision != null) {
 					double distancia = puntoColision.distance(rayoPrincipal.getP0());
@@ -194,7 +207,6 @@ public class Trazador {
 						if (puntoColisionSombra != null) {
 							double distanciaAObjetoColisionado = puntoColisionSombra.distance(puntoColisionFinal);
 							if (distanciaALuz > distanciaAObjetoColisionado) {
-								//esSombra = true;
 								haceSombra.add(l, true);
 							} 
 						} 
@@ -203,150 +215,144 @@ public class Trazador {
 			}
 
 			/*
-			 * Aplicaciones de color segun si es sombra o no
+			 * Calculo de indice de refraccion teniendo en cuenta el medio
+			 * por el que esta viajando ahora el rayo y el medio del objeto
+			 * con el que hemos colisionado
 			 */
-			
+			double indiceOrigen = 0.0;
+			double indiceDestino = 0.0;
+			/*
+			 * Si el objeto actual es null (el aire) su indice de
+			 * refraccion es 1
+			 */
+			try {
+				indiceOrigen = objetoActual.getCoeficienteRefraccion();
+			} catch (NullPointerException e) {
+				indiceOrigen = 1.0;
+			}
+			/*
+			 * Si el objeto colisionado es null (i.e. aire) su indice de
+			 * refraccion es 1
+			 */
+			try {
 				/*
-				 * Calculo de indice de refraccion teniendo en cuenta el medio
-				 * por el que esta viajando ahora el rayo y el medio del objeto
-				 * con el que hemos colisionado
+				 * Si estamos dentro de un objeto el indice de refraccion del objeto destino
+				 * va a ser 1 porque vamos a salir al aire
 				 */
-				double indiceOrigen = 0.0;
-				double indiceDestino = 0.0;
-				/*
-				 * Si el objeto actual es null (i.e. aire) su indice de
-				 * refraccion es 1
-				 */
-				try {
-					indiceOrigen = objetoActual.getCoeficienteRefraccion();
-				} catch (NullPointerException e) {
-					indiceOrigen = 1.0;
-				}
-				/*
-				 * Si el objeto colisionado es null (i.e. aire) su indice de
-				 * refraccion es 1
-				 */
-				try {
-					/*
-					 * Si estamos dentro de un objeto el indice de refraccion del objeto destino
-					 * va a ser 1 porque vamos a salir al aire
-					 */
-					if(interno) {
-						indiceDestino = 1.0;
-					} else {
-						indiceDestino = objetoCol.getCoeficienteRefraccion();
-					}
-				} catch (NullPointerException e) {
+				if(interno) {
 					indiceDestino = 1.0;
-				}
-				
-				/*
-				 * Declaracion, inicializacion y normalizacion de los
-				 * principales vectores para su uso en los proximos calculos
-				 */
-				Vector3d N = new Vector3d(objetoCol.getN(puntoColisionFinal));
-				N.normalize();
-				if(interno){
-					N.negate();
-				}
-				Rayo alOrigen = new Rayo(puntoColisionFinal, rayoPrincipal.getP0());
-				Vector3d V = new Vector3d(alOrigen.getD());
-				V.normalize();
-				Vector3d T = calcularRefractado(V, N, indiceOrigen / indiceDestino, rayoPrincipal);
-				
-				
-				double iDifusa = 0.0;
-				double iEspecular = 0.0;
-				for (int l = 0; l < luces.size(); l++) {
-					if(!haceSombra.get(l)){
-						Rayo aLaLuz = new Rayo(puntoColisionFinal, luces.get(l).getPunto());
-						Vector3d L = new Vector3d(aLaLuz.getD());
-						L.normalize();
-						Vector3d R = calcularReflejadoEspecular(L, N);
-						R.normalize();
-		
-						/*
-						 * Calculo de la intensidad difusa
-						 */
-						
-						double difusaTmp = luces.get(l).getBrillo() * (Math.cos(L.angle(N)));
-						if(difusaTmp>0){
-							iDifusa += difusaTmp;
-						}
-						
-						/*
-						 * Calculo de la intensidad especular
-						 */
-						
-						if (iDifusa > 0) {
-							double angulo = Math.cos(R.angle(V));
-							if (angulo > 0) {
-								iEspecular += Math.pow(Math.cos(R.angle(V)), 100);
-							} else {
-								iEspecular += angulo;
-							}
-						}		
-					}
-				}
-				/*
-				 * Calculo de las diferentes componentes del color.
-				 * Ya que la luz es aditiva se procedera a sumarlas segun
-				 * las propiedades del objeto 
-				 */
-
-				Color cl;
-				Color ambiental = objetoCol.getKd().aplicarIntensidad(iAmbiental);
-				Color difusa = objetoCol.getKd().aplicarIntensidad(iDifusa);
-				Color especular = objetoCol.getKs().aplicarIntensidad(iEspecular);
-				if((iDifusa < 0 && iEspecular < 0) || objetoCol.A) {
-					cl = ambiental;
-				} else if (iEspecular < 0 || objetoCol.AD ) {
-					cl = ambiental.suma(difusa);
 				} else {
-					Color aux = ambiental.suma(difusa);
-					cl = aux.suma(especular);
+					indiceDestino = objetoCol.getCoeficienteRefraccion();
 				}
-				
-				/*
-				 * Mientras se hayan hecho menos de 3 rebotes
-				 */
-				if (recursion < 2) {
-					Rayo rayoReflejado = new Rayo(calcularReflejado(rayoPrincipal.getD(), N), puntoColisionFinal);
-					recursion += 1;
-					Color nuevo = trazarRayo(rayoReflejado, recursion, objetoCol, objetoCol, false);
-					Color reducido = nuevo.aplicarIntensidad(objetoCol.getIndiceReflexion());
-					cl = cl.suma(reducido);
-					Rayo rayoRefractado = new Rayo(T, puntoColisionFinal);
-					if (objetoCol instanceof Esfera) {
-						if (!interno) {
-							/*
-							 * Si colisionamos con un objeto complejo y no
-							 * estamos dentro ponemos el objetoIgnorar a null y
-							 * el objetoActual como el objeto con el que se ha
-							 * colisionado
-							 */
-							nuevo = trazarRayo(rayoRefractado, recursion, null, objetoCol, true);
+			} catch (NullPointerException e) {
+				indiceDestino = 1.0;
+			}
+			
+			/*
+			 * Declaracion, inicializacion y normalizacion de los
+			 * principales vectores para su uso en los proximos calculos
+			 */
+			Vector3d N = new Vector3d(objetoCol.getN(puntoColisionFinal));
+			N.normalize();
+			if(interno){
+				N.negate();
+			}
+			Rayo alOrigen = new Rayo(puntoColisionFinal, rayoPrincipal.getP0());
+			Vector3d V = new Vector3d(alOrigen.getD());
+			V.normalize();
+			Vector3d T = calcularRefractado(V, N, indiceOrigen / indiceDestino, rayoPrincipal);
+			
+			
+			double iDifusa = 0.0;
+			double iEspecular = 0.0;
+			
+			/* El calculo se repite para cada luz de la escena */
+			for (int l = 0; l < luces.size(); l++) {
+				if(!haceSombra.get(l)){
+					Rayo aLaLuz = new Rayo(puntoColisionFinal, luces.get(l).getPunto());
+					Vector3d L = new Vector3d(aLaLuz.getD());
+					L.normalize();
+					Vector3d R = calcularReflejadoEspecular(L, N);
+					R.normalize();
+	
+					/*
+					 * Calculo de la intensidad difusa
+					 */
+					double difusaTmp = luces.get(l).getBrillo() * (Math.cos(L.angle(N)));
+					if(difusaTmp>0){
+						iDifusa += difusaTmp;
+					}
+					
+					/*
+					 * Calculo de la intensidad especular
+					 */
+					if (iDifusa > 0) {
+						double angulo = Math.cos(R.angle(V));
+						if (angulo > 0) {
+							iEspecular += Math.pow(Math.cos(R.angle(V)), 100);
 						} else {
-							/*
-							 * Si colisionamos con un objeto complejo y estamos
-							 * dentro ponemos el objetoIgnorar a objetoCol y el
-							 * objetoActual como null ya que estamos saliendo al
-							 * aire
-							 */
-							nuevo = trazarRayo(rayoRefractado, recursion, objetoCol, null, false);
+							iEspecular += angulo;
 						}
-
+					}		
+				}
+			}
+			
+			/*
+			 * Calculo de las diferentes componentes del color.
+			 * Ya que la luz es aditiva se procedera a sumarlas segun
+			 * las propiedades del objeto 
+			 */
+			Color cl;
+			Color ambiental = objetoCol.getKd().aplicarIntensidad(iAmbiental);
+			Color difusa = objetoCol.getKd().aplicarIntensidad(iDifusa);
+			Color especular = objetoCol.getKs().aplicarIntensidad(iEspecular);
+			if((iDifusa < 0 && iEspecular < 0) || objetoCol.A) {
+				cl = ambiental;
+			} else if (iEspecular < 0 || objetoCol.AD ) {
+				cl = ambiental.suma(difusa);
+			} else {
+				Color aux = ambiental.suma(difusa);
+				cl = aux.suma(especular);
+			}
+			
+			/*
+			 * Mientras se hayan hecho menos de 3 rebotes
+			 */
+			if (recursion < 2) {
+				Rayo rayoReflejado = new Rayo(calcularReflejado(rayoPrincipal.getD(), N), puntoColisionFinal);
+				recursion += 1;
+				Color nuevo = trazarRayo(rayoReflejado, recursion, objetoCol, objetoCol, false);
+				Color reducido = nuevo.aplicarIntensidad(objetoCol.getIndiceReflexion());
+				cl = cl.suma(reducido);
+				Rayo rayoRefractado = new Rayo(T, puntoColisionFinal);
+				if (objetoCol instanceof Esfera) {
+					if (!interno) {
+						/*
+						 * Si colisionamos con un objeto complejo y no
+						 * estamos dentro ponemos el objetoIgnorar a null y
+						 * el objetoActual como el objeto con el que se ha
+						 * colisionado
+						 */
+						nuevo = trazarRayo(rayoRefractado, recursion, null, objetoCol, true);
 					} else {
+						/*
+						 * Si colisionamos con un objeto complejo y estamos
+						 * dentro ponemos el objetoIgnorar a objetoCol y el
+						 * objetoActual como null ya que estamos saliendo al
+						 * aire
+						 */
 						nuevo = trazarRayo(rayoRefractado, recursion, objetoCol, null, false);
 					}
 
-					reducido = nuevo.aplicarIntensidad(objetoCol.getIndiceRefraccion());
-					cl = cl.suma(reducido);
+				} else {
+					nuevo = trazarRayo(rayoRefractado, recursion, objetoCol, null, false);
 				}
-				cl.normalizarColor();
-				return cl;
 
-			
+				reducido = nuevo.aplicarIntensidad(objetoCol.getIndiceRefraccion());
+				cl = cl.suma(reducido);
+			}
+			cl.normalizarColor();
+			return cl;
 		}
 		/*
 		 * Caso en el que el rayo no ha colisionado con nada
@@ -393,6 +399,10 @@ public class Trazador {
 
 	}
 
+	/**
+	 * Calcula el vector del reflejo especular R a partir del rayo de
+	 * luz y la normal en ese punto.
+	 */
 	private static Vector3d calcularReflejadoEspecular(Vector3d L, Vector3d n) {
 		Vector3d nor = new Vector3d(n);
 		double pO = nor.dot(L);

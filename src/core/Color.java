@@ -1,5 +1,15 @@
 package core;
 
+/**
+ * 
+ * @author Javier Beltran Jorba
+ * @author Jorge Cancer Gil
+ * 
+ * La clase Color representa un color formado por los tres canales RGB,
+ * cada uno de los cuales puede tomar un valor entre 0 y 255. El color
+ * se utiliza para iluminar cada pixel de la imagen resultante.
+ *
+ */
 public class Color {
 
 	private int r;
@@ -7,7 +17,7 @@ public class Color {
 	private int b;
 
 	/**
-	 * Contiene un color formado por los tres canales RGB, cada uno de los
+	 * Crea un color formado por los tres canales RGB, cada uno de los
 	 * cuales toma un valor entre 0 y 255. Si se introducen valores fuera de
 	 * este intervalo, se hace saturacion por 0 o por 255.
 	 */
@@ -132,8 +142,8 @@ public class Color {
 		if (b > mayor)
 			mayor = b;
 		if (mayor > 255) {
+			/* Normalizacion del color */
 			double indiceReduccion = (double) mayor / 255;
-			indiceReduccion = Math.sqrt(indiceReduccion);
 			r = (int) (r / indiceReduccion);
 			g = (int) (g / indiceReduccion);
 			b = (int) (b / indiceReduccion);

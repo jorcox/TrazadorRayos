@@ -4,7 +4,14 @@ import javax.vecmath.Point3d;
 import javax.vecmath.Vector3d;
 
 /**
- * Clase que representa al rayo de luz.
+ * 
+ * @author Javier Beltran Jorba
+ * @author Jorge Cancer Gil
+ * 
+ * Clase que representa al rayo de luz, definido como una recta
+ * construida a partir de dos puntos o a partir de un punto y
+ * un vector direccion.
+ * 
  */
 public class Rayo {
 	

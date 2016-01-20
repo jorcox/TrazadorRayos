@@ -8,8 +8,21 @@ import javax.imageio.ImageIO;
 
 import scene.Pantalla;
 
+/**
+ * 
+ * @author Javier Beltran Jorba
+ * @author Jorge Cancer Gil
+ * 
+ * La clase Imagen permite crear una imagen en disco a partir de los
+ * colores de cada pixel calculados previamente.
+ *
+ */
 public class Imagen {
 	
+	/**
+	 * Dada una matriz con el color de cada pixel, crea una imagen con
+	 * el nombre y formato indicados.
+	 */
 	public static void crearImagen(Pantalla pantalla, Color[][] pixels, String nombre, String formato) 
 			throws IOException {
 		BufferedImage img = new BufferedImage(pantalla.getnC(), pantalla.getnR(), BufferedImage.TYPE_INT_RGB);

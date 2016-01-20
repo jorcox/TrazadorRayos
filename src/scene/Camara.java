@@ -3,15 +3,28 @@ package scene;
 import javax.vecmath.Point3d;
 import javax.vecmath.Vector3d;
 
+/**
+ * 
+ * @author Javier Beltran Jorba
+ * @author Jorge Cancer Gil
+ * 
+ * Define la camara a partir del punto en el que esta ubicada,
+ * su direccion y su sistema de coordenadas u, v, w.
+ * 
+ */
 public class Camara {
+	
 	private Point3d e;
 	private Vector3d g;
 	private Vector3d up = new Vector3d(1,1,0);
 	private Vector3d u;
 	private Vector3d v;
 	private Vector3d w;
-	
 
+	/**
+	 * Crea la camara y su sistema de coordenadas a partir de
+	 * la posicion e y el vector g.
+	 */
 	public Camara(Point3d e ,Vector3d g) {
 		this.e = e;
 		this.g = g;

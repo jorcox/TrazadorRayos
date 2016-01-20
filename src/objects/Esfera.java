@@ -6,8 +6,13 @@ import core.Color;
 import scene.Rayo;
 
 /**
+ * 
+ * @author Javier Beltran Jorba
+ * @author Jorge Cancer Gil
+ * 
  * Objeto esfera de la escena, definido por su radio y la posicion
  * de su centro.
+ * 
  */
 public class Esfera extends Objeto {
 	

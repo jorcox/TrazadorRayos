@@ -6,7 +6,12 @@ import core.Color;
 import scene.Rayo;
 
 /**
+ *  
+ * @author Javier Beltran Jorba
+ * @author Jorge Cancer Gil
+ * 
  * Clase que representa al triangulo.
+ * 
  */
 public class Triangulo extends Objeto {
 	

@@ -4,7 +4,20 @@ import javax.vecmath.Point3d;
 
 import core.Transformacion;
 
+/**
+ * 
+ * @author Javier Beltran Jorba
+ * @author Jorge Cancer Gil
+ * 
+ * Define una Pantalla con una dimensiones concretas
+ * y un numero de filas y columnas para determinar sus
+ * pixeles. La clase mantiene una matriz con la posicion
+ * de los pixeles, tanto en coordenadas de la camara como
+ * en coordenadas del mundo.
+ * 
+ */
 public class Pantalla {
+	
 	private double l;
 	private double t;
 	private double f;
@@ -15,6 +28,10 @@ public class Pantalla {
 	private Point3d[][] coordCamara;
 	private Point3d[][] coordMundo;
 
+	/**
+	 * Crea la pantalla a partir del ancho (L), alto (T), distancia 
+	 * a la camara (F), numero de columnas (nC) y de filas (nR).
+	 */
 	public Pantalla(double l, double t, double f, int nC, int nR) {
 		this.l = l;
 		this.t = t;
@@ -36,6 +53,10 @@ public class Pantalla {
 		varV = (T-(-B))/(double)(nR-1);
 	}
 	
+	/**
+	 * Rellena las matrices de coordenadas de los pixeles en
+	 * coordenadas de la camara y del mundo.
+	 */
 	public void calcularCoordenadasCamaraYMundo(Camara cam){
 		int mColumnas = nC/2;
 		int mFilas = nR/2;

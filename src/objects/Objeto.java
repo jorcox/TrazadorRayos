@@ -7,8 +7,13 @@ import core.Color;
 import scene.Rayo;
 
 /**
+ * 
+ * @author Javier Beltran Jorba
+ * @author Jorge Cancer Gil
+ * 
  * Clase abstracta que representa cualquier objeto de la escena. Sus
  * implementaciones son Triangulo, Plano y Esfera.
+ * 
  */
 public abstract class Objeto {
 	
@@ -20,6 +25,8 @@ public abstract class Objeto {
 	private double iReflex;
 	private double cRefrac;
 	private boolean esComplejo;
+	
+	/* Flags utilizados para decidir que componentes de iluminacion mostrar */
 	public boolean A = false;
 	public boolean AD = false;
 	public boolean AE = false;
@@ -51,7 +58,6 @@ public abstract class Objeto {
 	 */
 	public Objeto(Color kd, double reflex, double iRefrac, double cRefrac, boolean complejo) {
 		this.kd = kd;
-		//this.ks = kd.calcularKD();
 		this.ks = new Color(255,255,255);
 		iReflex = reflex;
 		this.iRefrac = iRefrac;

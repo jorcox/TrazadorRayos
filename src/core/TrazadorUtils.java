@@ -12,8 +12,13 @@ import objects.*;
 import scene.*;
 
 /**
+ * 
+ * @author Javier Beltran Jorba
+ * @author Jorge Cancer Gil
+ * 
  * Utilidad para configurar el programa en funcion de la
  * informacion pasada por fichero.
+ * 
  */
 public class TrazadorUtils {
 	
@@ -129,7 +134,7 @@ public class TrazadorUtils {
 	/**
 	 * Define la posicion del ojo en funcion de lo indicado en el fichero.
 	 */
-	public static Point3d getOjo(String[] orden) throws FicheroDatosException {
+	private static Point3d getOjo(String[] orden) throws FicheroDatosException {
 		double x = 0;
 		double y = 0;
 		double z = 0;
@@ -157,7 +162,7 @@ public class TrazadorUtils {
 	/**
 	 * Define el vector g en funcion de lo indicado en el fichero.
 	 */
-	public static Vector3d getG(String[] orden) throws FicheroDatosException {
+	private static Vector3d getG(String[] orden) throws FicheroDatosException {
 		double x = 0;
 		double y = 0;
 		double z = 0;
@@ -185,7 +190,7 @@ public class TrazadorUtils {
 	/**
 	 * Crea un plano en funcion de lo indicado en el fichero.
 	 */
-	public static Plano getPlano(String[] orden) throws FicheroDatosException {
+	private static Plano getPlano(String[] orden) throws FicheroDatosException {
 		double px = 0; double py = 0; double pz = 0;
 		double nx = 0; double ny = 0; double nz = 0;
 		int cR = 0; int cG = 0; int cB = 0;
@@ -261,7 +266,7 @@ public class TrazadorUtils {
 	/**
 	 * Crea un triangulo en funcion de lo indicado en el fichero.
 	 */
-	public static Triangulo getTriangulo(String[] orden) throws FicheroDatosException {
+	private static Triangulo getTriangulo(String[] orden) throws FicheroDatosException {
 		double p1x = 0; double p1y = 0; double p1z = 0;
 		double p2x = 0; double p2y = 0; double p2z = 0;
 		double p3x = 0; double p3y = 0; double p3z = 0;
@@ -339,7 +344,7 @@ public class TrazadorUtils {
 	/**
 	 * Crea una esfera en funcion de lo indicado en el fichero.
 	 */
-	public static Esfera getEsfera(String[] orden) throws FicheroDatosException {
+	private static Esfera getEsfera(String[] orden) throws FicheroDatosException {
 		double radio = 0;
 		double px = 0; double py = 0; double pz = 0;
 		int cR = 0; int cG = 0; int cB = 0;
@@ -408,7 +413,7 @@ public class TrazadorUtils {
 	/**
 	 * Crea una luz en funcion de lo indicado en el fichero.
 	 */
-	public static Luz getLuz(String[] orden) throws FicheroDatosException {
+	private static Luz getLuz(String[] orden) throws FicheroDatosException {
 		double x = 0; double y = 0; double z = 0;
 		double intensidad = 0;
 		

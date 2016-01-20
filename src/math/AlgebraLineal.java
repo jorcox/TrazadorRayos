@@ -3,6 +3,15 @@ package math;
 import javax.vecmath.Matrix4d;
 import javax.vecmath.Point3d;
 
+/**
+ * 
+ * @author Javier Beltran Jorba
+ * @author Jorge Cancer Gil
+ * 
+ * Esta clase contiene operaciones de algebra lineal como la
+ * multiplicacion matricial.
+ * 
+ */
 public class AlgebraLineal {
 	
 	/**
