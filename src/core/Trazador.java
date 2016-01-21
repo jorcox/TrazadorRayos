@@ -30,7 +30,7 @@ public class Trazador {
 	private static Camara camara = null;
 	private static ArrayList<Luz>  luces = null;
 	private static double iAmbiental = 0.0;
-	private static final int NUM_ANTIALIASING = 9;
+	private static final int NUM_ANTIALIASING = 1;
 	private static final String NOMBRE_IMG = "imagen";
 	private static final String FORMATO_IMG = "png";
 

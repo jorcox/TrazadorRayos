@@ -84,7 +84,7 @@ public class TrazadorUtils {
 				} else if (orden[0].equals("luz")) {
 					luces.add(TrazadorUtils.getLuz(orden));
 				} else if (orden[0].equals("complejo")) {
-					objetos.addAll(ImportadorObj.leerFigura(orden[1], cam));
+					objetos.addAll(ImportadorObj.leerFigura(orden, cam));
 				}
 			}			
 			return new DatosEscena(cam, luces, pantalla, objetos, iAmbiental);

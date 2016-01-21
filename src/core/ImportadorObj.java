@@ -25,7 +25,72 @@ public class ImportadorObj {
 	 * triangulos, devuelve una lista de objetos Triangulo tal cual
 	 * estaban definidos en el fichero.
 	 */
-	public static ArrayList<Triangulo> leerFigura(String fichero, Camara cam) {
+	public static ArrayList<Triangulo> leerFigura(String[] orden, Camara cam) {
+		String fichero = orden[1];
+		ArrayList<Transformacion> transformaciones = new ArrayList<Transformacion>();
+		int red = 0;
+		int green = 0;
+		int blue = 0;
+		double iRefl = 0;
+		double iRefr = 0;
+		double cRefr = 0;
+		
+		for (int i=2; i<orden.length; i++) {
+			String[] partes = orden[i].split(":");
+			String clave = partes[0];
+			
+			switch(clave) {
+			case "escala":
+				Double xEsc = Double.parseDouble(partes[1]);
+				Double yEsc = Double.parseDouble(partes[2]);
+				Double zEsc = Double.parseDouble(partes[3]);
+				
+				transformaciones.add(Transformacion.getMatrizEscala(xEsc, yEsc, zEsc));
+				break;
+			case "traslacion":
+				Double xTras = Double.parseDouble(partes[1]);
+				Double yTras = Double.parseDouble(partes[2]);
+				Double zTras = Double.parseDouble(partes[3]);
+				
+				transformaciones.add(Transformacion.getMatrizTraslacion(xTras, yTras, zTras));
+				break;
+			case "giroX":
+				Double ii = Double.parseDouble(partes[1]);
+				
+				transformaciones.add(Transformacion.getMatrizGiroX(ii));
+				break;
+			case "giroY":
+				Double j = Double.parseDouble(partes[1]);
+				
+				transformaciones.add(Transformacion.getMatrizGiroY(j));
+				break;
+			case "giroZ":
+				Double k = Double.parseDouble(partes[1]);
+				
+				transformaciones.add(Transformacion.getMatrizGiroZ(k));
+				break;
+			case "cR":
+				red = Integer.parseInt(partes[1]);
+				break;
+			case "cG":
+				green = Integer.parseInt(partes[1]);
+				break;
+			case "cB":
+				blue = Integer.parseInt(partes[1]);
+				break;
+			case "iRefl":
+				iRefl = Double.parseDouble(partes[1]);
+				break;
+			case "iRefr":
+				iRefr = Double.parseDouble(partes[1]);
+				break;
+			case "cRefr":
+				cRefr = Double.parseDouble(partes[1]);
+				break;
+			}
+		}
+		transformaciones.add(Transformacion.getMatrizCamaraMundo(cam));
+		
 		ArrayList<Triangulo> caras = new ArrayList<Triangulo>();
 		ArrayList<Point3d> vertices = new ArrayList<Point3d>();
 		vertices.add(null);
@@ -49,28 +114,16 @@ public class ImportadorObj {
 					Point3d p3 = new Point3d(vertices.get(v3));
 					
 					/* Realiza las transformaciones tridimensionales indicadas */
-					Transformacion aumento = Transformacion.getMatrizEscala(0.3, 0.3, 0.3);
-					Transformacion lejos = Transformacion.getMatrizTraslacion(1, -70, -1700);
-					Transformacion camaraMundo = Transformacion.getMatrizCamaraMundo(cam);
-					Transformacion giroX = Transformacion.getMatrizGiroX(15);
-					p1 = giroX.transformar(p1);
-					p2 = giroX.transformar(p2);
-					p3 = giroX.transformar(p3);
-
-					p1 = aumento.transformar(p1);
-					p2 = aumento.transformar(p2);
-					p3 = aumento.transformar(p3);
-					
-					p1 = lejos.transformar(p1);
-					p2 = lejos.transformar(p2);
-					p3 = lejos.transformar(p3);
-
-					p1 = camaraMundo.transformar(p1);
-					p2 = camaraMundo.transformar(p2);
-					p3 = camaraMundo.transformar(p3);
+					for (int i=0; i<transformaciones.size(); i++) {
+						p1 = transformaciones.get(i).transformar(p1);
+						p2 = transformaciones.get(i).transformar(p2);
+						p3 = transformaciones.get(i).transformar(p3);
+					}
 					
 					/* Crea un objeto Triangulo */
-					Triangulo t = new Triangulo(p1,p2,p3,new Color(200,200,200),0,0,1.3333333333);
+					Triangulo t = new Triangulo(p1,p2,p3,new Color(red,green,blue),iRefl,iRefr,cRefr);
+					t.AD = true;
+					t.AE = true;
 					caras.add(t);
 					break;
 				}
